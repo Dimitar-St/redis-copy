@@ -21,7 +21,7 @@ public class Main {
           clientSocket = serverSocket.accept();
 
           OutputStream response = clientSocket.getOutputStream();
-          String pong = "PONG";
+          String pong = "+PONG\r\n";
           response.write(pong.getBytes());
           response.flush();
         } catch (IOException e) {
