@@ -1,8 +1,13 @@
+import javax.imageio.stream.IIOByteBuffer;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.net.InetSocketAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.nio.ByteBuffer;
+import java.nio.channels.ServerSocketChannel;
+import java.nio.channels.SocketChannel;
 
 public class Main {
   public static void main(String[] args){
@@ -10,33 +15,25 @@ public class Main {
     System.out.println("Logs from your program will appear here!");
 
     //  Uncomment the code below to pass the first stage
-        ServerSocket serverSocket = null;
-        Socket clientSocket = null;
         int port = 6379;
         try {
-          serverSocket = new ServerSocket(port);
-          // Since the tester restarts your program quite often, setting SO_REUSEADDR
-          // ensures that we don't run into 'Address already in use' errors
-          serverSocket.setReuseAddress(true);
-          // Wait for connection from client.
+            ServerSocketChannel serverSocket = ServerSocketChannel.open();
+            serverSocket.bind(new InetSocketAddress(port));
+            serverSocket.configureBlocking(false);
+
+
           while(true) {
-              if (clientSocket == null)
-              {
-                  System.out.println("");
-                  clientSocket = serverSocket.accept();
-              }
-              System.out.println("Socket accepted");
+              try(SocketChannel clientSocket = serverSocket.accept()) {
+                  System.out.println("Socket accepted");
 
-              InputStream request = clientSocket.getInputStream();
-              byte[] data = new byte[14];
-              while (request.read(data) != -1) {
-                  OutputStream response = clientSocket.getOutputStream();
-
-                  String pong = "+PONG\r\n";
-                  response.write(pong.getBytes());
-                  response.flush();
+                  byte[] data = new byte[14];
+                  ByteBuffer buffer = ByteBuffer.wrap(data, 0, 14);
+                  while (clientSocket.read(buffer) != -1) {
+                      String pong = "+PONG\r\n";
+                      ByteBuffer responseMessage = ByteBuffer.wrap(pong.getBytes());
+                      clientSocket.write(responseMessage);
+                  }
               }
-              clientSocket.close();
           }
 
         } catch (IOException e) {
