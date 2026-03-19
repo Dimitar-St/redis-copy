@@ -32,7 +32,7 @@ public class Main {
 
                   byte[] data = new byte[14];
                   ByteBuffer buffer = ByteBuffer.wrap(data, 0, 14);
-                  if (clientSocket.read(buffer) != -1)
+                  if (clientSocket.read(buffer) == -1)
                       break;
 
                       String pong = "+PONG\r\n";
