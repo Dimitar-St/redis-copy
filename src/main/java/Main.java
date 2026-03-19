@@ -22,9 +22,9 @@ public class Main {
           clientSocket = serverSocket.accept();
 
           InputStream request = clientSocket.getInputStream();
-          int data;
-          while((data = request.read()) != -1) {
-              System.out.println(String.valueOf((char) data));
+          byte[] data = new byte[14];
+          while(request.read(data) != -1) {
+              System.out.println(String.valueOf(data));
               OutputStream response = clientSocket.getOutputStream();
 
               String pong = "+PONG\r\n";
