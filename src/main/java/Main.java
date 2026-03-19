@@ -19,7 +19,7 @@ public class Main {
           // ensures that we don't run into 'Address already in use' errors
           serverSocket.setReuseAddress(true);
           // Wait for connection from client.
-          while(true) {
+        //  while(true) {
               clientSocket = serverSocket.accept();
 
               InputStream request = clientSocket.getInputStream();
@@ -32,7 +32,7 @@ public class Main {
                   response.write(pong.getBytes());
                   response.flush();
               }
-          }
+         // }
 
 
         } catch (IOException e) {
