@@ -20,7 +20,11 @@ public class Main {
           serverSocket.setReuseAddress(true);
           // Wait for connection from client.
           while(true) {
-              clientSocket = serverSocket.accept();
+              if (clientSocket == null)
+              {
+                  System.out.println("");
+                  clientSocket = serverSocket.accept();
+              }
               System.out.println("Socket accepted");
 
               InputStream request = clientSocket.getInputStream();
@@ -32,7 +36,6 @@ public class Main {
                   response.write(pong.getBytes());
                   response.flush();
               }
-
               clientSocket.close();
           }
 
