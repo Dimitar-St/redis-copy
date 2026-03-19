@@ -16,8 +16,7 @@ public class Main {
 
     //  Uncomment the code below to pass the first stage
         int port = 6379;
-        try {
-            ServerSocketChannel serverSocket = ServerSocketChannel.open();
+        try(ServerSocketChannel serverSocket = ServerSocketChannel.open()){
             serverSocket.bind(new InetSocketAddress(port));
             serverSocket.configureBlocking(false);
 
