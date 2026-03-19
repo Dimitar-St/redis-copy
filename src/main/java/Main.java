@@ -36,6 +36,7 @@ public class Main {
                       String pong = "+PONG\r\n";
                       ByteBuffer responseMessage = ByteBuffer.wrap(pong.getBytes());
                       clientSocket.write(responseMessage);
+                      clientSocket.finishConnect();
                   //}
               }
           }
