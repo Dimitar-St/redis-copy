@@ -25,16 +25,16 @@ public class Main {
               try(SocketChannel clientSocket = serverSocket.accept()) {
                   if (clientSocket == null)
                      continue;
+
                   System.out.println("Socket accepted");
 
                   byte[] data = new byte[14];
                   ByteBuffer buffer = ByteBuffer.wrap(data, 0, 14);
-                  while (clientSocket.read(buffer) != -1) {
-                      System.out.println("reading message");
+                  //while (clientSocket.read(buffer) != -1) {
                       String pong = "+PONG\r\n";
                       ByteBuffer responseMessage = ByteBuffer.wrap(pong.getBytes());
                       clientSocket.write(responseMessage);
-                  }
+                  //}
               }
           }
 
