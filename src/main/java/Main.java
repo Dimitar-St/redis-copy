@@ -44,7 +44,7 @@ public class Main {
                   }
 
                   if (key.isReadable()) {
-                      try (SocketChannel clientSocket = (SocketChannel) key.channel()) {
+                      SocketChannel clientSocket = (SocketChannel) key.channel();
                           if (clientSocket == null)
                               continue;
 
@@ -58,8 +58,11 @@ public class Main {
                               clientSocket.write(responseMessage);
                               buffer.clear();
                               responseMessage.clear();
+                          } else {
+                              System.out.println("closing client connection");
+                              clientSocket.close();
                           }
-                      }
+
                   }
 
                   iterator.remove();
