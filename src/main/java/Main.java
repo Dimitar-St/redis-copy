@@ -50,21 +50,13 @@ public class Main {
 
                           System.out.println("Socket accepted");
 
-                          byte[] data = new byte[14];
-                          ByteBuffer buffer = ByteBuffer.wrap(data, 0, 14);
-                          if (clientSocket.read(buffer) != -1) {
+//                          byte[] data = new byte[14];
+//                          ByteBuffer buffer = ByteBuffer.wrap(data, 0, 14);
+//                          if (clientSocket.read(buffer) != -1) {
                               String pong = "+PONG\r\n";
                               ByteBuffer responseMessage = ByteBuffer.wrap(pong.getBytes());
                               clientSocket.write(responseMessage);
-                          }
-
-//                          buffer.flip();
-//                          while (buffer.hasRemaining()) {
-//                              byte b = buffer.get(); // Reads one byte and advances position
-//                              System.out.print((char) b);
 //                          }
-
-                          clientSocket.close();
                       }
                   }
 
