@@ -9,6 +9,7 @@ import java.net.StandardSocketOptions;
 import java.nio.ByteBuffer;
 import java.nio.channels.ServerSocketChannel;
 import java.nio.channels.SocketChannel;
+import java.util.Arrays;
 
 public class Main {
   public static void main(String[] args){
@@ -35,7 +36,7 @@ public class Main {
                   if (clientSocket.read(buffer) == -1)
                       break;
 
-                  System.out.println(String.valueOf(buffer.asCharBuffer().array()));
+                  System.out.println(Arrays.toString(data));
 
                       String pong = "+PONG\r\n";
                       ByteBuffer responseMessage = ByteBuffer.wrap(pong.getBytes());
