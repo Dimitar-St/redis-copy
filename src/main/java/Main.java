@@ -35,6 +35,8 @@ public class Main {
                   if (clientSocket.read(buffer) == -1)
                       break;
 
+                  System.out.println(buffer.toString());
+
                       String pong = "+PONG\r\n";
                       ByteBuffer responseMessage = ByteBuffer.wrap(pong.getBytes());
                       clientSocket.write(responseMessage);
