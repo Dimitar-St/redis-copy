@@ -80,6 +80,8 @@ public class Main {
 
   private static void register(Selector selector, ServerSocketChannel serverSocketChannel) throws IOException {
       SocketChannel channel = serverSocketChannel.accept();
+      if (channel == null)
+          return;
       channel.configureBlocking(false);
       channel.register(selector, SelectionKey.OP_READ);
 
