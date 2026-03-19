@@ -24,7 +24,9 @@ public class Main {
           InputStream request = clientSocket.getInputStream();
           int data;
           while((data = request.read()) != -1) {
+              System.out.println(String.valueOf((char) data));
               OutputStream response = clientSocket.getOutputStream();
+
               String pong = "+PONG\r\n";
               response.write(pong.getBytes());
               response.flush();
