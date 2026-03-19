@@ -33,8 +33,10 @@ public class Main {
 
                   byte[] data = new byte[14];
                   ByteBuffer buffer = ByteBuffer.wrap(data, 0, 14);
-                  if (clientSocket.read(buffer) == -1)
-                      break;
+                  if (clientSocket.read(buffer) == -1) {
+                      clientSocket.finishConnect();
+                    break;
+                  }
 
                   buffer.flip();
                   while (buffer.hasRemaining()) {
