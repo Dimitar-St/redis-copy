@@ -68,6 +68,8 @@ public class Main {
                           clientSocket.write(responseMessage);
                       }
                   }
+
+                  iterator.remove();
               }
 
           }
