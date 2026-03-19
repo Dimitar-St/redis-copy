@@ -26,7 +26,6 @@ public class Main {
               InputStream request = clientSocket.getInputStream();
               byte[] data = new byte[14];
               while (request.read(data) != -1) {
-                  System.out.println(String.valueOf(data));
                   OutputStream response = clientSocket.getOutputStream();
 
                   String pong = "+PONG\r\n";
@@ -34,11 +33,7 @@ public class Main {
                   response.flush();
               }
 
-              try {
-                  clientSocket.close();
-              } catch (IOException e) {
-                  System.out.println("IOException: " + e.getMessage());
-              }
+              clientSocket.close();
           }
 
         } catch (IOException e) {
