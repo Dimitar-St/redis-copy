@@ -23,6 +23,8 @@ public class Main {
 
           while(true) {
               try(SocketChannel clientSocket = serverSocket.accept()) {
+                  if (clientSocket == null)
+                     continue;
                   System.out.println("Socket accepted");
 
                   byte[] data = new byte[14];
