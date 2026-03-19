@@ -19,17 +19,19 @@ public class Main {
           // ensures that we don't run into 'Address already in use' errors
           serverSocket.setReuseAddress(true);
           // Wait for connection from client.
-          clientSocket = serverSocket.accept();
+          while(true) {
+              clientSocket = serverSocket.accept();
 
-          InputStream request = clientSocket.getInputStream();
-          byte[] data = new byte[14];
-          while(request.read(data) != -1) {
-              System.out.println(String.valueOf(data));
-              OutputStream response = clientSocket.getOutputStream();
+              InputStream request = clientSocket.getInputStream();
+              byte[] data = new byte[14];
+              while (request.read(data) != -1) {
+                  System.out.println(String.valueOf(data));
+                  OutputStream response = clientSocket.getOutputStream();
 
-              String pong = "+PONG\r\n";
-              response.write(pong.getBytes());
-              response.flush();
+                  String pong = "+PONG\r\n";
+                  response.write(pong.getBytes());
+                  response.flush();
+              }
           }
 
 
