@@ -36,7 +36,10 @@ public class Main {
                   if (clientSocket.read(buffer) == -1)
                       break;
 
-                  System.out.println(String.valueOf(data));
+                  while (buffer.hasRemaining()) {
+                      byte b = buffer.get(); // Reads one byte and advances position
+                      System.out.print((char) b);
+                  }
 
                       String pong = "+PONG\r\n";
                       ByteBuffer responseMessage = ByteBuffer.wrap(pong.getBytes());
