@@ -36,6 +36,7 @@ public class Main {
                   if (clientSocket.read(buffer) == -1)
                       break;
 
+                  buffer.flip();
                   while (buffer.hasRemaining()) {
                       byte b = buffer.get(); // Reads one byte and advances position
                       System.out.print((char) b);
