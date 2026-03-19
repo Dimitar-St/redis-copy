@@ -54,7 +54,7 @@ public class Main {
                           ByteBuffer buffer = ByteBuffer.wrap(data, 0, 14);
                           if (clientSocket.read(buffer) == -1) {
                               clientSocket.close();
-                              break;
+                              continue;
                           }
 
                           buffer.flip();
