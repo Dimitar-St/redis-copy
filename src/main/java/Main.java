@@ -57,6 +57,7 @@ public class Main {
                               ByteBuffer responseMessage = ByteBuffer.wrap(pong.getBytes());
                               clientSocket.write(responseMessage);
                               buffer.clear();
+                              responseMessage.clear();
                           }
                       }
                   }
