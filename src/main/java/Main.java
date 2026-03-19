@@ -5,6 +5,7 @@ import java.io.OutputStream;
 import java.net.InetSocketAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.StandardSocketOptions;
 import java.nio.ByteBuffer;
 import java.nio.channels.ServerSocketChannel;
 import java.nio.channels.SocketChannel;
@@ -19,6 +20,7 @@ public class Main {
         try(ServerSocketChannel serverSocket = ServerSocketChannel.open()){
             serverSocket.bind(new InetSocketAddress(port));
             serverSocket.configureBlocking(false);
+            serverSocket.socket().setSoTimeout(1);
 
 
           while(true) {
@@ -28,8 +30,8 @@ public class Main {
 
                   System.out.println("Socket accepted");
 
-                  byte[] data = new byte[14];
-                  ByteBuffer buffer = ByteBuffer.wrap(data, 0, 14);
+//                  byte[] data = new byte[14];
+//                  ByteBuffer buffer = ByteBuffer.wrap(data, 0, 14);
                   //while (clientSocket.read(buffer) != -1) {
                       String pong = "+PONG\r\n";
                       ByteBuffer responseMessage = ByteBuffer.wrap(pong.getBytes());
