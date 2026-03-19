@@ -30,13 +30,14 @@ public class Main {
 
                   System.out.println("Socket accepted");
 
-//                  byte[] data = new byte[14];
-//                  ByteBuffer buffer = ByteBuffer.wrap(data, 0, 14);
-                  //while (clientSocket.read(buffer) != -1) {
+                  byte[] data = new byte[14];
+                  ByteBuffer buffer = ByteBuffer.wrap(data, 0, 14);
+                  if (clientSocket.read(buffer) != -1)
+                      break;
+
                       String pong = "+PONG\r\n";
                       ByteBuffer responseMessage = ByteBuffer.wrap(pong.getBytes());
                       clientSocket.write(responseMessage);
-                      clientSocket.finishConnect();
                   //}
               }
           }
