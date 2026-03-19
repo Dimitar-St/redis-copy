@@ -7,9 +7,13 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.StandardSocketOptions;
 import java.nio.ByteBuffer;
+import java.nio.channels.SelectionKey;
+import java.nio.channels.Selector;
 import java.nio.channels.ServerSocketChannel;
 import java.nio.channels.SocketChannel;
 import java.util.Arrays;
+import java.util.Iterator;
+import java.util.Set;
 
 public class Main {
   public static void main(String[] args){
@@ -19,40 +23,65 @@ public class Main {
     //  Uncomment the code below to pass the first stage
         int port = 6379;
         try(ServerSocketChannel serverSocket = ServerSocketChannel.open()){
+            Selector selector = Selector.open();
+
             serverSocket.bind(new InetSocketAddress(port));
             serverSocket.configureBlocking(false);
             serverSocket.socket().setSoTimeout(1);
+            serverSocket.register(selector, SelectionKey.OP_ACCEPT);
 
 
           while(true) {
-              try(SocketChannel clientSocket = serverSocket.accept()) {
-                  if (clientSocket == null)
-                     continue;
+              selector.select();
+              Set<SelectionKey> selectionKeySet = selector.selectedKeys();
+              Iterator<SelectionKey> iterator = selectionKeySet.iterator();
 
-                  System.out.println("Socket accepted");
+              while (iterator.hasNext()) {
+                  SelectionKey key = iterator.next();
 
-                  byte[] data = new byte[14];
-                  ByteBuffer buffer = ByteBuffer.wrap(data, 0, 14);
-                  if (clientSocket.read(buffer) == -1) {
-                      clientSocket.finishConnect();
-                    break;
+                  if (key.isAcceptable()) {
+                        register(selector, serverSocket);
                   }
 
-                  buffer.flip();
-                  while (buffer.hasRemaining()) {
-                      byte b = buffer.get(); // Reads one byte and advances position
-                      System.out.print((char) b);
-                  }
+                  if (key.isReadable()) {
+                      try (SocketChannel clientSocket = (SocketChannel) key.channel()) {
+                          if (clientSocket == null)
+                              continue;
 
-                      String pong = "+PONG\r\n";
-                      ByteBuffer responseMessage = ByteBuffer.wrap(pong.getBytes());
-                      clientSocket.write(responseMessage);
-                  //}
+                          System.out.println("Socket accepted");
+
+                          byte[] data = new byte[14];
+                          ByteBuffer buffer = ByteBuffer.wrap(data, 0, 14);
+                          if (clientSocket.read(buffer) == -1) {
+                              clientSocket.close();
+                              break;
+                          }
+
+                          buffer.flip();
+                          while (buffer.hasRemaining()) {
+                              byte b = buffer.get(); // Reads one byte and advances position
+                              System.out.print((char) b);
+                          }
+
+                          String pong = "+PONG\r\n";
+                          ByteBuffer responseMessage = ByteBuffer.wrap(pong.getBytes());
+                          clientSocket.write(responseMessage);
+                      }
+                  }
               }
+
           }
 
         } catch (IOException e) {
           System.out.println("IOException: " + e.getMessage());
         }
+  }
+
+
+  private static void register(Selector selector, ServerSocketChannel serverSocketChannel) throws IOException {
+      SocketChannel channel = serverSocketChannel.accept();
+      channel.configureBlocking(false);
+      channel.register(selector, SelectionKey.OP_READ);
+
   }
 }
