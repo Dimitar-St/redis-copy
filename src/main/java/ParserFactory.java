@@ -4,18 +4,17 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class ParserFactory {
-    private final Map<Character, IParser> parsers;
+    private final Map<Integer, IParser> parsers;
 
     public ParserFactory() {
         this.parsers = new HashMap<>();
-        parsers.put( '*', new ArrayParser());
-        parsers.put( '+', new SimpleStringParser());
+        parsers.put(42, new ArrayParser());
+        parsers.put(43, new SimpleStringParser());
     }
 
     IParser newParser(ByteBuffer payload) {
         byte firstByte = payload.get(0);
-        System.out.println(new String(payload.array()).charAt(0));
-        IParser parser = parsers.get(new String(payload.array()).charAt(0));
+        IParser parser = parsers.get(firstByte);
         if (parser == null) {
             throw new IllegalArgumentException("parser does not exist");
         }
