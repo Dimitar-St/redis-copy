@@ -1,19 +1,11 @@
-import javax.imageio.stream.IIOByteBuffer;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.net.InetSocketAddress;
-import java.net.ServerSocket;
-import java.net.Socket;
-import java.net.StandardSocketOptions;
 import java.nio.ByteBuffer;
 import java.nio.channels.SelectionKey;
 import java.nio.channels.Selector;
 import java.nio.channels.ServerSocketChannel;
 import java.nio.channels.SocketChannel;
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.Set;
+import java.util.*;
 
 public class Main {
   public static void main(String[] args){
@@ -30,6 +22,7 @@ public class Main {
             serverSocket.socket().setSoTimeout(1);
             serverSocket.register(selector, SelectionKey.OP_ACCEPT);
 
+            ParserFactory parserFactory = new ParserFactory();
 
           while(true) {
               selector.select();
@@ -44,7 +37,7 @@ public class Main {
                   }
 
                   if (key.isReadable()) {
-                      SocketChannel clientSocket = (SocketChannel) key.channel();
+                          SocketChannel clientSocket = (SocketChannel) key.channel();
                           if (clientSocket == null)
                               continue;
 
@@ -53,8 +46,9 @@ public class Main {
                           byte[] data = new byte[14];
                           ByteBuffer buffer = ByteBuffer.wrap(data, 0, 14);
                           if (clientSocket.read(buffer) != -1) {
-                              String pong = "+PONG\r\n";
-                              ByteBuffer responseMessage = ByteBuffer.wrap(pong.getBytes());
+                              IParser parser = parserFactory.newParser(buffer);
+                              String response = parser.parse(buffer);
+                              ByteBuffer responseMessage = ByteBuffer.wrap(response.getBytes());
                               clientSocket.write(responseMessage);
                               buffer.clear();
                               responseMessage.clear();
@@ -62,7 +56,6 @@ public class Main {
                               System.out.println("closing client connection");
                               clientSocket.close();
                           }
-
                   }
 
                   iterator.remove();
@@ -75,13 +68,11 @@ public class Main {
         }
   }
 
-
   private static void register(Selector selector, ServerSocketChannel serverSocketChannel) throws IOException {
       SocketChannel channel = serverSocketChannel.accept();
       if (channel == null)
           return;
       channel.configureBlocking(false);
       channel.register(selector, SelectionKey.OP_READ);
-
   }
 }
