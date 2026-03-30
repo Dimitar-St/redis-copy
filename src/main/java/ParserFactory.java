@@ -13,7 +13,7 @@ public class ParserFactory {
 
     IParser newParser(ByteBuffer payload) {
         byte firstByte = payload.get(0);
-
+        System.out.println(String.valueOf(firstByte));
         IParser parser = parsers.get(String.valueOf(firstByte));
         if (parser == null) {
             throw new IllegalArgumentException("parser does not exist");
