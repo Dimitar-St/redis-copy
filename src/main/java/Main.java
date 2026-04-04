@@ -43,7 +43,7 @@ public class Main {
 
                           System.out.println("Socket accepted");
 
-                          byte[] data = new byte[14];
+                          byte[] data = new byte[100];
                           ByteBuffer buffer = ByteBuffer.wrap(data, 0, 100);
                           if (clientSocket.read(buffer) != -1) {
                               IParser parser = parserFactory.newParser(buffer);
