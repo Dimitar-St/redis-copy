@@ -41,7 +41,7 @@ public class Main {
                       if (clientSocket == null)
                           continue;
 
-                      ByteBuffer buffer = ByteBuffer.allocate(1024);
+                      ByteBuffer buffer = (ByteBuffer) key.attachment();
 
                       int bytesRead = clientSocket.read(buffer);
 
@@ -82,6 +82,7 @@ public class Main {
       if (channel == null)
           return;
       channel.configureBlocking(false);
-      channel.register(selector, SelectionKey.OP_READ);
+      ByteBuffer buffer = ByteBuffer.allocate(1024);
+      channel.register(selector, SelectionKey.OP_READ, buffer);
   }
 }

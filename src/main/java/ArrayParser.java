@@ -6,9 +6,10 @@ public class ArrayParser implements IParser {
     public String parse(ByteBuffer payload) {
         StringBuilder builder = new StringBuilder();
         while (payload.hasRemaining()) {
-           char b = payload.getChar();
+           byte b = payload.get();
 
-           builder.append(b);
+           builder.append((char) b);
+           System.out.println(builder.toString());
 
            if (builder.toString().equalsIgnoreCase("echo")) {
                ByteBuffer duplicate = payload.duplicate();
