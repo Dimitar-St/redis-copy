@@ -44,7 +44,7 @@ public class Main {
                           System.out.println("Socket accepted");
 
                           byte[] data = new byte[14];
-                          ByteBuffer buffer = ByteBuffer.wrap(data, 0, 14);
+                          ByteBuffer buffer = ByteBuffer.wrap(data, 0, 100);
                           if (clientSocket.read(buffer) != -1) {
                               IParser parser = parserFactory.newParser(buffer);
                               String response = parser.parse(buffer);
