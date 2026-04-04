@@ -37,25 +37,34 @@ public class Main {
                   }
 
                   if (key.isReadable()) {
-                          SocketChannel clientSocket = (SocketChannel) key.channel();
-                          if (clientSocket == null)
-                              continue;
+                      SocketChannel clientSocket = (SocketChannel) key.channel();
+                      if (clientSocket == null)
+                          continue;
 
-                          System.out.println("Socket accepted");
+                      ByteBuffer buffer = ByteBuffer.allocate(1024);
 
-                          byte[] data = new byte[100];
-                          ByteBuffer buffer = ByteBuffer.wrap(data, 0, 100);
-                          if (clientSocket.read(buffer) != -1) {
-                              IParser parser = parserFactory.newParser(buffer);
-                              String response = parser.parse(buffer);
-                              ByteBuffer responseMessage = ByteBuffer.wrap(response.getBytes());
-                              clientSocket.write(responseMessage);
-                              buffer.clear();
-                              responseMessage.clear();
-                          } else {
-                              System.out.println("closing client connection");
-                              clientSocket.close();
-                          }
+                      int bytesRead = clientSocket.read(buffer);
+
+                      if (bytesRead == -1) {
+                          System.out.println("closing client connection");
+                          clientSocket.close();
+                          continue;
+                      }
+
+                      if (bytesRead == 0) {
+                          continue;
+                      }
+
+                      buffer.flip(); // 🔥 CRITICAL
+
+                      IParser parser = parserFactory.newParser(buffer);
+                      String response = parser.parse(buffer);
+
+                      ByteBuffer responseMessage = ByteBuffer.wrap(response.getBytes());
+
+                      while (responseMessage.hasRemaining()) {
+                          clientSocket.write(responseMessage);
+                      }
                   }
 
                   iterator.remove();
