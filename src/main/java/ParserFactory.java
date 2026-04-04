@@ -16,7 +16,6 @@ public class ParserFactory {
         byte firstByte = payload.get(0);
         IParser parser = parsers.get((int) firstByte);
         System.out.println(Character.valueOf((char) firstByte));
-        System.out.println(payload.asCharBuffer().array());
 
         if (parser == null) {
             throw new IllegalArgumentException("parser does not exist");
