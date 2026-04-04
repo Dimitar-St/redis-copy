@@ -10,7 +10,7 @@ public class ArrayParser implements IParser {
 
            builder.append((char) b);
 
-           if (builder.toString().equalsIgnoreCase("echo")) {
+           if (builder.toString().contains("echo")) {
                ByteBuffer duplicate = payload.duplicate();
                duplicate.position(payload.position());
                duplicate.limit(payload.position()+payload.limit());
