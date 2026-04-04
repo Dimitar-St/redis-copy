@@ -14,7 +14,7 @@ public class ParserFactory {
 
     IParser newParser(ByteBuffer payload) {
         byte firstByte = payload.get(0);
-        IParser parser = parsers.get(firstByte);
+        IParser parser = parsers.get((int) firstByte);
         System.out.println(parser);
         System.out.println(firstByte);
         if (parser == null) {
