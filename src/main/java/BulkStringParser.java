@@ -9,7 +9,9 @@ public class BulkStringParser implements IParser{
 
             builder.append(b);
 
-                return builder.toString();
+            System.out.println(builder.toString());
+
+            return builder.toString();
         }
         return "";
     }
