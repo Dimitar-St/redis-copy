@@ -16,7 +16,7 @@ public class ParserFactory {
         byte firstByte = payload.get(0);
         IParser parser = parsers.get((int) firstByte);
         System.out.println(parser);
-        System.out.println(firstByte);
+        System.out.println(Character.valueOf((char) firstByte));
         System.out.println(String.valueOf(payload.array()));
 
         if (parser == null) {
