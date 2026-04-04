@@ -9,7 +9,7 @@ public class ParserFactory {
     public ParserFactory() {
         this.parsers = new HashMap<>();
         parsers.put(42, new ArrayParser());
-        parsers.put(43, new SimpleStringParser());
+        parsers.put(36, new SimpleStringParser());
     }
 
     IParser newParser(ByteBuffer payload) {
