@@ -14,8 +14,9 @@ public class ArrayParser implements IParser {
                ByteBuffer duplicate = payload.duplicate();
                duplicate.position(payload.position());
                duplicate.limit(payload.position()+payload.limit());
-
-               return duplicate.slice().toString();
+               String result = duplicate.slice().toString();
+               System.out.println(result);
+               return result;
            }
         }
         return "";
