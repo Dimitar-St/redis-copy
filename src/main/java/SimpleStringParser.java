@@ -4,6 +4,6 @@ public class SimpleStringParser implements IParser {
     public SimpleStringParser() {}
 
     public String parse(ByteBuffer payload) {
-        return "+PONG\r\n";
+        return "\r\n+PONG\r\n";
     }
 }
