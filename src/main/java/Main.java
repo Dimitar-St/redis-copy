@@ -65,6 +65,8 @@ public class Main {
                       while (responseMessage.hasRemaining()) {
                           clientSocket.write(responseMessage);
                       }
+
+                      buffer.clear();
                   }
 
                   iterator.remove();
