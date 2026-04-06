@@ -1,3 +1,6 @@
+import commands.CommandFactory;
+import commands.ICommand;
+
 import java.nio.ByteBuffer;
 
 public class ArrayParser implements IParser {
@@ -25,14 +28,11 @@ public class ArrayParser implements IParser {
             elements[i] = readBulkString(payload);
         }
 
-        String command = elements[0].toUpperCase();
-        if (command.equals("ECHO")) {
-            return encodeBulkString(elements[1]);
-        } else if (command.equals("PING")) {
-            return "+PONG\r\n";
-        }
+        String recievedCommand = elements[0].toUpperCase();
+        CommandFactory commandFactory = new CommandFactory();
+        ICommand command = commandFactory.newCommand(recievedCommand);
 
-        throw new IllegalArgumentException("Unknown command: " + command);
+        return command.execute(elements[1]);
     }
 
     private String readBulkString(ByteBuffer payload) {
