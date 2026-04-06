@@ -25,7 +25,7 @@ public class Storage {
 
         if (cache.containsKey(key)) {
             Value<String> value = cache.get(key);
-            System.out.println(value);
+            System.out.println(value.toString());
             if (value.isInvalid()) {
                 return null;
             }

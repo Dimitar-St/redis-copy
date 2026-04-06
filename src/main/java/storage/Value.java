@@ -22,4 +22,8 @@ public class Value<V> {
     public int length() {
         return this.value.toString().length();
     }
+
+    public String toString() {
+        return this.value.toString();
+    }
 }
