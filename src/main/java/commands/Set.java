@@ -12,6 +12,6 @@ public class Set implements ICommand{
     @Override
     public String execute(String[] payload) {
         this.storage.set(payload[0], payload[1]);
-        return "+OK\\r\\n";
+        return "+OK\r\n";
     }
 }

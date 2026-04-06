@@ -13,9 +13,9 @@ public class Get implements ICommand {
     public String execute(String[] payload) {
         String val = this.storage.get(payload[0]);
         if (val == null) {
-            return "$-1\\r\\n";
+            return "$-1\r\n";
         }
 
-        return "$" + val.length() + "\\r\\n" + this.storage.get(payload[0]) + "\\r\\n";
+        return "$" + val.length() + "\r\n" + this.storage.get(payload[0]) + "\r\n";
     }
 }
