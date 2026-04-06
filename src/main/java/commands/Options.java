@@ -37,8 +37,7 @@ public class Options {
     }
 
     public boolean isExpired() {
-        LocalDateTime createdAt =  this.metadata.get("expired");
-        System.out.println(createdAt.toString());
+        LocalDateTime createdAt =  this.metadata.get("expiresAt");
         if (createdAt != null) {
             return createdAt.isAfter(ChronoLocalDateTime.from(LocalDateTime.now()));
         }
