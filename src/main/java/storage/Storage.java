@@ -21,10 +21,10 @@ public class Storage {
     }
 
 
-    public Value get(String key) {
+    public Value<String> get(String key) {
 
         if (cache.containsKey(key)) {
-            Value value = cache.get(key);
+            Value<String> value = cache.get(key);
 
             if (value.isInvalid()) {
                 return null;
