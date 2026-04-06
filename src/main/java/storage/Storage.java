@@ -2,9 +2,11 @@ package storage;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 
 public class Storage {
-    private final Map<String, String> cache = new HashMap<>();
+    private final ConcurrentMap<String, String> cache = new ConcurrentHashMap<>();
 
     public Storage() {}
 
