@@ -1,22 +1,36 @@
 package storage;
 
+import commands.Options;
+
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
 
 public class Storage {
-    private final ConcurrentMap<String, String> cache = new ConcurrentHashMap<>();
+    private final Map<String, Value> cache = new HashMap<>();
 
     public Storage() {}
 
-    public void set(String key, String value) {
+    public void set(String key, String content, Options options) {
+        Value<String> value = new Value(content, options);
         cache.put(key, value);
     }
 
-    public String get(String key) {
-        return cache.get(key);
+    public void set(String key, String content) {
+        Value<String> value = new Value(content);
+        cache.put(key, value);
     }
 
 
+    public Value get(String key) {
+
+        if (cache.containsKey(key)) {
+            Value value = cache.get(key);
+
+            if (value.isInvalid()) {
+                return null;
+            }
+        }
+
+        return cache.get(key);
+    }
 }

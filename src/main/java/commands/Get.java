@@ -1,6 +1,7 @@
 package commands;
 
 import storage.Storage;
+import storage.Value;
 
 public class Get implements ICommand {
     private final Storage storage;
@@ -11,8 +12,7 @@ public class Get implements ICommand {
 
     @Override
     public String execute(String[] payload) {
-        String val = this.storage.get(payload[0]);
-        System.out.println(payload[0]);
+        Value val = this.storage.get(payload[0]);
         if (val == null) {
             return "$-1\r\n";
         }
