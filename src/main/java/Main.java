@@ -14,6 +14,7 @@ public class Main {
 
     //  Uncomment the code below to pass the first stage
         int port = 6379;
+      ParserFactory parserFactory = new ParserFactory();
         try(ServerSocketChannel serverSocket = ServerSocketChannel.open()){
             Selector selector = Selector.open();
 
@@ -22,7 +23,6 @@ public class Main {
             serverSocket.socket().setSoTimeout(1);
             serverSocket.register(selector, SelectionKey.OP_ACCEPT);
 
-            ParserFactory parserFactory = new ParserFactory();
 
           while(true) {
               selector.select();

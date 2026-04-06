@@ -30,7 +30,7 @@ public class ArrayParser implements IParser {
         }
 
         String recievedCommand = elements[0].toUpperCase();
-        CommandFactory commandFactory = new CommandFactory();
+        CommandFactory commandFactory = CommandFactory.initialize();
         ICommand command = commandFactory.newCommand(recievedCommand);
 
         return command.execute(Arrays.stream(elements, 1, elements.length).toArray(String[]::new));

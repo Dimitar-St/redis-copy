@@ -9,7 +9,7 @@ public class CommandFactory {
     private final Map<String, ICommand> commands = new HashMap<>();
     private final Storage storage = new Storage();
 
-    public CommandFactory() {
+    private CommandFactory() {
         commands.put("ECHO", new Echo());
         commands.put("PING", new Ping());
         commands.put("SET", new Set(this.storage));
@@ -21,5 +21,14 @@ public class CommandFactory {
             return commands.get(command);
         }
         throw new IllegalArgumentException("Unknown command: " + command);
+    }
+
+    private static CommandFactory singleton;
+
+    public static CommandFactory initialize() {
+       if (singleton == null) {
+           singleton = new CommandFactory();
+       }
+       return singleton;
     }
 }
