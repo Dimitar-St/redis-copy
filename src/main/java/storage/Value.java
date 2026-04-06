@@ -16,6 +16,9 @@ public class Value<V> {
     }
 
     public boolean isInvalid() {
+        if (options == null)
+            return false;
+
         return this.options.isExpired();
     }
 
