@@ -2,5 +2,5 @@ package commands;
 
 public interface ICommand {
 
-    String execute(String payload);
+    String execute(String[] payload);
 }

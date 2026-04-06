@@ -2,6 +2,7 @@ import commands.CommandFactory;
 import commands.ICommand;
 
 import java.nio.ByteBuffer;
+import java.util.Arrays;
 
 public class ArrayParser implements IParser {
     public ArrayParser() {}
@@ -32,7 +33,7 @@ public class ArrayParser implements IParser {
         CommandFactory commandFactory = new CommandFactory();
         ICommand command = commandFactory.newCommand(recievedCommand);
 
-        return command.execute(elements[1]);
+        return command.execute(Arrays.stream(elements, 1, elements.length).toArray(String[]::new));
     }
 
     private String readBulkString(ByteBuffer payload) {

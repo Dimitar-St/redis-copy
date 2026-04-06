@@ -5,8 +5,8 @@ public class Echo implements ICommand {
     public Echo() {}
 
     @Override
-    public String execute(String payload) {
-        return encodeBulkString(payload);
+    public String execute(String[] payload) {
+        return encodeBulkString(payload[0]);
     }
 
     private String encodeBulkString(String s) {
