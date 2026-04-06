@@ -16,13 +16,20 @@ public class Options {
        Options options  = new Options();
        LocalDateTime now = null;
 
-       if (type.equals("EX")) {
+        if (type.equals("PX")) {
+            now = LocalDateTime.now().plus(Long.valueOf(value), ChronoUnit.MILLIS);
+            options.metadata.put("expiresAt", now);
+
+            return options;
+        }
+
+        if (type.equals("EX")) {
            now = LocalDateTime.now().plusSeconds(Long.valueOf(value));
+            options.metadata.put("expiresAt", now);
+
+            return options;
        }
 
-       if (type.equals("PX")) {
-           now = LocalDateTime.now().plus(Long.valueOf(value), ChronoUnit.MILLIS);
-       }
 
        options.metadata.put("expiresAt", now);
 
