@@ -15,9 +15,8 @@ public class Storage {
         cache.put(key, value);
     }
 
-    public void set(String key, String content) {
-        Value<String> value = new Value(content);
-        cache.put(key, value);
+    public void set(String key, Value content) {
+        cache.put(key, content);
     }
 
 

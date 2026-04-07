@@ -1,8 +1,7 @@
 package commands;
 
 import storage.Storage;
-
-import java.util.Arrays;
+import storage.Value;
 
 public class Set implements ICommand{
     private final Storage storage;
@@ -21,7 +20,7 @@ public class Set implements ICommand{
             return "+OK\r\n";
         }
 
-        this.storage.set(payload[0], payload[1]);
+        this.storage.set(payload[0], new Value<String>(payload[1]));
 
         return "+OK\r\n";
     }
