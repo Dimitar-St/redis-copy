@@ -18,7 +18,7 @@ public class Lrange implements ICommand {
         Value value = this.storage.get(key);
 
         if (value == null) {
-            return "*\r\n";
+            return "*0\r\n";
         }
 
         List<String> content = (List<String>) value.getValue();
