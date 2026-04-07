@@ -23,7 +23,8 @@ public class Lrange implements ICommand {
 
         List<String> content = (List<String>) value.getValue();
         int start = Integer.valueOf(payload[1]);
-        int end = payload.length > 2 ? Integer.valueOf(payload[2]) : content.size();
+        int end = payload.length > 2 ? Integer.valueOf(payload[2]) : content.size()-1;
+        end = end > content.size() ? content.size()-1 : end;
 
         StringBuilder result = new StringBuilder("*" + String.valueOf(end-start+1) + "\r\n");
 
