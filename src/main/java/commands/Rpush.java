@@ -26,6 +26,6 @@ public class Rpush implements ICommand {
             this.storage.set(key, new Value(values));
         }
 
-        return "(integer) " + this.storage.get(key).length();
+        return "$ (integer) " + this.storage.get(key).length() + "\r\n";
     }
 }
