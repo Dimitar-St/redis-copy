@@ -21,9 +21,10 @@ public class Rpush implements ICommand {
             values.add(payload[1]);
             this.storage.set(key, new Value<>(values));
         } else {
+            System.out.println(this.storage.get(key));
             values = (List<String>) this.storage.get(key);
             values.add(payload[1]);
-            this.storage.set(key, new Value(values));
+            this.storage.set(key, new Value<>(values));
         }
 
         return ":" + values.size() + "\r\n";
