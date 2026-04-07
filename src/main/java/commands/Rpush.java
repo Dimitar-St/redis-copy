@@ -16,16 +16,16 @@ public class Rpush implements ICommand {
     @Override
     public String execute(String[] payload) {
         String key = payload[0];
+        List<String> values = new ArrayList<>();
         if (this.storage.get(key) == null) {
-            List<String> values = new ArrayList<>();
             values.add(payload[1]);
             this.storage.set(key, new Value<>(values));
         } else {
-            List<String> values = (List<String>) this.storage.get(key);
+            values = (List<String>) this.storage.get(key);
             values.add(payload[1]);
             this.storage.set(key, new Value(values));
         }
 
-        return ":" + this.storage.get(key).length() + "\r\n";
+        return ":" + values.size() + "\r\n";
     }
 }
