@@ -21,7 +21,7 @@ public class Rpush implements ICommand {
             values.add(payload[1]);
             this.storage.set(key, new Value<>(values));
         } else {
-            System.out.println(this.storage.get(key.getClass().getName()));
+            System.out.println(this.storage.get(key).getClass().getName());
             values = (List<String>) this.storage.get(key);
             values.add(payload[1]);
             this.storage.set(key, new Value<>(values));
