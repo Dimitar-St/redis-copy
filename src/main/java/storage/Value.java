@@ -26,6 +26,10 @@ public class Value<V> {
         return this.value.toString().length();
     }
 
+    public V getValue() {
+        return value;
+    }
+
     public String toString() {
         return this.value.toString();
     }
