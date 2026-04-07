@@ -18,11 +18,15 @@ public class Rpush implements ICommand {
         String key = payload[0];
         List<String> values = new ArrayList<>();
         if (this.storage.get(key) == null) {
-            values.add(payload[1]);
+            for (int i = 1; i < payload.length; i++) {
+                values.add(payload[i]);
+            }
             this.storage.set(key, new Value(values));
         } else {
             values = (List<String>) this.storage.get(key).getValue();
-            values.add(payload[1]);
+            for (int i = 1; i < payload.length; i++) {
+                values.add(payload[i]);
+            }
             this.storage.set(key, new Value<>(values));
         }
 
