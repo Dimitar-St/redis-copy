@@ -27,11 +27,11 @@ public class Lrange implements ICommand {
         end = end > content.size()-1 ? content.size()-1 : end;
 
         if (start < 0) {
-            start = content.size() + start;
+            start = content.size()-1 + start;
         }
 
         if (end < 0) {
-            end = content.size() + end;
+            end = content.size()-1 + end;
         }
 
         StringBuilder result = new StringBuilder("*" + String.valueOf(end-start+1) + "\r\n");
