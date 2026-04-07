@@ -20,7 +20,7 @@ public class Storage {
     }
 
 
-    public Value<String> get(String key) {
+    public Value get(String key) {
         if (cache.containsKey(key)) {
             Value<String> value = cache.get(key);
             if (value.isInvalid()) {
