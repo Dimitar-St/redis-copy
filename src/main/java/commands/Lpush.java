@@ -40,8 +40,7 @@ public class Lpush implements ICommand {
 
     private void insertElements(String[] elements, List<String> list) {
         int length = elements.length-1;
-        for (int i = length; i >= 0; i--) {
-            System.out.println(elements[i]);
+        for (int i = 0; i <= length; i--) {
            list.add(0, elements[i]);
         }
     }
