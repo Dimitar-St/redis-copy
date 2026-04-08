@@ -19,7 +19,7 @@ public class Lpop implements ICommand {
         Value value = this.storage.get(key);
 
         if (value == null) {
-            return ":$-1\r\n";
+            return "$-1\r\n";
         }
 
         List<String> list = (List<String>) value.getValue();
@@ -27,6 +27,6 @@ public class Lpop implements ICommand {
         String element = list.remove(0);
 
 
-        return ":$" + element.length() + "\r\n" + element + "\r\n";
+        return "$" + element.length() + "\r\n" + element + "\r\n";
     }
 }
