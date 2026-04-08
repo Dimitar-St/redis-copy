@@ -24,11 +24,12 @@ public class Lpush implements ICommand {
             list = new Value(new ArrayList<String>());
 
             insertElements(payload, (List<String>) list.getValue());
-            return ":" + String.valueOf(payload.length-1) + "\r\n";
+            this.storage.set(key, list);
+            return ":" + (payload.length - 1) + "\r\n";
         }
 
         insertElements(payload, (List<String>) list.getValue());
-        return ":" + String.valueOf(payload.length-1) + "\r\n";
+        return ":" + (payload.length - 1) + "\r\n";
     }
 
 

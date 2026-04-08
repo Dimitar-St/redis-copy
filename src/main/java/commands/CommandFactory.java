@@ -16,7 +16,7 @@ public class CommandFactory {
         commands.put("GET", new Get(this.storage));
         commands.put("RPUSH", new Rpush(this.storage));
         commands.put("LRANGE", new Lrange(this.storage));
-        commands.put("LPUSH", new Lrange(this.storage));
+        commands.put("LPUSH", new Lpush(this.storage));
     }
 
     public ICommand newCommand(String command) {
