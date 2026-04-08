@@ -31,6 +31,7 @@ public class Lrange implements ICommand {
 
         if (start < 0) {
             start = content.size() + start;
+            start = start < 0 ? 0 : start;
         }
 
         if (end < 0) {
