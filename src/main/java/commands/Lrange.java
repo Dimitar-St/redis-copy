@@ -47,11 +47,11 @@ public class Lrange implements ICommand {
         for (int i = start; i <= end; i++) {
             StringBuilder element = new StringBuilder();
 
-            element.append("$");
-            element.append(content.get(i).length());
-            element.append("\r\n");
-            element.append(content.get(i));
-            element.append("\r\n");
+            element.append("$")
+            .append(content.get(i).length())
+            .append("\r\n")
+            .append(content.get(i))
+            .append("\r\n");
 
             result.append(element);
         }
