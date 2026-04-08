@@ -24,6 +24,27 @@ public class Lpop implements ICommand {
 
         List<String> list = (List<String>) value.getValue();
 
+        if (payload.length >= 2) {
+            int countToRemove = Integer.parseInt(payload[1]);
+
+            StringBuilder result = new StringBuilder();
+            result.append("*")
+                    .append(countToRemove)
+                    .append("\r\n");
+
+            for (int i = 0; i < countToRemove; i++) {
+                String element = list.removeFirst();
+
+                result.append("$")
+                        .append(element.length())
+                        .append("\r\n")
+                        .append(element)
+                        .append("\r\n");
+            }
+
+            return result.toString();
+        }
+
         String element = list.remove(0);
 
 
