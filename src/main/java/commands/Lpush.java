@@ -18,18 +18,20 @@ public class Lpush implements ICommand {
     public String execute(String[] payload) {
         String key = payload[0];
 
-        Value list = this.storage.get(key);
+        Value value = this.storage.get(key);
 
-        if (list == null) {
-            list = new Value(new ArrayList<String>());
+        if (value == null) {
+            value = new Value(new ArrayList<String>());
 
-            insertElements(payload, (List<String>) list.getValue());
-            this.storage.set(key, list);
+            insertElements(payload, (List<String>) value.getValue());
+            this.storage.set(key, value);
             return ":" + (payload.length - 1) + "\r\n";
         }
 
-        insertElements(payload, (List<String>) list.getValue());
-        return ":" + (payload.length - 1) + "\r\n";
+        List<String> list = (List<String>) value.getValue();
+
+        insertElements(payload, list);
+        return ":" + list.size() + "\r\n";
     }
 
 
