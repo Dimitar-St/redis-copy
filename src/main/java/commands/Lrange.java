@@ -37,6 +37,10 @@ public class Lrange implements ICommand {
             end = content.size() + end;
         }
 
+        if (end < start) {
+            return "*0\r\n";
+        }
+
         StringBuilder result = new StringBuilder("*" + String.valueOf(end-start+1) + "\r\n");
 
         for (int i = start; i <= end; i++) {
