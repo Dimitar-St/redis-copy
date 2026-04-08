@@ -27,6 +27,6 @@ public class Lpop implements ICommand {
         String element = list.remove(0);
 
 
-        return ":&" + element.length() + "\r\n" + element + "\r\n";
+        return ":$" + element.length() + "\r\n" + element + "\r\n";
     }
 }
