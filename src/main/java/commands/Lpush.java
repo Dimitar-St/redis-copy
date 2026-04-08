@@ -4,6 +4,7 @@ import storage.Storage;
 import storage.Value;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class Lpush implements ICommand {
@@ -20,24 +21,26 @@ public class Lpush implements ICommand {
 
         Value value = this.storage.get(key);
 
+        String[] elements = Arrays.stream(payload, 1, payload.length).toArray(String[]::new);
+
         if (value == null) {
             value = new Value(new ArrayList<String>());
 
-            insertElements(payload, (List<String>) value.getValue());
+            insertElements(elements, (List<String>) value.getValue());
             this.storage.set(key, value);
             return ":" + (payload.length - 1) + "\r\n";
         }
 
         List<String> list = (List<String>) value.getValue();
 
-        insertElements(payload, list);
+        insertElements(elements, list);
         return ":" + list.size() + "\r\n";
     }
 
 
     private void insertElements(String[] elements, List<String> list) {
         int length = elements.length-1;
-        for (int i = length; i >= 1; i--) {
+        for (int i = length; i >= 0; i--) {
            list.add(0, elements[i]);
         }
     }
