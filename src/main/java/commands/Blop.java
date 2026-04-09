@@ -30,6 +30,7 @@ public class Blop implements ICommand {
                 .append("\r\n");
 
         while(true) {
+            Value value = this.storage.get(key);
             if (elapsedTime != null) {
                 LocalDateTime now = LocalDateTime.now();
 
@@ -42,7 +43,6 @@ public class Blop implements ICommand {
                 }
             }
 
-            Value value = this.storage.get(key);
             if (value != null) {
                 List<String> list = (List<String>) value.getValue();
 
