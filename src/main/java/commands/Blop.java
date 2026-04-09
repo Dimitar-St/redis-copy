@@ -43,6 +43,8 @@ public class Blop implements ICommand {
                 }
             }
 
+            System.out.println("Blop");
+            System.out.println(value);
             if (value != null) {
                 List<String> list = (List<String>) value.getValue();
 
