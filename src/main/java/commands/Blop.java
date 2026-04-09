@@ -17,8 +17,6 @@ public class Blop implements ICommand {
     public String execute(String[] payload) {
         String key = payload[0];
 
-        Value value = this.storage.get(key);
-
         LocalDateTime elapsedTime = null;
         if (payload.length > 2) {
             int timeout = Integer.parseInt(payload[1]);
@@ -44,6 +42,7 @@ public class Blop implements ICommand {
                 }
             }
 
+            Value value = this.storage.get(key);
             if (value != null) {
                 List<String> list = (List<String>) value.getValue();
 
