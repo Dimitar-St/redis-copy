@@ -33,7 +33,7 @@ public class Main {
                   SelectionKey key = iterator.next();
 
                   if (key.isAcceptable()) {
-                        register(selector, serverSocket);
+                      register(selector, serverSocket);
                   }
 
                   if (key.isReadable()) {
