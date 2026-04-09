@@ -55,8 +55,9 @@ public class Blop implements ICommand {
                         .append(element.length())
                         .append("\r\n")
                         .append(element)
-                        .append("\r\n");            }
+                        .append("\r\n");
                 break;
+            }
         }
 
 
