@@ -58,6 +58,7 @@ public class Blop implements ICommand {
             }
         }
 
+        System.out.println("does it end");
 
 
 
