@@ -96,16 +96,15 @@ public class EventLoop {
                         currentWaitingClients.forEach((commandKey, queue) -> {
                             BaseCommand waitingCommand = CommandFactory.initialize().newCommand(commandKey);
 
-                            String response2 = waitingCommand.execute();
-
-                            if (waitingCommand.isBlocking()) {
-                                if (response2.equals("not present")) {
-                                    System.out.println("No data present yet.");
-                                    return;
-                                }
-                            }
-
                             while (!queue.isEmpty()) {
+                                String response2 = waitingCommand.execute();
+
+                                if (waitingCommand.isBlocking()) {
+                                    if (response2.equals("not present")) {
+                                        System.out.println("No data present yet.");
+                                        return;
+                                    }
+                                }
                                 ByteBuffer responseMessage = ByteBuffer.wrap(response2.getBytes());
                                 SocketChannel currSocket = queue.poll();
 
