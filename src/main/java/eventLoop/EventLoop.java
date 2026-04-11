@@ -58,9 +58,7 @@ public class EventLoop {
 
     public void run () throws IOException {
         while (true) {
-            System.out.println("tuk");
             selector.select();
-            System.out.println("tuk");
             Set<SelectionKey> selectionKeySet = selector.selectedKeys();
             Iterator<SelectionKey> iterator = selectionKeySet.iterator();
             while (iterator.hasNext()) {
@@ -97,34 +95,34 @@ public class EventLoop {
 
 
 
-//                    Map<String, Queue<SocketChannel>> currentWaitingClients = waitingClients.get(dataStructure);
-//                    if (currentWaitingClients != null) {
-//                        currentWaitingClients.forEach((commandKey, queue) -> {
-//                            BaseCommand waitingCommand = CommandFactory.initialize().newCommand(commandKey);
-//
-//                            String response = waitingCommand.execute();
-//
-//                            if (command.isBlocking()) {
-//                                if (response.equals("not present")) {
-//                                    return;
-//                                }
-//                            }
-//
-//                            while (!queue.isEmpty()) {
-//                                ByteBuffer responseMessage = ByteBuffer.wrap(response.getBytes());
-//                                SocketChannel currSocket = queue.poll();
-//
-//                                while (responseMessage.hasRemaining()) {
-//                                    try {
-//                                        currSocket.write(responseMessage);
-//                                        currSocket.close();
-//                                    } catch (IOException e) {
-//                                        throw new RuntimeException(e);
-//                                    }
-//                                }
-//                            }
-//                        });
-//                    }
+                    Map<String, Queue<SocketChannel>> currentWaitingClients = waitingClients.get(dataStructure);
+                    if (currentWaitingClients != null) {
+                        currentWaitingClients.forEach((commandKey, queue) -> {
+                            BaseCommand waitingCommand = CommandFactory.initialize().newCommand(commandKey);
+
+                            String response = waitingCommand.execute();
+
+                            if (command.isBlocking()) {
+                                if (response.equals("not present")) {
+                                    return;
+                                }
+                            }
+
+                            while (!queue.isEmpty()) {
+                                ByteBuffer responseMessage = ByteBuffer.wrap(response.getBytes());
+                                SocketChannel currSocket = queue.poll();
+
+                                while (responseMessage.hasRemaining()) {
+                                    try {
+                                        currSocket.write(responseMessage);
+                                        currSocket.close();
+                                    } catch (IOException e) {
+                                        throw new RuntimeException(e);
+                                    }
+                                }
+                            }
+                        });
+                    }
 
                     String response = command.execute();
 
