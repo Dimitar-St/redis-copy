@@ -43,6 +43,10 @@ public class Blop extends BaseCommand {
             if (value != null) {
                 List<String> list = (List<String>) value.getValue();
 
+                if (list.isEmpty()) {
+                    return "*-1\r\n";
+                }
+
                 String element = list.removeFirst();
 
                 result.append("$")
