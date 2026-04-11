@@ -102,11 +102,12 @@ public class EventLoop {
 
                             String response = waitingCommand.execute();
 
-                            if (command.isBlocking()) {
+                            if (waitingCommand.isBlocking()) {
                                 if (response.equals("not present")) {
                                     return;
                                 }
                             }
+
 
                             System.out.println(response);
 
