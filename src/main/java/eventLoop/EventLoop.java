@@ -60,6 +60,7 @@ public class EventLoop {
         while (true) {
             System.out.println("tuk");
             selector.select();
+            System.out.println("tuk");
             Set<SelectionKey> selectionKeySet = selector.selectedKeys();
             Iterator<SelectionKey> iterator = selectionKeySet.iterator();
             while (iterator.hasNext()) {
