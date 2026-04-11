@@ -90,46 +90,47 @@ public class EventLoop {
 
                     String response = command.execute();
 
-                    String dataStructure = command.getArguments()[0];
-                    Map<String, Stack<SocketChannel>> currentWaitingClients = waitingClients.get(dataStructure);
-                    if (currentWaitingClients != null) {
-                        currentWaitingClients.forEach((commandKey, queue) -> {
-                            BaseCommand waitingCommand = CommandFactory.initialize().newCommand(commandKey);
+                    if (command.getArguments().length > 0) {
+                        String dataStructure = command.getArguments()[0];
+                        Map<String, Stack<SocketChannel>> currentWaitingClients = waitingClients.get(dataStructure);
+                        if (currentWaitingClients != null) {
+                            currentWaitingClients.forEach((commandKey, queue) -> {
+                                BaseCommand waitingCommand = CommandFactory.initialize().newCommand(commandKey);
 
-                            while (!queue.empty()) {
-                                System.out.println("");
+                                while (!queue.empty()) {
+                                    System.out.println("");
 
-                                String response2 = waitingCommand.execute();
+                                    String response2 = waitingCommand.execute();
 
-                                if (waitingCommand.isBlocking()) {
-                                    if (response2.equals("not present")) {
-                                        System.out.println("No data present yet.");
-                                        return;
+                                    if (waitingCommand.isBlocking()) {
+                                        if (response2.equals("not present")) {
+                                            System.out.println("No data present yet.");
+                                            return;
+                                        }
                                     }
-                                }
-                                ByteBuffer responseMessage = ByteBuffer.wrap(response2.getBytes());
-                                SocketChannel currSocket = queue.pop();
+                                    ByteBuffer responseMessage = ByteBuffer.wrap(response2.getBytes());
+                                    SocketChannel currSocket = queue.pop();
 
-                                while (responseMessage.hasRemaining()) {
+                                    while (responseMessage.hasRemaining()) {
+                                        try {
+                                            System.out.println("write for socket : " + currSocket.toString());
+                                            currSocket.write(responseMessage);
+                                        } catch (IOException e) {
+                                            throw new RuntimeException(e);
+                                        }
+                                    }
+
                                     try {
-                                        System.out.println("write for socket : " + currSocket.toString());
-                                        currSocket.write(responseMessage);
-                                    } catch (IOException e) {
+                                        assert currSocket != null;
+                                        currSocket.register(selector, SelectionKey.OP_READ, ByteBuffer.allocate(1024));
+                                        selector.wakeup();
+                                    } catch (ClosedChannelException e) {
                                         throw new RuntimeException(e);
                                     }
                                 }
-
-                                try {
-                                    assert currSocket != null;
-                                    currSocket.register(selector, SelectionKey.OP_READ, ByteBuffer.allocate(1024));
-                                    selector.wakeup();
-                                } catch (ClosedChannelException e) {
-                                    throw new RuntimeException(e);
-                                }
-                            }
-                        });
+                            });
+                        }
                     }
-
 
                     if (command.isBlocking()) {
                         if (response.equals("not present")) {
