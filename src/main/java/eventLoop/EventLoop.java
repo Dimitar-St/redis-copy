@@ -97,7 +97,8 @@ public class EventLoop {
                             BaseCommand waitingCommand = CommandFactory.initialize().newCommand(commandKey);
 
                             while (!queue.empty()) {
-                                System.out.println("stack pop");
+                                System.out.println("");
+
                                 String response2 = waitingCommand.execute();
 
                                 if (waitingCommand.isBlocking()) {
@@ -111,6 +112,7 @@ public class EventLoop {
 
                                 while (responseMessage.hasRemaining()) {
                                     try {
+                                        System.out.println("write for socket : " + currSocket.toString());
                                         currSocket.write(responseMessage);
                                     } catch (IOException e) {
                                         throw new RuntimeException(e);
