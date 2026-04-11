@@ -118,8 +118,8 @@ public class EventLoop {
                                 }
 
                                 try {
-                                    selector.wakeup();
                                     currSocket.register(selector, SelectionKey.OP_READ, ByteBuffer.allocate(1024));
+                                    selector.wakeup();
                                 } catch (ClosedChannelException e) {
                                     throw new RuntimeException(e);
                                 }
