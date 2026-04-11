@@ -95,48 +95,50 @@ public class EventLoop {
                     BaseCommand command = parser.parse(buffer);
                     String dataStructure = command.getArguments()[0];
 
-                    Map<String, Queue<SocketChannel>> currentWaitingClients = waitingClients.get(dataStructure);
-                    if (currentWaitingClients != null) {
-                        currentWaitingClients.forEach((commandKey, queue) -> {
-                            BaseCommand waitingCommand = CommandFactory.initialize().newCommand(commandKey);
 
-                            String response = waitingCommand.execute();
 
-                            if (command.isBlocking()) {
-                                if (response.equals("not present")) {
-                                    return;
-                                }
-                            }
-
-                            while (!queue.isEmpty()) {
-                                ByteBuffer responseMessage = ByteBuffer.wrap(response.getBytes());
-                                SocketChannel currSocket = queue.poll();
-
-                                while (responseMessage.hasRemaining()) {
-                                    try {
-                                        currSocket.write(responseMessage);
-                                        currSocket.close();
-                                    } catch (IOException e) {
-                                        throw new RuntimeException(e);
-                                    }
-                                }
-                            }
-                        });
-                    }
+//                    Map<String, Queue<SocketChannel>> currentWaitingClients = waitingClients.get(dataStructure);
+//                    if (currentWaitingClients != null) {
+//                        currentWaitingClients.forEach((commandKey, queue) -> {
+//                            BaseCommand waitingCommand = CommandFactory.initialize().newCommand(commandKey);
+//
+//                            String response = waitingCommand.execute();
+//
+//                            if (command.isBlocking()) {
+//                                if (response.equals("not present")) {
+//                                    return;
+//                                }
+//                            }
+//
+//                            while (!queue.isEmpty()) {
+//                                ByteBuffer responseMessage = ByteBuffer.wrap(response.getBytes());
+//                                SocketChannel currSocket = queue.poll();
+//
+//                                while (responseMessage.hasRemaining()) {
+//                                    try {
+//                                        currSocket.write(responseMessage);
+//                                        currSocket.close();
+//                                    } catch (IOException e) {
+//                                        throw new RuntimeException(e);
+//                                    }
+//                                }
+//                            }
+//                        });
+//                    }
 
                     String response = command.execute();
 
 
-                    if (command.isBlocking()) {
-                        if (response.equals("not present")) {
-                            Queue<SocketChannel> queue = new ArrayDeque();
-                            queue.add(clientSocket);
-                            Map<String, Queue<SocketChannel>> commandQueue = new HashMap<>();
-                            commandQueue.put("BLOP", queue);
-                            waitingClients.put(dataStructure, commandQueue);
-                            continue;
-                        }
-                    }
+//                    if (command.isBlocking()) {
+//                        if (response.equals("not present")) {
+//                            Queue<SocketChannel> queue = new ArrayDeque();
+//                            queue.add(clientSocket);
+//                            Map<String, Queue<SocketChannel>> commandQueue = new HashMap<>();
+//                            commandQueue.put("BLOP", queue);
+//                            waitingClients.put(dataStructure, commandQueue);
+//                            continue;
+//                        }
+//                    }
 
 
                     ByteBuffer responseMessage = ByteBuffer.wrap(response.getBytes());
