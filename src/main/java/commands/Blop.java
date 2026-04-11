@@ -50,6 +50,8 @@ public class Blop extends BaseCommand {
                         .append("\r\n")
                         .append(element)
                         .append("\r\n");
+
+                this.storage.set(key, new Value(list));
             } else {
                 return "not present";
             }
