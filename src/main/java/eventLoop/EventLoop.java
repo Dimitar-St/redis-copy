@@ -130,6 +130,8 @@ public class EventLoop {
                                     throw new RuntimeException(e);
                                 }
 
+                                checkBuffer.clear();
+
                             }
                         });
                     }
