@@ -58,10 +58,10 @@ public class EventLoop {
 
     public void run () throws IOException {
         while (true) {
+            System.out.println("tuk");
             selector.select();
             Set<SelectionKey> selectionKeySet = selector.selectedKeys();
             Iterator<SelectionKey> iterator = selectionKeySet.iterator();
-            System.out .println("tuk");
             while (iterator.hasNext()) {
                 SelectionKey key = iterator.next();
 
