@@ -111,24 +111,26 @@ public class EventLoop {
 
                             while (!queue.isEmpty()) {
                                 ByteBuffer responseMessage = ByteBuffer.wrap(response2.getBytes());
-                                SocketChannel currSocket = queue.poll();
+                                try (SocketChannel currSocket = queue.poll()) {
 
-                                System.out.println("Sending response: " + response2);
-                                while (responseMessage.hasRemaining()) {
-                                    try {
-                                        assert currSocket != null;
-                                        int written = currSocket.write(responseMessage);
-                                        System.out.println("Bytes written: " + written);
-                                    } catch (IOException e) {
-                                        throw new RuntimeException(e);
+                                    System.out.println("Sending response: " + response2);
+                                    while (responseMessage.hasRemaining()) {
+                                        try {
+                                            assert currSocket != null;
+                                            currSocket.write(responseMessage);
+                                        } catch (IOException e) {
+                                            throw new RuntimeException(e);
+                                        }
                                     }
-                                }
 //                                try {
 //                                    assert currSocket != null;
 //                                    currSocket.close();
 //                                } catch (IOException e) {
 //                                    throw new RuntimeException(e);
 //                                }
+                                } catch (Exception e) {
+                                   e.printStackTrace();
+                                }
                             }
                         });
                     }
