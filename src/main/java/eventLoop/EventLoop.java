@@ -9,10 +9,7 @@ import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.net.ServerSocket;
 import java.nio.ByteBuffer;
-import java.nio.channels.SelectionKey;
-import java.nio.channels.Selector;
-import java.nio.channels.ServerSocketChannel;
-import java.nio.channels.SocketChannel;
+import java.nio.channels.*;
 import java.util.*;
 
 public class EventLoop {
@@ -119,19 +116,12 @@ public class EventLoop {
                                         throw new RuntimeException(e);
                                     }
                                 }
-                                ByteBuffer checkBuffer = ByteBuffer.wrap(new byte[6 * 1024]);
 
                                 try {
-                                    if (currSocket.read(checkBuffer) == -1) {
-                                        System.out.println("closing client connection");
-                                        currSocket.close();
-                                    }
-                                } catch (IOException e) {
+                                    currSocket.register(selector, SelectionKey.OP_READ, ByteBuffer.allocate(1024));
+                                } catch (ClosedChannelException e) {
                                     throw new RuntimeException(e);
                                 }
-
-                                checkBuffer.clear();
-
                             }
                         });
                     }
@@ -151,6 +141,8 @@ public class EventLoop {
                             if (cl != null) {
                                Queue<SocketChannel> cq = cl.computeIfAbsent("BLPOP", k -> new ArrayDeque<>());
                                cq.add(clientSocket);
+
+                               key.channel();
                             }
 
                             continue;
