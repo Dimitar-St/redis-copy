@@ -116,6 +116,7 @@ public class EventLoop {
                                     try {
                                         assert currSocket != null;
                                         while (responseMessage.hasRemaining()) {
+                                            System.out.println("tuk1");
                                             currSocket.write(responseMessage);
                                         }
                                         currSocket.close();
