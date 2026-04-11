@@ -130,27 +130,27 @@ public class EventLoop {
                                 }
                             });
                         }
-                    }
 
-                    if (command.isBlocking()) {
-                        if (response.equals("not present")) {
-                            Map<String, Stack<SocketChannel>> cl = waitingClients.get(dataStructure);
-                            if (cl == null) {
-                                Stack<SocketChannel> queue = new Stack<>();
-                                queue.add(clientSocket);
-                                Map<String, Stack<SocketChannel>> commandQueue = new HashMap<>();
-                                commandQueue.put("BLPOP", queue);
-                                waitingClients.put(dataStructure,  commandQueue);
+                        if (command.isBlocking()) {
+                            if (response.equals("not present")) {
+                                Map<String, Stack<SocketChannel>> cl = waitingClients.get(dataStructure);
+                                if (cl == null) {
+                                    Stack<SocketChannel> queue = new Stack<>();
+                                    queue.add(clientSocket);
+                                    Map<String, Stack<SocketChannel>> commandQueue = new HashMap<>();
+                                    commandQueue.put("BLPOP", queue);
+                                    waitingClients.put(dataStructure, commandQueue);
+                                }
+
+                                if (cl != null) {
+                                    Stack<SocketChannel> cq = cl.computeIfAbsent("BLPOP", k -> new Stack<>());
+                                    cq.add(clientSocket);
+
+                                    key.cancel();
+                                }
+
+                                continue;
                             }
-
-                            if (cl != null) {
-                               Stack<SocketChannel> cq = cl.computeIfAbsent("BLPOP", k -> new Stack<>());
-                               cq.add(clientSocket);
-
-                               key.cancel();
-                            }
-
-                            continue;
                         }
                     }
 
