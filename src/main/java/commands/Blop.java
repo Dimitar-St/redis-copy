@@ -43,11 +43,12 @@ public class Blop extends BaseCommand {
                 if (list.isEmpty()) {
                     return "*-1\r\n";
                 }
+
+                String element = list.removeFirst();
+
                 result.append("*")
                         .append(list.size())
                         .append("\r\n");
-
-                String element = list.removeFirst();
 
                 result.append("$")
                         .append(element.length())
