@@ -25,9 +25,6 @@ public class Blop extends BaseCommand {
         }
 
         StringBuilder result = new StringBuilder();
-        result.append("*")
-                .append("2")
-                .append("\r\n");
 
             Value value = this.storage.get(key);
             if (elapsedTime != null) {
@@ -46,6 +43,9 @@ public class Blop extends BaseCommand {
                 if (list.isEmpty()) {
                     return "*-1\r\n";
                 }
+                result.append("*")
+                        .append(list.size())
+                        .append("\r\n");
 
                 String element = list.removeFirst();
 
