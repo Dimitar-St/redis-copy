@@ -108,6 +108,8 @@ public class EventLoop {
                                 }
                             }
 
+                            System.out.println(response);
+
                             while (!queue.isEmpty()) {
                                 ByteBuffer responseMessage = ByteBuffer.wrap(response.getBytes());
                                 SocketChannel currSocket = queue.poll();
