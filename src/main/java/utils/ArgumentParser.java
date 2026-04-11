@@ -1,18 +1,11 @@
-import commands.CommandFactory;
-import commands.ICommand;
+package utils;
 
 import java.nio.ByteBuffer;
-import java.util.Arrays;
 
-public class ArrayParser implements IParser {
-    public ArrayParser() {}
+public class ArgumentParser {
 
-    public String parse(ByteBuffer payload) {
-        byte firstByte = payload.get();
-        if (firstByte != '*') {
-            throw new IllegalArgumentException("Expected array");
-        }
 
+    public static String[] parse(ByteBuffer payload) {
         StringBuilder lengthBuilder = new StringBuilder();
 
         byte b;
@@ -29,14 +22,10 @@ public class ArrayParser implements IParser {
             elements[i] = readBulkString(payload);
         }
 
-        String recievedCommand = elements[0].toUpperCase();
-        CommandFactory commandFactory = CommandFactory.initialize();
-        ICommand command = commandFactory.newCommand(recievedCommand);
-
-        return command.execute(Arrays.stream(elements, 1, elements.length).toArray(String[]::new));
+        return elements;
     }
 
-    private String readBulkString(ByteBuffer payload) {
+    private static String readBulkString(ByteBuffer payload) {
         byte b = payload.get();
         if (b != '$') {
             throw new IllegalArgumentException("Expected bulk string");

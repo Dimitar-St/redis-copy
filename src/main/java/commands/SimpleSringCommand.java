@@ -1,9 +1,6 @@
 package commands;
 
-public class Ping extends BaseCommand {
-
-    public Ping() {}
-
+public class SimpleSringCommand extends BaseCommand {
     @Override
     public String execute() {
         return "+PONG\r\n";

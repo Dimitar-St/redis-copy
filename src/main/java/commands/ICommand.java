@@ -1,6 +1,8 @@
 package commands;
 
 public interface ICommand {
+    String execute();
 
-    String execute(String[] payload);
+
+    boolean isBlocking();
 }

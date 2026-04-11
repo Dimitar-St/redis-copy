@@ -1,5 +1,6 @@
+package parsers;
+
 import java.nio.ByteBuffer;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -13,7 +14,7 @@ public class ParserFactory {
         parsers.put(36, new BulkStringParser());
     }
 
-    IParser newParser(ByteBuffer payload) {
+    public IParser newParser(ByteBuffer payload) {
         byte firstByte = payload.get(0);
         IParser parser = parsers.get((int) firstByte);
         System.out.println(Character.valueOf((char) firstByte));

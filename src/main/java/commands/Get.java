@@ -3,7 +3,7 @@ package commands;
 import storage.Storage;
 import storage.Value;
 
-public class Get implements ICommand {
+public class Get extends BaseCommand {
     private final Storage storage;
 
     public Get(Storage storage) {
@@ -11,12 +11,17 @@ public class Get implements ICommand {
     }
 
     @Override
-    public String execute(String[] payload) {
-        Value val = this.storage.get(payload[0]);
+    public String execute() {
+        Value val = this.storage.get(arguments[0]);
         if (val == null) {
             return "$-1\r\n";
         }
 
         return "$" + val.length() + "\r\n" + val + "\r\n";
+    }
+
+    @Override
+    public boolean isBlocking() {
+        return false;
     }
 }

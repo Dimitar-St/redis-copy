@@ -5,7 +5,7 @@ import storage.Value;
 
 import java.util.List;
 
-public class Lrange implements ICommand {
+public class Lrange extends BaseCommand {
     private final Storage storage;
 
     public Lrange(Storage storage) {
@@ -13,8 +13,8 @@ public class Lrange implements ICommand {
     }
 
     @Override
-    public String execute(String[] payload) {
-        String key = payload[0];
+    public String execute() {
+        String key = arguments[0];
         Value value = this.storage.get(key);
 
         if (value == null) {
@@ -22,11 +22,11 @@ public class Lrange implements ICommand {
         }
 
         List<String> content = (List<String>) value.getValue();
-        int start = Integer.parseInt(payload[1]);
+        int start = Integer.parseInt(arguments[1]);
 
         int length = content.size() - 1;
 
-        int end = payload.length > 2 ? Integer.parseInt(payload[2]) : length;
+        int end = arguments.length > 2 ? Integer.parseInt(arguments[2]) : length;
         end = end > length ? length : end;
 
         if (start < 0) {
@@ -58,5 +58,10 @@ public class Lrange implements ICommand {
 
 
         return result.toString();
+    }
+
+    @Override
+    public boolean isBlocking() {
+        return false;
     }
 }

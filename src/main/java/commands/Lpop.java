@@ -5,7 +5,7 @@ import storage.Value;
 
 import java.util.List;
 
-public class Lpop implements ICommand {
+public class Lpop extends BaseCommand implements ICommand {
     private final Storage storage;
 
     public Lpop(Storage storage) {
@@ -13,8 +13,8 @@ public class Lpop implements ICommand {
     }
 
     @Override
-    public String execute(String[] payload) {
-        String key = payload[0];
+    public String execute() {
+        String key = arguments[0];
 
         Value value = this.storage.get(key);
 
@@ -24,8 +24,8 @@ public class Lpop implements ICommand {
 
         List<String> list = (List<String>) value.getValue();
 
-        if (payload.length >= 2) {
-            int countToRemove = Integer.parseInt(payload[1]);
+        if (arguments.length >= 2) {
+            int countToRemove = Integer.parseInt(arguments[1]);
 
             StringBuilder result = new StringBuilder();
             result.append("*")
@@ -49,5 +49,10 @@ public class Lpop implements ICommand {
 
 
         return "$" + element.length() + "\r\n" + element + "\r\n";
+    }
+
+    @Override
+    public boolean isBlocking() {
+        return false;
     }
 }

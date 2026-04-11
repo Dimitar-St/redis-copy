@@ -1,12 +1,17 @@
 package commands;
 
-public class Echo implements ICommand {
+public class Echo extends BaseCommand {
 
     public Echo() {}
 
     @Override
-    public String execute(String[] payload) {
-        return encodeBulkString(payload[0]);
+    public String execute() {
+        return encodeBulkString(arguments[0]);
+    }
+
+    @Override
+    public boolean isBlocking() {
+        return false;
     }
 
     private String encodeBulkString(String s) {

@@ -5,7 +5,7 @@ import storage.Value;
 
 import java.util.List;
 
-public class Llen implements ICommand {
+public class Llen extends BaseCommand {
 
     private final Storage storage;
 
@@ -14,8 +14,8 @@ public class Llen implements ICommand {
     }
 
     @Override
-    public String execute(String[] payload) {
-        String key = payload[0];
+    public String execute() {
+        String key = arguments[0];
 
         Value value = this.storage.get(key);
 
@@ -27,4 +27,11 @@ public class Llen implements ICommand {
 
         return ":" + list.size() + "\r\n";
     }
+
+    @Override
+    public boolean isBlocking() {
+        return false;
+    }
+
+
 }

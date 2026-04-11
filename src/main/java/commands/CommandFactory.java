@@ -6,7 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class CommandFactory {
-    private final Map<String, ICommand> commands = new HashMap<>();
+    private final Map<String, BaseCommand> commands = new HashMap<>();
     private final Storage storage = new Storage();
 
     private CommandFactory() {
@@ -20,9 +20,10 @@ public class CommandFactory {
         commands.put("LLEN", new Llen(this.storage));
         commands.put("LPOP", new Lpop(this.storage));
         commands.put("BLPOP", new Blop(this.storage));
+        commands.put("simpleString", new SimpleSringCommand());
     }
 
-    public ICommand newCommand(String command) {
+    public BaseCommand newCommand(String command) {
         if (commands.containsKey(command)) {
             return commands.get(command);
         }

@@ -6,7 +6,7 @@ import storage.Value;
 import java.time.LocalDateTime;
 import java.util.List;
 
-public class Blop implements ICommand {
+public class Blop extends BaseCommand {
     private final Storage storage;
 
     public Blop(Storage storage) {
@@ -14,12 +14,12 @@ public class Blop implements ICommand {
     }
 
     @Override
-    public String execute(String[] payload) {
-        String key = payload[0];
+    public String execute() {
+        String key = arguments[0];
 
         LocalDateTime elapsedTime = null;
-        if (payload.length > 2) {
-            int timeout = Integer.parseInt(payload[1]);
+        if (arguments.length > 2) {
+            int timeout = Integer.parseInt(arguments[1]);
 
             elapsedTime = LocalDateTime.now().plusSeconds(timeout);
         }
@@ -29,7 +29,6 @@ public class Blop implements ICommand {
                 .append("2")
                 .append("\r\n");
 
-        while(true) {
             Value value = this.storage.get(key);
             if (elapsedTime != null) {
                 LocalDateTime now = LocalDateTime.now();
@@ -38,14 +37,11 @@ public class Blop implements ICommand {
                     if (value == null) {
                         return "*-1\r\n";
                     }
-
-
                 }
             }
 
             if (value != null) {
                 List<String> list = (List<String>) value.getValue();
-
 
                 String element = list.removeFirst();
 
@@ -54,14 +50,15 @@ public class Blop implements ICommand {
                         .append("\r\n")
                         .append(element)
                         .append("\r\n");
-                break;
+            } else {
+                return "not present";
             }
-        }
-
-        System.out.println("does it end");
-
-
 
         return result.toString();
+    }
+
+    @Override
+    public boolean isBlocking() {
+        return true;
     }
 }
