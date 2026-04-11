@@ -40,9 +40,6 @@ public class EventLoop {
             eventLoop.serverSocketChannel = serverSocket;
             eventLoop.selector = selector;
             eventLoop.parserFactory = new ParserFactory();
-
-            System.out.println("asdfa");
-
         } catch (IOException e) {
             System.out.println("IOException: " + e.getMessage());
         }
@@ -64,7 +61,7 @@ public class EventLoop {
             selector.select();
             Set<SelectionKey> selectionKeySet = selector.selectedKeys();
             Iterator<SelectionKey> iterator = selectionKeySet.iterator();
-
+            System.out .println("tuk");
             while (iterator.hasNext()) {
                 SelectionKey key = iterator.next();
 
