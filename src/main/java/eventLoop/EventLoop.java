@@ -113,11 +113,12 @@ public class EventLoop {
                                 ByteBuffer responseMessage = ByteBuffer.wrap(response2.getBytes());
                                 SocketChannel currSocket = queue.poll();
 
-                                System.out.println("Writing to socket connection");
+                                System.out.println("Sending response: " + response2);
                                 while (responseMessage.hasRemaining()) {
                                     try {
                                         assert currSocket != null;
-                                        currSocket.write(responseMessage);
+                                        int written = currSocket.write(responseMessage);
+                                        System.out.println("Bytes written: " + written);
                                     } catch (IOException e) {
                                         throw new RuntimeException(e);
                                     }
