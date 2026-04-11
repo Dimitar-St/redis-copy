@@ -108,6 +108,7 @@ public class EventLoop {
                                 }
                             }
 
+                            System.out.println("Writing to socket connection");
                             while (!queue.isEmpty()) {
                                 ByteBuffer responseMessage = ByteBuffer.wrap(response2.getBytes());
                                 SocketChannel currSocket = queue.poll();
