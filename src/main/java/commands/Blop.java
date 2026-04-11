@@ -47,7 +47,13 @@ public class Blop extends BaseCommand {
                 String element = list.removeFirst();
 
                 result.append("*")
-                        .append(list.size())
+                        .append(2)
+                        .append("\r\n");
+
+                result.append("$")
+                        .append(key.length())
+                        .append("\r\n")
+                        .append(key)
                         .append("\r\n");
 
                 result.append("$")
