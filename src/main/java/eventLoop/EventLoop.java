@@ -112,6 +112,7 @@ public class EventLoop {
                             System.out.println(response2);
 
                             while (!queue.isEmpty()) {
+                                System.out.println(response2);
                                 ByteBuffer responseMessage = ByteBuffer.wrap(response2.getBytes());
                                 SocketChannel currSocket = queue.poll();
 
