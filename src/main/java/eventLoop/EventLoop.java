@@ -17,7 +17,7 @@ public class EventLoop {
     private Selector selector;
     private ParserFactory parserFactory;
 
-    private Map<String, Map<String, Queue<SocketChannel>>> waitingClients = new HashMap<>();
+    private Map<String, Map<String, Stack<SocketChannel>>> waitingClients = new HashMap<>();
 
     private EventLoop() {};
 
@@ -91,12 +91,12 @@ public class EventLoop {
                     String response = command.execute();
 
                     String dataStructure = command.getArguments()[0];
-                    Map<String, Queue<SocketChannel>> currentWaitingClients = waitingClients.get(dataStructure);
+                    Map<String, Stack<SocketChannel>> currentWaitingClients = waitingClients.get(dataStructure);
                     if (currentWaitingClients != null) {
                         currentWaitingClients.forEach((commandKey, queue) -> {
                             BaseCommand waitingCommand = CommandFactory.initialize().newCommand(commandKey);
 
-                            while (!queue.isEmpty()) {
+                            while (!queue.empty()) {
                                 System.out.println("");
 
                                 String response2 = waitingCommand.execute();
@@ -108,7 +108,7 @@ public class EventLoop {
                                     }
                                 }
                                 ByteBuffer responseMessage = ByteBuffer.wrap(response2.getBytes());
-                                SocketChannel currSocket = queue.poll();
+                                SocketChannel currSocket = queue.pop();
 
                                 while (responseMessage.hasRemaining()) {
                                     try {
@@ -133,17 +133,17 @@ public class EventLoop {
 
                     if (command.isBlocking()) {
                         if (response.equals("not present")) {
-                            Map<String, Queue<SocketChannel>> cl = waitingClients.get(dataStructure);
+                            Map<String, Stack<SocketChannel>> cl = waitingClients.get(dataStructure);
                             if (cl == null) {
-                                Queue<SocketChannel> queue = new LinkedList<>();
+                                Stack<SocketChannel> queue = new Stack<>();
                                 queue.add(clientSocket);
-                                Map<String, Queue<SocketChannel>> commandQueue = new HashMap<>();
+                                Map<String, Stack<SocketChannel>> commandQueue = new HashMap<>();
                                 commandQueue.put("BLPOP", queue);
                                 waitingClients.put(dataStructure,  commandQueue);
                             }
 
                             if (cl != null) {
-                               Queue<SocketChannel> cq = cl.computeIfAbsent("BLPOP", k -> new LinkedList<>());
+                               Stack<SocketChannel> cq = cl.computeIfAbsent("BLPOP", k -> new Stack<>());
                                cq.add(clientSocket);
 
                                key.cancel();
