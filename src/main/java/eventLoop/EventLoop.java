@@ -123,12 +123,12 @@ public class EventLoop {
                                         throw new RuntimeException(e);
                                     }
                                 }
-                                try {
-                                    assert currSocket != null;
-                                    currSocket.close();
-                                } catch (IOException e) {
-                                    throw new RuntimeException(e);
-                                }
+//                                try {
+//                                    assert currSocket != null;
+//                                    currSocket.close();
+//                                } catch (IOException e) {
+//                                    throw new RuntimeException(e);
+//                                }
                             }
                         });
                     }
@@ -160,8 +160,6 @@ public class EventLoop {
                     while (responseMessage.hasRemaining()) {
                         clientSocket.write(responseMessage);
                     }
-
-                    buffer.clear();
                 }
 
                 iterator.remove();
