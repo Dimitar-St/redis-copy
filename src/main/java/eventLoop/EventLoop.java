@@ -114,8 +114,9 @@ public class EventLoop {
 
                                 while (responseMessage.hasRemaining()) {
                                     try {
-                                            System.out.println("Writing to socket connection");
-                                            currSocket.write(responseMessage);
+                                        assert currSocket != null;
+                                        System.out.println("Writing to socket connection");
+                                        currSocket.write(responseMessage);
                                     } catch (IOException e) {
                                         throw new RuntimeException(e);
                                     }
