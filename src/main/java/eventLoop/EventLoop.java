@@ -41,6 +41,8 @@ public class EventLoop {
             eventLoop.selector = selector;
             eventLoop.parserFactory = new ParserFactory();
 
+            System.out.println("asdfa");
+
         } catch (IOException e) {
             System.out.println("IOException: " + e.getMessage());
         }
