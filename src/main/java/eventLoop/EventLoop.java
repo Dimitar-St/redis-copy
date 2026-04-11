@@ -132,7 +132,6 @@ public class EventLoop {
 
                     if (command.isBlocking()) {
                         if (response.equals("not present")) {
-                            System.out.println("Registering blocking command ");
                             Map<String, Queue<SocketChannel>> cl = waitingClients.get(dataStructure);
                             if (cl == null) {
                                 Queue<SocketChannel> queue = new ArrayDeque();
@@ -143,7 +142,6 @@ public class EventLoop {
                             }
 
                             if (cl != null) {
-                                System.out.println("add existing");
                                Queue cq =  cl.get("BLPOP");
                                cq.add(clientSocket);
                             }
