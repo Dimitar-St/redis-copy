@@ -96,7 +96,7 @@ public class EventLoop {
                         currentWaitingClients.forEach((commandKey, queue) -> {
                             BaseCommand waitingCommand = CommandFactory.initialize().newCommand(commandKey);
 
-                            while (!queue.empty()) {
+                            while (!queue.isEmpty()) {
                                 System.out.println("");
 
                                 String response2 = waitingCommand.execute();
@@ -108,7 +108,7 @@ public class EventLoop {
                                     }
                                 }
                                 ByteBuffer responseMessage = ByteBuffer.wrap(response2.getBytes());
-                                SocketChannel currSocket = queue.pop();
+                                SocketChannel currSocket = queue.poll();
 
                                 while (responseMessage.hasRemaining()) {
                                     try {
