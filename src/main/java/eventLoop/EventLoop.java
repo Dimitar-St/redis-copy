@@ -2,7 +2,6 @@ package eventLoop;
 
 import commands.BaseCommand;
 import commands.CommandFactory;
-import commands.ICommand;
 import parsers.IParser;
 import parsers.ParserFactory;
 
@@ -148,7 +147,7 @@ public class EventLoop {
                             }
 
                             if (cl != null) {
-                               Queue cq =  cl.get("BLPOP");
+                               Queue<SocketChannel> cq = cl.computeIfAbsent("BLPOP", k -> new ArrayDeque<>());
                                cq.add(clientSocket);
                             }
 
