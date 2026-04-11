@@ -142,7 +142,7 @@ public class EventLoop {
                                Queue<SocketChannel> cq = cl.computeIfAbsent("BLPOP", k -> new ArrayDeque<>());
                                cq.add(clientSocket);
 
-                               key.channel();
+                               key.cancel();
                             }
 
                             continue;
