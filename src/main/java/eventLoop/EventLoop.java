@@ -109,6 +109,7 @@ public class EventLoop {
                                 ByteBuffer responseMessage = ByteBuffer.wrap(response2.getBytes());
                                 SocketChannel currSocket = queue.poll();
 
+                                System.out.println(responseMessage);
                                 while (responseMessage.hasRemaining()) {
                                     try {
                                         currSocket.write(responseMessage);
