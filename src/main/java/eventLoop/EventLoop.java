@@ -30,7 +30,7 @@ public class EventLoop {
         try (ServerSocketChannel serverSocket = ServerSocketChannel.open()) {
             Selector selector = Selector.open();
 
-            serverSocket.bind(new InetSocketAddress(port));
+            serverSocket.bind(new InetSocketAddress("0.0.0.0", port));
             serverSocket.configureBlocking(false);
             serverSocket.socket().setSoTimeout(1);
             serverSocket.register(selector, SelectionKey.OP_ACCEPT);
