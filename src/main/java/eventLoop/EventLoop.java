@@ -108,9 +108,6 @@ public class EventLoop {
                                 }
                             }
 
-
-                            System.out.println(response2);
-
                             while (!queue.isEmpty()) {
                                 System.out.println(response2);
                                 ByteBuffer responseMessage = ByteBuffer.wrap(response2.getBytes());
@@ -145,7 +142,7 @@ public class EventLoop {
                             }
 
                             if (cl != null) {
-                                System.out.println("add exsiting");
+                                System.out.println("add existing");
                                Queue cq =  cl.get("BLPOP");
                                cq.add(clientSocket);
                             }
