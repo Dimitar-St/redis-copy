@@ -44,7 +44,7 @@ public class Blop extends BaseCommand {
                 List<String> list = (List<String>) value.getValue();
 
                 if (list.isEmpty()) {
-                    return "not present";
+                    return "*-1\r\n";
                 }
 
                 String element = list.removeFirst();

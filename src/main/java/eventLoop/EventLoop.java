@@ -99,12 +99,12 @@ public class EventLoop {
                             while (!queue.isEmpty()) {
                                 String response2 = waitingCommand.execute();
 
-//                                if (waitingCommand.isBlocking()) {
-//                                    if (response2.equals("not present")) {
-//                                        System.out.println("No data present yet.");
-//                                        return;
-//                                    }
-//                                }
+                                if (waitingCommand.isBlocking()) {
+                                    if (response2.equals("not present")) {
+                                        System.out.println("No data present yet.");
+                                        return;
+                                    }
+                                }
                                 ByteBuffer responseMessage = ByteBuffer.wrap(response2.getBytes());
                                 SocketChannel currSocket = queue.poll();
 
