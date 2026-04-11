@@ -91,28 +91,28 @@ public class EventLoop {
 
                     IParser parser = parserFactory.newParser(buffer);
                     BaseCommand command = parser.parse(buffer);
+
+                    String response = command.execute();
+
                     String dataStructure = command.getArguments()[0];
-
-
-
                     Map<String, Queue<SocketChannel>> currentWaitingClients = waitingClients.get(dataStructure);
                     if (currentWaitingClients != null) {
                         currentWaitingClients.forEach((commandKey, queue) -> {
                             BaseCommand waitingCommand = CommandFactory.initialize().newCommand(commandKey);
 
-                            String response = waitingCommand.execute();
+                            String response2 = waitingCommand.execute();
 
                             if (waitingCommand.isBlocking()) {
-                                if (response.equals("not present")) {
+                                if (response2.equals("not present")) {
                                     return;
                                 }
                             }
 
 
-                            System.out.println(response);
+                            System.out.println(response2);
 
                             while (!queue.isEmpty()) {
-                                ByteBuffer responseMessage = ByteBuffer.wrap(response.getBytes());
+                                ByteBuffer responseMessage = ByteBuffer.wrap(response2.getBytes());
                                 SocketChannel currSocket = queue.poll();
 
                                 while (responseMessage.hasRemaining()) {
@@ -126,8 +126,6 @@ public class EventLoop {
                             }
                         });
                     }
-
-                    String response = command.execute();
 
 
                     if (command.isBlocking()) {
