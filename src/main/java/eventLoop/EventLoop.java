@@ -122,10 +122,8 @@ public class EventLoop {
                                 ByteBuffer checkBuffer = ByteBuffer.wrap(new byte[6 * 1024]);
 
                                 try {
-                                    if (currSocket.read(checkBuffer) == -1) {
-                                        System.out.println("closing client connection");
-                                        currSocket.close();
-                                    }
+                                    System.out.println("closing client connection");
+                                    currSocket.close();
                                 } catch (IOException e) {
                                     throw new RuntimeException(e);
                                 }
