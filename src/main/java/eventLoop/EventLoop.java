@@ -131,16 +131,17 @@ public class EventLoop {
                     String response = command.execute();
 
 
-//                    if (command.isBlocking()) {
-//                        if (response.equals("not present")) {
-//                            Queue<SocketChannel> queue = new ArrayDeque();
-//                            queue.add(clientSocket);
-//                            Map<String, Queue<SocketChannel>> commandQueue = new HashMap<>();
-//                            commandQueue.put("BLOP", queue);
-//                            waitingClients.put(dataStructure, commandQueue);
-//                            continue;
-//                        }
-//                    }
+                    if (command.isBlocking()) {
+                        if (response.equals("not present")) {
+                            System.out.println("Registering blocking command ");
+                            Queue<SocketChannel> queue = new ArrayDeque();
+                            queue.add(clientSocket);
+                            Map<String, Queue<SocketChannel>> commandQueue = new HashMap<>();
+                            commandQueue.put("BLOP", queue);
+                            waitingClients.put(dataStructure, commandQueue);
+                            continue;
+                        }
+                    }
 
 
                     ByteBuffer responseMessage = ByteBuffer.wrap(response.getBytes());
