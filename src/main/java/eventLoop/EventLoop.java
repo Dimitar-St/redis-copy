@@ -119,7 +119,9 @@ public class EventLoop {
                                 while (responseMessage.hasRemaining()) {
                                     try {
                                         assert currSocket != null;
-                                        currSocket.write(responseMessage);
+                                        while (responseMessage.hasRemaining()) {
+                                            currSocket.write(responseMessage);
+                                        }
                                         currSocket.close();
                                     } catch (IOException e) {
                                         throw new RuntimeException(e);
