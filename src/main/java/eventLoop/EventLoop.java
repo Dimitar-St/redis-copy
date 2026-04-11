@@ -143,6 +143,7 @@ public class EventLoop {
                             }
 
                             if (cl != null) {
+                                System.out.println("add exsiting");
                                Queue cq =  cl.get("BLPOP");
                                cq.add(clientSocket);
                             }
