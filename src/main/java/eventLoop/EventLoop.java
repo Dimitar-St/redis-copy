@@ -108,7 +108,6 @@ public class EventLoop {
                                 ByteBuffer responseMessage = ByteBuffer.wrap(response2.getBytes());
                                 SocketChannel currSocket = queue.poll();
 
-                                System.out.println(response2);
                                 while (responseMessage.hasRemaining()) {
                                     try {
                                         currSocket.write(responseMessage);
@@ -118,6 +117,7 @@ public class EventLoop {
                                 }
 
                                 try {
+                                    assert currSocket != null;
                                     currSocket.register(selector, SelectionKey.OP_READ, ByteBuffer.allocate(1024));
                                     selector.wakeup();
                                 } catch (ClosedChannelException e) {
