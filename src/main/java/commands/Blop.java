@@ -51,7 +51,7 @@ public class Blop extends BaseCommand {
                         .append(element)
                         .append("\r\n");
 
-                this.storage.set(key, new Value(list));
+                this.storage.set(key, new Value<List<String>>(list));
             } else {
                 return "not present";
             }
