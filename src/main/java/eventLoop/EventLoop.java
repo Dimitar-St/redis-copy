@@ -97,6 +97,7 @@ public class EventLoop {
                             BaseCommand waitingCommand = CommandFactory.initialize().newCommand(commandKey);
 
                             while (!queue.empty()) {
+                                System.out.println("stack pop");
                                 String response2 = waitingCommand.execute();
 
                                 if (waitingCommand.isBlocking()) {
