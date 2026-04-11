@@ -114,15 +114,15 @@ public class EventLoop {
 
                                 while (responseMessage.hasRemaining()) {
                                     try {
-                                        assert currSocket != null;
-                                        while (responseMessage.hasRemaining()) {
-                                            System.out.println("tuk1");
                                             currSocket.write(responseMessage);
-                                        }
-                                        currSocket.close();
                                     } catch (IOException e) {
                                         throw new RuntimeException(e);
                                     }
+                                }
+                                try {
+                                    currSocket.close();
+                                } catch (IOException e) {
+                                    throw new RuntimeException(e);
                                 }
                             }
                         });
