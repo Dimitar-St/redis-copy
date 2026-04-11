@@ -40,6 +40,8 @@ public class EventLoop {
             eventLoop.serverSocketChannel = serverSocket;
             eventLoop.selector = selector;
             eventLoop.parserFactory = new ParserFactory();
+
+            System.out.println("Socket server is listening on port: " + port);
         } catch (IOException e) {
             System.out.println("IOException: " + e.getMessage());
         }
