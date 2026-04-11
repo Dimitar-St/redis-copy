@@ -19,7 +19,7 @@ public class Blop extends BaseCommand {
 
         LocalDateTime elapsedTime = null;
         if (arguments.length > 2) {
-            System.out.println(arguments[1]);
+            System.out.println(arguments[0]);
             int timeout = Integer.parseInt(arguments[1]);
 
             elapsedTime = LocalDateTime.now().plusSeconds(timeout);
