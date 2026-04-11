@@ -120,6 +120,7 @@ public class EventLoop {
                                     }
                                 }
                                 try {
+                                    assert currSocket != null;
                                     currSocket.close();
                                 } catch (IOException e) {
                                     throw new RuntimeException(e);
