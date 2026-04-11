@@ -96,7 +96,7 @@ public class EventLoop {
                         currentWaitingClients.forEach((commandKey, queue) -> {
                             BaseCommand waitingCommand = CommandFactory.initialize().newCommand(commandKey);
 
-                            while (!queue.isEmpty()) {
+                            while (!queue.empty()) {
                                 String response2 = waitingCommand.execute();
 
                                 if (waitingCommand.isBlocking()) {
