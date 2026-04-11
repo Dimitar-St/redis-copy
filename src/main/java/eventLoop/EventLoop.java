@@ -111,25 +111,26 @@ public class EventLoop {
 
                             while (!queue.isEmpty()) {
                                 ByteBuffer responseMessage = ByteBuffer.wrap(response2.getBytes());
-                                try (SocketChannel currSocket = queue.poll()) {
+                                SocketChannel currSocket = queue.poll();
 
-                                    while (responseMessage.hasRemaining()) {
-                                        try {
-                                            assert currSocket != null;
-                                            currSocket.write(responseMessage);
-                                        } catch (IOException e) {
-                                            throw new RuntimeException(e);
-                                        }
+                                while (responseMessage.hasRemaining()) {
+                                    try {
+                                        currSocket.write(responseMessage);
+                                    } catch (IOException e) {
+                                        throw new RuntimeException(e);
                                     }
-//                                try {
-//                                    assert currSocket != null;
-//                                    currSocket.close();
-//                                } catch (IOException e) {
-//                                    throw new RuntimeException(e);
-//                                }
-                                } catch (Exception e) {
-                                   e.printStackTrace();
                                 }
+                                ByteBuffer checkBuffer = ByteBuffer.wrap(new byte[6 * 1024]);
+
+                                try {
+                                    assert currSocket != null;
+                                    if (currSocket.read(checkBuffer) == -1) {
+                                        currSocket.close();
+                                    }
+                                } catch (IOException e) {
+                                    throw new RuntimeException(e);
+                                }
+
                             }
                         });
                     }
