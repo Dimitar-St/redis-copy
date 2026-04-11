@@ -133,7 +133,7 @@ public class EventLoop {
                             Queue<SocketChannel> queue = new ArrayDeque();
                             queue.add(clientSocket);
                             Map<String, Queue<SocketChannel>> commandQueue = new HashMap<>();
-                            commandQueue.put("BLOP", queue);
+                            commandQueue.put("BLPOP", queue);
                             waitingClients.put(dataStructure, commandQueue);
                             continue;
                         }
