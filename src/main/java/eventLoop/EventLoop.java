@@ -67,7 +67,7 @@ public class EventLoop {
                 SelectionKey key = iterator.next();
 
                 if (key.isAcceptable()) {
-                    register(selector, this.serverSocketChannel);
+                    register(this.selector, this.serverSocketChannel);
                 }
 
                 if (key.isReadable()) {
