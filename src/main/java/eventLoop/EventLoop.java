@@ -113,7 +113,6 @@ public class EventLoop {
                                 ByteBuffer responseMessage = ByteBuffer.wrap(response2.getBytes());
                                 try (SocketChannel currSocket = queue.poll()) {
 
-                                    System.out.println("Sending response: " + response2);
                                     while (responseMessage.hasRemaining()) {
                                         try {
                                             assert currSocket != null;
