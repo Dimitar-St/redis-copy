@@ -54,6 +54,10 @@ public class Blop extends BaseCommand {
             return "not present";
         }
 
+        if (isExpired()) {
+            return "*-1\r\n";
+        }
+
         return result.toString();
     }
 
