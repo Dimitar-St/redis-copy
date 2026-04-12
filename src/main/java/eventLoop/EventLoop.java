@@ -140,7 +140,6 @@ public class EventLoop {
                                     Map<String, Stack<SocketChannel>> commandQueue = new HashMap<>();
                                     commandQueue.put("BLPOP", queue);
                                     waitingClients.put(dataStructure, commandQueue);
-                                    System.out.println(waitingClients.size());
                                     continue;
                                 }
 
@@ -155,6 +154,8 @@ public class EventLoop {
                     }
 
 
+                    System.out.println("Response");
+                    System.out.println(response);
                     ByteBuffer responseMessage = ByteBuffer.wrap(response.getBytes());
 
                     while (responseMessage.hasRemaining()) {
