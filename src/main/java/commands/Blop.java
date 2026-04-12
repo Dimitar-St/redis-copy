@@ -28,6 +28,7 @@ public class Blop extends BaseCommand {
                 if (isExpired()) {
                     return "*-1\r\n";
                 }
+                System.out.println("list is empty");
                 return "not present";
             }
 
