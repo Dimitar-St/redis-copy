@@ -132,41 +132,6 @@ public class EventLoop {
 
                     String response = command.execute();
 
-//                    waitingClients.forEach((dataStructure, currentWaitingClients) -> {
-//                        currentWaitingClients.forEach((commandKey, stack) -> {
-//                            BaseCommand waitingCommand = CommandFactory.initialize().newCommand(commandKey);
-//
-//                            while (!stack.empty()) {
-//                                String response2 = waitingCommand.execute();
-//
-//                                if (waitingCommand.isBlocking()) {
-//                                    if (response2.equals("not present")) {
-//                                        System.out.println("No data present yet.");
-//                                        return;
-//                                    }
-//                                }
-//                                ByteBuffer responseMessage = ByteBuffer.wrap(response2.getBytes());
-//                                SocketChannel currSocket = stack.pop();
-//
-//                                while (responseMessage.hasRemaining()) {
-//                                    try {
-//                                        currSocket.write(responseMessage);
-//                                    } catch (IOException e) {
-//                                        throw new RuntimeException(e);
-//                                    }
-//                                }
-//
-//                                try {
-//                                    assert currSocket != null;
-//                                    currSocket.register(selector, SelectionKey.OP_READ, ByteBuffer.allocate(1024));
-//                                    selector.wakeup();
-//                                } catch (ClosedChannelException e) {
-//                                    throw new RuntimeException(e);
-//                                }
-//                            }
-//                        });
-//                    });
-
                     if (command.getArguments().length > 0) {
                         String dataStructure = command.getArguments()[0];
                         if (command.isBlocking()) {

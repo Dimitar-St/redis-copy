@@ -2,13 +2,20 @@ package commands;
 
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
+import java.util.Arrays;
+import java.util.Objects;
 
 public abstract class BaseCommand implements ICommand {
+    String name;
     String[] arguments;
     public Instant elapsedTime = null;
 
     public void setArguments(String[] arguments) {
         this.arguments = arguments;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String[] getArguments() {
@@ -33,4 +40,15 @@ public abstract class BaseCommand implements ICommand {
         return false;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        BaseCommand that = (BaseCommand) o;
+        return Objects.equals(name, that.name) && Objects.deepEquals(arguments, that.arguments) && Objects.equals(elapsedTime, that.elapsedTime);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, Arrays.hashCode(arguments), elapsedTime);
+    }
 }

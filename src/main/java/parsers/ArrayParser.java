@@ -21,6 +21,8 @@ public class ArrayParser implements IParser {
         String recievedCommand = arguments[0].toUpperCase();
         CommandFactory commandFactory = CommandFactory.initialize();
         BaseCommand command = commandFactory.newCommand(recievedCommand);
+
+        command.setName(arguments[0]);
         command.setArguments(Arrays.stream(arguments, 1, arguments.length).toArray(String[]::new));
 
         return command;
