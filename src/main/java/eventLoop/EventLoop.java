@@ -92,6 +92,8 @@ public class EventLoop {
     public void run() throws IOException {
         while (true) {
 
+            this.executePendingCommands();
+
             selector.select();
 
             Set<SelectionKey> selectionKeySet = selector.selectedKeys();
@@ -128,7 +130,6 @@ public class EventLoop {
                     IParser parser = parserFactory.newParser(buffer);
                     BaseCommand command = parser.parse(buffer);
 
-                    this.executePendingCommands();
                     String response = command.execute();
 
 
