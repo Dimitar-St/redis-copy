@@ -83,7 +83,7 @@ public class EventLoop {
                         continue;
                     }
 
-                    buffer.flip(); // 🔥 CRITICAL
+                    buffer.flip();
 
                     IParser parser = parserFactory.newParser(buffer);
                     BaseCommand command = parser.parse(buffer);
@@ -97,6 +97,7 @@ public class EventLoop {
                             currentWaitingClients.forEach((commandKey, stack) -> {
                                 BaseCommand waitingCommand = CommandFactory.initialize().newCommand(commandKey);
 
+                                System.out.println("tuk");
                                 while (!stack.empty()) {
                                     String response2 = waitingCommand.execute();
 
@@ -130,7 +131,6 @@ public class EventLoop {
 
                         if (command.isBlocking()) {
                             if (response.equals("not present")) {
-                                System.out.println("tuk");
                                 Map<String, Stack<SocketChannel>> cl = waitingClients.get(dataStructure);
                                 if (cl == null) {
                                     Stack<SocketChannel> queue = new Stack<>();
