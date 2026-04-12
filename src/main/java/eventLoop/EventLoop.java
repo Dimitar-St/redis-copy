@@ -99,7 +99,7 @@ public class EventLoop {
 
                                 while (!stack.empty()) {
                                     String response2 = waitingCommand.execute();
-                                    System.out.println("tuk");
+
                                     if (waitingCommand.isBlocking()) {
                                         if (response2.equals("not present")) {
                                             System.out.println("No data present yet.");
@@ -130,6 +130,7 @@ public class EventLoop {
 
                         if (command.isBlocking()) {
                             if (response.equals("not present")) {
+                                System.out.println("tuk");
                                 Map<String, Stack<SocketChannel>> cl = waitingClients.get(dataStructure);
                                 if (cl == null) {
                                     Stack<SocketChannel> queue = new Stack<>();
