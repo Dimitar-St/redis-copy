@@ -7,7 +7,7 @@ import java.util.Arrays;
 
 public abstract class BaseCommand implements ICommand {
     String[] arguments;
-    Instant elapsedTime = null;
+    public Instant elapsedTime = null;
 
     public void setArguments(String[] arguments) {
         this.arguments = arguments;

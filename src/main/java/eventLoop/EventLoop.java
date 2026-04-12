@@ -10,6 +10,7 @@ import java.net.InetSocketAddress;
 import java.net.ServerSocket;
 import java.nio.ByteBuffer;
 import java.nio.channels.*;
+import java.time.Instant;
 import java.util.*;
 
 public class EventLoop {
@@ -75,6 +76,8 @@ public class EventLoop {
                         SocketChannel currSocket = stack.pop();
 
                         System.out.println(response2);
+                        System.out.println("Now: " + Instant.now());
+                        System.out.println("Elapsed time: " + waitingCommand.elapsedTime);
 
                         while (responseMessage.hasRemaining()) {
                             try {
