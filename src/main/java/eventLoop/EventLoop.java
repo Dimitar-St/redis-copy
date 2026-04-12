@@ -128,9 +128,9 @@ public class EventLoop {
                     IParser parser = parserFactory.newParser(buffer);
                     BaseCommand command = parser.parse(buffer);
 
+                    this.executePendingCommands();
                     String response = command.execute();
 
-                    this.executePendingCommands();
 
                     if (command.getArguments().length > 0) {
                         String dataStructure = command.getArguments()[0];
