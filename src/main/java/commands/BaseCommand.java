@@ -31,13 +31,13 @@ public abstract class BaseCommand implements ICommand {
 
 //        Arrays.stream(arguments).forEach(System.out::println);
 
-        if (arguments.length > 1) {
+//        if (arguments.length > 1) {
 //            System.out.println("checking");
             double timeout = Double.parseDouble(arguments[1]);
 //            System.out.println("Now: " + Instant.now());
 
             elapsedTime = Instant.now().plus((long) (timeout * 100), ChronoUnit.MILLIS);
-        }
+//        }
 
         return false;
     }
