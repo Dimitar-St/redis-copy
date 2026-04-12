@@ -9,6 +9,7 @@ public abstract class BaseCommand implements ICommand {
     String name;
     String[] arguments;
     public Instant elapsedTime = null;
+    public Instant execTime = null;
 
     public void setArguments(String[] arguments) {
         this.arguments = arguments;
@@ -37,6 +38,7 @@ public abstract class BaseCommand implements ICommand {
         }
         double timeout = Double.parseDouble(arguments[1]);
         elapsedTime = Instant.now().plus((long) (timeout * 1000), ChronoUnit.MILLIS);
+        execTime = Instant.now();
     }
 
     @Override

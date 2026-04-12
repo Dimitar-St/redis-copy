@@ -76,6 +76,7 @@ public class EventLoop {
 
                         System.out.println(response2);
                         System.out.println("Now: " + Instant.now());
+                        System.out.println("Exec: " + command.execTime);
                         System.out.println("Elapsed time: " + command.elapsedTime);
 
                         while (responseMessage.hasRemaining()) {
