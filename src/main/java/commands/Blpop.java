@@ -14,6 +14,7 @@ public class Blpop extends BaseCommand {
 
     @Override
     public String execute() {
+        this.setTime();
         String key = arguments[0];
 
         StringBuilder result = new StringBuilder();

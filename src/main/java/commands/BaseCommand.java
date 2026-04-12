@@ -23,20 +23,20 @@ public abstract class BaseCommand implements ICommand {
     }
 
     public boolean isExpired() {
-        if (elapsedTime != null) {
-            Instant now = Instant.now();
+        Instant now = Instant.now();
 
-            if (now.isAfter(elapsedTime)) {
-                return true;
-            }
-            return false;
+        if (now.isAfter(elapsedTime)) {
+            return true;
         }
-
-        double timeout = Double.parseDouble(arguments[1]);
-
-        elapsedTime = Instant.now().plus((long) (timeout * 1000), ChronoUnit.MILLIS);
-
         return false;
+    }
+
+    public void setTime() {
+        if (elapsedTime != null) {
+            return;
+        }
+        double timeout = Double.parseDouble(arguments[1]);
+        elapsedTime = Instant.now().plus((long) (timeout * 1000), ChronoUnit.MILLIS);
     }
 
     @Override
