@@ -28,7 +28,6 @@ public class Blop extends BaseCommand {
                 if (isExpired()) {
                     return "*-1\r\n";
                 }
-                System.out.println("list is empty");
                 return "not present";
             }
 
@@ -53,6 +52,7 @@ public class Blop extends BaseCommand {
             this.storage.set(key, new Value<List<String>>(list));
         } else {
             if (isExpired()) {
+                System.out.println("list is empty");
                 return "*-1\r\n";
             }
             return "not present";
