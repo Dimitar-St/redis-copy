@@ -93,12 +93,9 @@ public class EventLoop {
 
                     String response = command.execute();
 
-                    System.out.println(waitingClients.size());
                     waitingClients.forEach((dataStructure, currentWaitingClients) -> {
                         currentWaitingClients.forEach((commandKey, stack) -> {
                             BaseCommand waitingCommand = CommandFactory.initialize().newCommand(commandKey);
-
-                            System.out.println();
 
                             while (!stack.empty()) {
                                 String response2 = waitingCommand.execute();
@@ -143,6 +140,7 @@ public class EventLoop {
                                     Map<String, Stack<SocketChannel>> commandQueue = new HashMap<>();
                                     commandQueue.put("BLPOP", queue);
                                     waitingClients.put(dataStructure, commandQueue);
+                                    System.out.println(waitingClients.size());
                                     continue;
                                 }
 
