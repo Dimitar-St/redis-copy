@@ -19,7 +19,10 @@ public abstract class BaseCommand implements ICommand {
         if (elapsedTime != null) {
             LocalDateTime now = LocalDateTime.now();
 
-            System.out.println("checking");
+            System.out.println("Now" + now);
+            System.out.println("Elapsed time" + elapsedTime);
+
+
             if (now.isAfter(elapsedTime)) {
 
                  return true;
