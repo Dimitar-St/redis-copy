@@ -139,14 +139,13 @@ public class EventLoop {
                                     Map<String, Stack<SocketChannel>> commandQueue = new HashMap<>();
                                     commandQueue.put("BLPOP", queue);
                                     waitingClients.put(dataStructure, commandQueue);
+                                    continue;
                                 }
 
-                                if (cl != null) {
-                                    Stack<SocketChannel> cq = cl.computeIfAbsent("BLPOP", k -> new Stack<>());
-                                    cq.add(clientSocket);
+                                Stack<SocketChannel> cq = cl.computeIfAbsent("BLPOP", k -> new Stack<>());
+                                cq.add(clientSocket);
 
-                                    key.cancel();
-                                }
+                                key.cancel();
 
                                 continue;
                             }
