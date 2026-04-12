@@ -1,6 +1,7 @@
 package commands;
 
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 
 public abstract class BaseCommand implements ICommand {
     String[] arguments;
@@ -22,9 +23,9 @@ public abstract class BaseCommand implements ICommand {
             }
         }
         if (arguments.length > 2) {
-            int timeout = Integer.parseInt(arguments[1]);
+            double timeout = Double.parseDouble(arguments[1]);
 
-            elapsedTime = LocalDateTime.now().plusSeconds(timeout);
+            elapsedTime = LocalDateTime.now().plus((long) (timeout / 1000), ChronoUnit.MILLIS);
         }
 
         return false;
