@@ -19,26 +19,29 @@ public class EventLoop {
 
     private Map<String, Map<String, Stack<SocketChannel>>> waitingClients = new HashMap<>();
 
-    private EventLoop() {};
+    private EventLoop() {
+    }
+
+    ;
 
     public static EventLoop initialize(int port) throws IOException {
         EventLoop eventLoop = null;
 
         ServerSocketChannel serverSocket = ServerSocketChannel.open();
-            Selector selector = Selector.open();
+        Selector selector = Selector.open();
 
-            serverSocket.bind(new InetSocketAddress(port));
-            serverSocket.configureBlocking(false);
-            ServerSocket sv = serverSocket.socket();
-            serverSocket.register(selector, SelectionKey.OP_ACCEPT);
+        serverSocket.bind(new InetSocketAddress(port));
+        serverSocket.configureBlocking(false);
+        ServerSocket sv = serverSocket.socket();
+        serverSocket.register(selector, SelectionKey.OP_ACCEPT);
 
-            eventLoop = new EventLoop();
+        eventLoop = new EventLoop();
 
-            eventLoop.serverSocketChannel = serverSocket;
-            eventLoop.selector = selector;
-            eventLoop.parserFactory = new ParserFactory();
+        eventLoop.serverSocketChannel = serverSocket;
+        eventLoop.selector = selector;
+        eventLoop.parserFactory = new ParserFactory();
 
-            System.out.println("Socket server is listening on : " + port + " " + sv.toString());
+        System.out.println("Socket server is listening on : " + port + " " + sv.toString());
 
         return eventLoop;
     }
@@ -52,7 +55,7 @@ public class EventLoop {
         channel.register(selector, SelectionKey.OP_READ, buffer);
     }
 
-    public void run () throws IOException {
+    public void run() throws IOException {
         while (true) {
             selector.select();
             Set<SelectionKey> selectionKeySet = selector.selectedKeys();
@@ -90,45 +93,45 @@ public class EventLoop {
 
                     String response = command.execute();
 
-                    if (command.getArguments().length > 0) {
-                        System.out.println(waitingClients.size());
-                        waitingClients.forEach((dataStructure, currentWaitingClients) -> {
-                                currentWaitingClients.forEach((commandKey, stack) -> {
-                                    BaseCommand waitingCommand = CommandFactory.initialize().newCommand(commandKey);
+                    System.out.println(waitingClients.size());
+                    waitingClients.forEach((dataStructure, currentWaitingClients) -> {
+                        currentWaitingClients.forEach((commandKey, stack) -> {
+                            BaseCommand waitingCommand = CommandFactory.initialize().newCommand(commandKey);
 
-                                    System.out.println();
+                            System.out.println();
 
-                                    while (!stack.empty()) {
-                                        String response2 = waitingCommand.execute();
+                            while (!stack.empty()) {
+                                String response2 = waitingCommand.execute();
 
-                                        if (waitingCommand.isBlocking()) {
-                                            if (response2.equals("not present")) {
-                                                System.out.println("No data present yet.");
-                                                return;
-                                            }
-                                        }
-                                        ByteBuffer responseMessage = ByteBuffer.wrap(response2.getBytes());
-                                        SocketChannel currSocket = stack.pop();
-
-                                        while (responseMessage.hasRemaining()) {
-                                            try {
-                                                currSocket.write(responseMessage);
-                                            } catch (IOException e) {
-                                                throw new RuntimeException(e);
-                                            }
-                                        }
-
-                                        try {
-                                            assert currSocket != null;
-                                            currSocket.register(selector, SelectionKey.OP_READ, ByteBuffer.allocate(1024));
-                                            selector.wakeup();
-                                        } catch (ClosedChannelException e) {
-                                            throw new RuntimeException(e);
-                                        }
+                                if (waitingCommand.isBlocking()) {
+                                    if (response2.equals("not present")) {
+                                        System.out.println("No data present yet.");
+                                        return;
                                     }
-                                });
-                        });
+                                }
+                                ByteBuffer responseMessage = ByteBuffer.wrap(response2.getBytes());
+                                SocketChannel currSocket = stack.pop();
 
+                                while (responseMessage.hasRemaining()) {
+                                    try {
+                                        currSocket.write(responseMessage);
+                                    } catch (IOException e) {
+                                        throw new RuntimeException(e);
+                                    }
+                                }
+
+                                try {
+                                    assert currSocket != null;
+                                    currSocket.register(selector, SelectionKey.OP_READ, ByteBuffer.allocate(1024));
+                                    selector.wakeup();
+                                } catch (ClosedChannelException e) {
+                                    throw new RuntimeException(e);
+                                }
+                            }
+                        });
+                    });
+
+                    if (command.getArguments().length > 0) {
                         String dataStructure = command.getArguments()[0];
                         if (command.isBlocking()) {
                             if (response.equals("not present")) {
