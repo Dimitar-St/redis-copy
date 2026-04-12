@@ -34,7 +34,7 @@ public abstract class BaseCommand implements ICommand {
 
         double timeout = Double.parseDouble(arguments[1]);
 
-        elapsedTime = Instant.now().plus((long) (timeout * 100), ChronoUnit.MILLIS);
+        elapsedTime = Instant.now().plus((long) (timeout * 1000), ChronoUnit.MILLIS);
 
         return false;
     }
