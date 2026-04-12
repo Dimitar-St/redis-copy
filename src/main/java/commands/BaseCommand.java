@@ -28,7 +28,7 @@ public abstract class BaseCommand implements ICommand {
 
         Arrays.stream(arguments).forEach(System.out::println);
 
-        if (arguments.length > 2) {
+        if (arguments.length > 1) {
             System.out.println("checking");
             double timeout = Double.parseDouble(arguments[1]);
 
