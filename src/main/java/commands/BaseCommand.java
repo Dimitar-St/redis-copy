@@ -2,6 +2,7 @@ package commands;
 
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
+import java.util.Arrays;
 
 public abstract class BaseCommand implements ICommand {
     String[] arguments;
@@ -24,6 +25,9 @@ public abstract class BaseCommand implements ICommand {
                  return true;
             }
         }
+
+        Arrays.stream(arguments).forEach(System.out::println);
+
         if (arguments.length > 2) {
             System.out.println("checking");
             double timeout = Double.parseDouble(arguments[1]);
