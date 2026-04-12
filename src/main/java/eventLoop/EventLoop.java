@@ -18,7 +18,7 @@ public class EventLoop {
     private Selector selector;
     private ParserFactory parserFactory;
 
-    private Map<String, Map<String, Stack<SocketChannel>>> waitingClients = new HashMap<>();
+    private Map<String, Map<BaseCommand, Stack<SocketChannel>>> waitingClients = new HashMap<>();
 
     private EventLoop() {
     }
@@ -60,13 +60,12 @@ public class EventLoop {
         while (true) {
 
             waitingClients.forEach((dataStructure, currentWaitingClients) -> {
-                currentWaitingClients.forEach((commandKey, stack) -> {
-                    BaseCommand waitingCommand = CommandFactory.initialize().newCommand(commandKey);
+                currentWaitingClients.forEach((command, stack) -> {
 
                     while (!stack.empty()) {
-                        String response2 = waitingCommand.execute();
+                        String response2 = command.execute();
 
-                        if (waitingCommand.isBlocking()) {
+                        if (command.isBlocking()) {
                             if (response2.equals("not present")) {
 //                                System.out.println("No data present yet.");
                                 continue;
@@ -77,7 +76,7 @@ public class EventLoop {
 
                         System.out.println(response2);
                         System.out.println("Now: " + Instant.now());
-                        System.out.println("Elapsed time: " + waitingCommand.elapsedTime);
+                        System.out.println("Elapsed time: " + command.elapsedTime);
 
                         while (responseMessage.hasRemaining()) {
                             try {
@@ -172,18 +171,18 @@ public class EventLoop {
                         String dataStructure = command.getArguments()[0];
                         if (command.isBlocking()) {
                             if (response.equals("not present")) {
-                                Map<String, Stack<SocketChannel>> cl = waitingClients.get(dataStructure);
+                                Map<BaseCommand, Stack<SocketChannel>> cl = waitingClients.get(dataStructure);
                                 if (cl == null) {
                                     System.out.println("creating it");
                                     Stack<SocketChannel> queue = new Stack<>();
                                     queue.add(clientSocket);
-                                    Map<String, Stack<SocketChannel>> commandQueue = new HashMap<>();
-                                    commandQueue.put("BLPOP", queue);
+                                    Map<BaseCommand, Stack<SocketChannel>> commandQueue = new HashMap<>();
+                                    commandQueue.put(command, queue);
                                     waitingClients.put(dataStructure, commandQueue);
                                     continue;
                                 }
 
-                                Stack<SocketChannel> cq = cl.computeIfAbsent("BLPOP", k -> new Stack<>());
+                                Stack<SocketChannel> cq = cl.computeIfAbsent(command, k -> new Stack<>());
                                 cq.add(clientSocket);
 
                                 key.cancel();

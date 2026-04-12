@@ -4,28 +4,30 @@ import storage.Storage;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.function.Function;
+import java.util.function.Supplier;
 
 public class CommandFactory {
-    private final Map<String, BaseCommand> commands = new HashMap<>();
+    private final Map<String, Supplier<BaseCommand>> commands = new HashMap<>();
     private final Storage storage = new Storage();
 
     private CommandFactory() {
-        commands.put("ECHO", new Echo());
-        commands.put("PING", new Ping());
-        commands.put("SET", new Set(this.storage));
-        commands.put("GET", new Get(this.storage));
-        commands.put("RPUSH", new Rpush(this.storage));
-        commands.put("LRANGE", new Lrange(this.storage));
-        commands.put("LPUSH", new Lpush(this.storage));
-        commands.put("LLEN", new Llen(this.storage));
-        commands.put("LPOP", new Lpop(this.storage));
-        commands.put("BLPOP", new Blop(this.storage));
-        commands.put("simpleString", new SimpleSringCommand());
+        commands.put("ECHO", () -> new Echo());
+        commands.put("PING", () -> new Ping());
+        commands.put("SET", () -> new Set(this.storage));
+        commands.put("GET", () -> new Get(this.storage));
+        commands.put("RPUSH", () -> new Rpush(this.storage));
+        commands.put("LRANGE", () -> new Lrange(this.storage));
+        commands.put("LPUSH", () -> new Lpush(this.storage));
+        commands.put("LLEN", () -> new Llen(this.storage));
+        commands.put("LPOP", () -> new Lpop(this.storage));
+        commands.put("BLPOP", () -> new Blop(this.storage));
+        commands.put("simpleString", () -> new SimpleSringCommand());
     }
 
     public BaseCommand newCommand(String command) {
         if (commands.containsKey(command)) {
-            return commands.get(command);
+            return commands.get(command).get();
         }
         throw new IllegalArgumentException("Unknown command: " + command);
     }
@@ -33,9 +35,9 @@ public class CommandFactory {
     private static CommandFactory singleton;
 
     public static CommandFactory initialize() {
-       if (singleton == null) {
-           singleton = new CommandFactory();
-       }
-       return singleton;
+        if (singleton == null) {
+            singleton = new CommandFactory();
+        }
+        return singleton;
     }
 }
