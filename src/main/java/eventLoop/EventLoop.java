@@ -133,6 +133,7 @@ public class EventLoop {
                             if (response.equals("not present")) {
                                 Map<String, Stack<SocketChannel>> cl = waitingClients.get(dataStructure);
                                 if (cl == null) {
+                                    System.out.println("creating it");
                                     Stack<SocketChannel> queue = new Stack<>();
                                     queue.add(clientSocket);
                                     Map<String, Stack<SocketChannel>> commandQueue = new HashMap<>();
