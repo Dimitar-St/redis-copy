@@ -91,6 +91,7 @@ public class EventLoop {
                     String response = command.execute();
 
                     if (command.getArguments().length > 0) {
+                        System.out.println(waitingClients.size());
                         waitingClients.forEach((dataStructure, currentWaitingClients) -> {
                                 currentWaitingClients.forEach((commandKey, stack) -> {
                                     BaseCommand waitingCommand = CommandFactory.initialize().newCommand(commandKey);
