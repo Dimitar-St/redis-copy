@@ -4,7 +4,6 @@ import storage.Storage;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.function.Function;
 import java.util.function.Supplier;
 
 public class CommandFactory {
@@ -21,7 +20,7 @@ public class CommandFactory {
         commands.put("LPUSH", () -> new Lpush(this.storage));
         commands.put("LLEN", () -> new Llen(this.storage));
         commands.put("LPOP", () -> new Lpop(this.storage));
-        commands.put("BLPOP", () -> new Blop(this.storage));
+        commands.put("BLPOP", () -> new Blpop(this.storage));
         commands.put("simpleString", () -> new SimpleSringCommand());
     }
 

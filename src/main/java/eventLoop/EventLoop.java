@@ -85,20 +85,14 @@ public class EventLoop {
                                 throw new RuntimeException(e);
                             }
                         }
-
-//                        try {
-//                            assert currSocket != null;
-//                            currSocket.register(selector, SelectionKey.OP_READ, ByteBuffer.allocate(1024));
-//                            selector.wakeup();
-//                        } catch (ClosedChannelException e) {
-//                            throw new RuntimeException(e);
-//                        }
                     }
                 });
             });
+
             selector.select();
             Set<SelectionKey> selectionKeySet = selector.selectedKeys();
             Iterator<SelectionKey> iterator = selectionKeySet.iterator();
+
             while (iterator.hasNext()) {
                 SelectionKey key = iterator.next();
 
@@ -138,7 +132,6 @@ public class EventLoop {
                             if (response.equals("not present")) {
                                 Map<BaseCommand, Stack<SocketChannel>> cl = waitingClients.get(dataStructure);
                                 if (cl == null) {
-                                    System.out.println("creating it");
                                     Stack<SocketChannel> queue = new Stack<>();
                                     queue.add(clientSocket);
                                     Map<BaseCommand, Stack<SocketChannel>> commandQueue = new HashMap<>();

@@ -3,13 +3,12 @@ package commands;
 import storage.Storage;
 import storage.Value;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
-public class Blop extends BaseCommand {
+public class Blpop extends BaseCommand {
     private final Storage storage;
 
-    public Blop(Storage storage) {
+    public Blpop(Storage storage) {
         this.storage = storage;
     }
 
@@ -20,7 +19,6 @@ public class Blop extends BaseCommand {
         StringBuilder result = new StringBuilder();
 
         Value value = this.storage.get(key);
-
         if (value != null) {
             List<String> list = (List<String>) value.getValue();
 
