@@ -15,9 +15,6 @@ public class Blop extends BaseCommand {
 
     @Override
     public String execute() {
-        if (isExpired()) {
-            return "*-1\r\n";
-        }
         String key = arguments[0];
 
         StringBuilder result = new StringBuilder();
@@ -28,6 +25,9 @@ public class Blop extends BaseCommand {
             List<String> list = (List<String>) value.getValue();
 
             if (list.isEmpty()) {
+                if (isExpired()) {
+                    return "*-1\r\n";
+                }
                 return "not present";
             }
 
@@ -51,6 +51,9 @@ public class Blop extends BaseCommand {
 
             this.storage.set(key, new Value<List<String>>(list));
         } else {
+            if (isExpired()) {
+                return "*-1\r\n";
+            }
             return "not present";
         }
 
