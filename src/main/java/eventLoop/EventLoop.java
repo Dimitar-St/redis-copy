@@ -68,7 +68,7 @@ public class EventLoop {
                         if (waitingCommand.isBlocking()) {
                             if (response2.equals("not present")) {
                                 System.out.println("No data present yet.");
-                                return;
+                                continue;
                             }
                         }
                         ByteBuffer responseMessage = ByteBuffer.wrap(response2.getBytes());
