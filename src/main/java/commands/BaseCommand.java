@@ -15,6 +15,7 @@ public abstract class BaseCommand implements ICommand {
     }
 
     public boolean isExpired() {
+        System.out.println("checking");
         if (elapsedTime != null) {
             LocalDateTime now = LocalDateTime.now();
 
