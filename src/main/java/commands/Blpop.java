@@ -48,11 +48,15 @@ public class Blpop extends BaseCommand {
                     .append("\r\n");
 
             this.storage.set(key, new Value<List<String>>(list));
-        } else {
-            return "not present";
+            return result.toString();
         }
 
-        return result.toString();
+        if (isExpired()) {
+            System.out.println("list is empty");
+            return "*-1\r\n";
+        }
+
+        return "not present";
     }
 
     @Override
