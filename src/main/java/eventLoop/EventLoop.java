@@ -56,41 +56,44 @@ public class EventLoop {
         channel.register(selector, SelectionKey.OP_READ, buffer);
     }
 
+    private void executePendingCommands() {
+        waitingClients.forEach((dataStructure, currentWaitingClients) -> {
+            currentWaitingClients.forEach((command, stack) -> {
+
+                while (!stack.empty()) {
+                    String response2 = command.execute();
+
+                    if (command.isBlocking()) {
+                        if (response2.equals("not present")) {
+//                                System.out.println("No data present yet.");
+                            continue;
+                        }
+                    }
+                    ByteBuffer responseMessage = ByteBuffer.wrap(response2.getBytes());
+                    SocketChannel currSocket = stack.pop();
+
+                    System.out.println(response2);
+                    System.out.println("Now: " + Instant.now());
+                    System.out.println("Exec: " + command.execTime);
+                    System.out.println("Elapsed time: " + command.elapsedTime);
+
+                    while (responseMessage.hasRemaining()) {
+                        try {
+                            currSocket.write(responseMessage);
+                        } catch (IOException e) {
+                            throw new RuntimeException(e);
+                        }
+                    }
+                }
+            });
+        });
+    }
+
     public void run() throws IOException {
         while (true) {
 
-            waitingClients.forEach((dataStructure, currentWaitingClients) -> {
-                currentWaitingClients.forEach((command, stack) -> {
-
-                    while (!stack.empty()) {
-                        String response2 = command.execute();
-
-                        if (command.isBlocking()) {
-                            if (response2.equals("not present")) {
-//                                System.out.println("No data present yet.");
-                                continue;
-                            }
-                        }
-                        ByteBuffer responseMessage = ByteBuffer.wrap(response2.getBytes());
-                        SocketChannel currSocket = stack.pop();
-
-                        System.out.println(response2);
-                        System.out.println("Now: " + Instant.now());
-                        System.out.println("Exec: " + command.execTime);
-                        System.out.println("Elapsed time: " + command.elapsedTime);
-
-                        while (responseMessage.hasRemaining()) {
-                            try {
-                                currSocket.write(responseMessage);
-                            } catch (IOException e) {
-                                throw new RuntimeException(e);
-                            }
-                        }
-                    }
-                });
-            });
-
             selector.select();
+
             Set<SelectionKey> selectionKeySet = selector.selectedKeys();
             Iterator<SelectionKey> iterator = selectionKeySet.iterator();
 
@@ -126,6 +129,8 @@ public class EventLoop {
                     BaseCommand command = parser.parse(buffer);
 
                     String response = command.execute();
+
+                    this.executePendingCommands();
 
                     if (command.getArguments().length > 0) {
                         String dataStructure = command.getArguments()[0];
