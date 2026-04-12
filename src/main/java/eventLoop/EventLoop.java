@@ -86,13 +86,13 @@ public class EventLoop {
                             }
                         }
 
-                        try {
-                            assert currSocket != null;
-                            currSocket.register(selector, SelectionKey.OP_READ, ByteBuffer.allocate(1024));
-                            selector.wakeup();
-                        } catch (ClosedChannelException e) {
-                            throw new RuntimeException(e);
-                        }
+//                        try {
+//                            assert currSocket != null;
+//                            currSocket.register(selector, SelectionKey.OP_READ, ByteBuffer.allocate(1024));
+//                            selector.wakeup();
+//                        } catch (ClosedChannelException e) {
+//                            throw new RuntimeException(e);
+//                        }
                     }
                 });
             });
