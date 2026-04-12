@@ -20,8 +20,8 @@ public abstract class BaseCommand implements ICommand {
         if (elapsedTime != null) {
             Instant now = Instant.now();
 
-            System.out.println("Now" + now);
-            System.out.println("Elapsed time" + elapsedTime);
+//            System.out.println("Now" + now);
+//            System.out.println("Elapsed time" + elapsedTime);
 
             if (now.isAfter(elapsedTime)) {
                  return true;
@@ -29,12 +29,12 @@ public abstract class BaseCommand implements ICommand {
             return false;
         }
 
-        Arrays.stream(arguments).forEach(System.out::println);
+//        Arrays.stream(arguments).forEach(System.out::println);
 
         if (arguments.length > 1) {
-            System.out.println("checking");
+//            System.out.println("checking");
             double timeout = Double.parseDouble(arguments[1]);
-            System.out.println("Now: " + Instant.now());
+//            System.out.println("Now: " + Instant.now());
 
             elapsedTime = Instant.now().plus((long) (timeout * 100), ChronoUnit.MILLIS);
         }
