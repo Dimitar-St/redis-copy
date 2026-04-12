@@ -1,12 +1,13 @@
 package commands;
 
+import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.Arrays;
 
 public abstract class BaseCommand implements ICommand {
     String[] arguments;
-    LocalDateTime elapsedTime = null;
+    Instant elapsedTime = null;
 
     public void setArguments(String[] arguments) {
         this.arguments = arguments;
@@ -17,7 +18,7 @@ public abstract class BaseCommand implements ICommand {
 
     public boolean isExpired() {
         if (elapsedTime != null) {
-            LocalDateTime now = LocalDateTime.now();
+            Instant now = Instant.now();
 
             System.out.println("Now" + now);
             System.out.println("Elapsed time" + elapsedTime);
@@ -35,7 +36,7 @@ public abstract class BaseCommand implements ICommand {
             System.out.println("checking");
             double timeout = Double.parseDouble(arguments[1]);
 
-            elapsedTime = LocalDateTime.now().plus((long) (timeout / 1000), ChronoUnit.MILLIS);
+            elapsedTime = Instant.now().plus((long) (timeout / 1000), ChronoUnit.MILLIS);
         }
 
         return false;
