@@ -74,6 +74,8 @@ public class EventLoop {
                         ByteBuffer responseMessage = ByteBuffer.wrap(response2.getBytes());
                         SocketChannel currSocket = stack.pop();
 
+                        System.out.println(response2);
+
                         while (responseMessage.hasRemaining()) {
                             try {
                                 currSocket.write(responseMessage);
