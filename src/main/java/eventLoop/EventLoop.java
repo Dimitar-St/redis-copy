@@ -92,9 +92,10 @@ public class EventLoop {
     public void run() throws IOException {
         while (true) {
 
-            this.executePendingCommands();
 
             selector.select();
+
+            this.executePendingCommands();
 
             Set<SelectionKey> selectionKeySet = selector.selectedKeys();
             Iterator<SelectionKey> iterator = selectionKeySet.iterator();
