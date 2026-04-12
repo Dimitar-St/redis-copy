@@ -23,9 +23,7 @@ public abstract class BaseCommand implements ICommand {
             System.out.println("Now" + now);
             System.out.println("Elapsed time" + elapsedTime);
 
-
             if (now.isAfter(elapsedTime)) {
-
                  return true;
             }
             return false;

@@ -99,7 +99,7 @@ public class EventLoop {
 
                                 while (!stack.empty()) {
                                     String response2 = waitingCommand.execute();
-
+                                    System.out.println("tuk");
                                     if (waitingCommand.isBlocking()) {
                                         if (response2.equals("not present")) {
                                             System.out.println("No data present yet.");
