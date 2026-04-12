@@ -92,12 +92,12 @@ public class EventLoop {
 
                     if (command.getArguments().length > 0) {
                         String dataStructure = command.getArguments()[0];
+                        System.out.println("tuk");
                         Map<String, Stack<SocketChannel>> currentWaitingClients = waitingClients.get(dataStructure);
                         if (currentWaitingClients != null) {
                             currentWaitingClients.forEach((commandKey, stack) -> {
                                 BaseCommand waitingCommand = CommandFactory.initialize().newCommand(commandKey);
 
-                                System.out.println("tuk");
                                 while (!stack.empty()) {
                                     String response2 = waitingCommand.execute();
 
