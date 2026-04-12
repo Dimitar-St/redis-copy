@@ -35,6 +35,7 @@ public abstract class BaseCommand implements ICommand {
         if (arguments.length > 1) {
             System.out.println("checking");
             double timeout = Double.parseDouble(arguments[1]);
+            System.out.println("Now: " + Instant.now());
 
             elapsedTime = Instant.now().plus((long) (timeout / 1000), ChronoUnit.MILLIS);
         }
