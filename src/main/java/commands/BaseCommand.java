@@ -28,6 +28,7 @@ public abstract class BaseCommand implements ICommand {
 
                  return true;
             }
+            return false;
         }
 
         Arrays.stream(arguments).forEach(System.out::println);
