@@ -94,12 +94,10 @@ public class EventLoop {
                         String dataStructure = command.getArguments()[0];
                         Map<String, Stack<SocketChannel>> currentWaitingClients = waitingClients.get(dataStructure);
                         if (currentWaitingClients != null) {
-                            currentWaitingClients.forEach((commandKey, queue) -> {
+                            currentWaitingClients.forEach((commandKey, stack) -> {
                                 BaseCommand waitingCommand = CommandFactory.initialize().newCommand(commandKey);
 
-                                while (!queue.empty()) {
-                                    System.out.println("");
-
+                                while (!stack.empty()) {
                                     String response2 = waitingCommand.execute();
 
                                     if (waitingCommand.isBlocking()) {
@@ -109,11 +107,10 @@ public class EventLoop {
                                         }
                                     }
                                     ByteBuffer responseMessage = ByteBuffer.wrap(response2.getBytes());
-                                    SocketChannel currSocket = queue.pop();
+                                    SocketChannel currSocket = stack.pop();
 
                                     while (responseMessage.hasRemaining()) {
                                         try {
-                                            System.out.println("write for socket : " + currSocket.toString());
                                             currSocket.write(responseMessage);
                                         } catch (IOException e) {
                                             throw new RuntimeException(e);

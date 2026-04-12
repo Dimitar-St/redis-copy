@@ -15,57 +15,44 @@ public class Blop extends BaseCommand {
 
     @Override
     public String execute() {
-        String key = arguments[0];
-
-        LocalDateTime elapsedTime = null;
-        if (arguments.length > 2) {
-            int timeout = Integer.parseInt(arguments[1]);
-
-            elapsedTime = LocalDateTime.now().plusSeconds(timeout);
+        if (isExpired()) {
+            return "*-1\r\n";
         }
+        String key = arguments[0];
 
         StringBuilder result = new StringBuilder();
 
-            Value value = this.storage.get(key);
-            if (elapsedTime != null) {
-                LocalDateTime now = LocalDateTime.now();
+        Value value = this.storage.get(key);
 
-                if (now.isAfter(elapsedTime)) {
-                    if (value == null) {
-                        return "*-1\r\n";
-                    }
-                }
-            }
+        if (value != null) {
+            List<String> list = (List<String>) value.getValue();
 
-            if (value != null) {
-                List<String> list = (List<String>) value.getValue();
-
-                if (list.isEmpty()) {
-                    return "not present";
-                }
-
-                String element = list.removeFirst();
-
-                result.append("*")
-                        .append(2)
-                        .append("\r\n");
-
-                result.append("$")
-                        .append(key.length())
-                        .append("\r\n")
-                        .append(key)
-                        .append("\r\n");
-
-                result.append("$")
-                        .append(element.length())
-                        .append("\r\n")
-                        .append(element)
-                        .append("\r\n");
-
-                this.storage.set(key, new Value<List<String>>(list));
-            } else {
+            if (list.isEmpty()) {
                 return "not present";
             }
+
+            String element = list.removeFirst();
+
+            result.append("*")
+                    .append(2)
+                    .append("\r\n");
+
+            result.append("$")
+                    .append(key.length())
+                    .append("\r\n")
+                    .append(key)
+                    .append("\r\n");
+
+            result.append("$")
+                    .append(element.length())
+                    .append("\r\n")
+                    .append(element)
+                    .append("\r\n");
+
+            this.storage.set(key, new Value<List<String>>(list));
+        } else {
+            return "not present";
+        }
 
         return result.toString();
     }
