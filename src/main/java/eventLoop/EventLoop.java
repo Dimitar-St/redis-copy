@@ -93,9 +93,9 @@ public class EventLoop {
 
                     IParser parser = parserFactory.newParser(buffer);
                     BaseCommand command = parser.parse(buffer);
+                    manager.executePendingCommands();
 
                     String response = command.execute();
-                    manager.executePendingCommands();
 
 
                     if (command.getArguments().length > 0) {
