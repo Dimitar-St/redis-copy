@@ -56,7 +56,7 @@ public class EventLoop {
     public void run() throws IOException {
         while (true) {
             // put here
-            manager.executePendingCommands();
+//            manager.executePendingCommands();
 
             selector.select();
 
@@ -95,6 +95,7 @@ public class EventLoop {
                     BaseCommand command = parser.parse(buffer);
 
                     String response = command.execute();
+                    manager.executePendingCommands();
 
 
                     if (command.getArguments().length > 0) {
