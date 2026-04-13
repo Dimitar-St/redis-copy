@@ -1,7 +1,6 @@
 package eventLoop;
 
 import commands.BaseCommand;
-import commands.CommandFactory;
 import parsers.IParser;
 import parsers.ParserFactory;
 
@@ -10,20 +9,16 @@ import java.net.InetSocketAddress;
 import java.net.ServerSocket;
 import java.nio.ByteBuffer;
 import java.nio.channels.*;
-import java.time.Instant;
 import java.util.*;
 
 public class EventLoop {
     private ServerSocketChannel serverSocketChannel;
     private Selector selector;
     private ParserFactory parserFactory;
-
-    private Map<String, Map<BaseCommand, Stack<SocketChannel>>> waitingClients = new HashMap<>();
+    private WaitingClientManager manager;
 
     private EventLoop() {
     }
-
-    ;
 
     public static EventLoop initialize(int port) throws IOException {
         EventLoop eventLoop = null;
@@ -42,6 +37,8 @@ public class EventLoop {
         eventLoop.selector = selector;
         eventLoop.parserFactory = new ParserFactory();
 
+        eventLoop.manager = new WaitingClientManager();
+
         System.out.println("Socket server is listening on : " + port + " " + sv.toString());
 
         return eventLoop;
@@ -56,43 +53,10 @@ public class EventLoop {
         channel.register(selector, SelectionKey.OP_READ, buffer);
     }
 
-    private void executePendingCommands() {
-        waitingClients.forEach((dataStructure, currentWaitingClients) -> {
-            currentWaitingClients.forEach((command, stack) -> {
-
-                while (!stack.empty()) {
-                    String response2 = command.execute();
-
-                    if (command.isBlocking()) {
-                        if (response2.equals("not present")) {
-//                                System.out.println("No data present yet.");
-                            continue;
-                        }
-                    }
-                    ByteBuffer responseMessage = ByteBuffer.wrap(response2.getBytes());
-                    SocketChannel currSocket = stack.pop();
-
-                    System.out.println(response2);
-                    System.out.println("Now: " + Instant.now());
-                    System.out.println("Exec: " + command.execTime);
-                    System.out.println("Elapsed time: " + command.elapsedTime);
-
-                    while (responseMessage.hasRemaining()) {
-                        try {
-                            currSocket.write(responseMessage);
-                        } catch (IOException e) {
-                            throw new RuntimeException(e);
-                        }
-                    }
-                }
-            });
-        });
-    }
-
     public void run() throws IOException {
         while (true) {
-
-            this.executePendingCommands();
+            // put here
+            manager.executePendingCommands();
 
             selector.select();
 
@@ -134,26 +98,8 @@ public class EventLoop {
 
 
                     if (command.getArguments().length > 0) {
-                        String dataStructure = command.getArguments()[0];
-                        if (command.isBlocking()) {
-                            if (response.equals("not present")) {
-                                Map<BaseCommand, Stack<SocketChannel>> cl = waitingClients.get(dataStructure);
-                                if (cl == null) {
-                                    Stack<SocketChannel> queue = new Stack<>();
-                                    queue.add(clientSocket);
-                                    Map<BaseCommand, Stack<SocketChannel>> commandQueue = new HashMap<>();
-                                    commandQueue.put(command, queue);
-                                    waitingClients.put(dataStructure, commandQueue);
-                                    continue;
-                                }
-
-                                Stack<SocketChannel> cq = cl.computeIfAbsent(command, k -> new Stack<>());
-                                cq.add(clientSocket);
-
-                                key.cancel();
-
-                                continue;
-                            }
+                        if (manager.addClient(command, response, clientSocket, key)) {
+                            continue;
                         }
                     }
 
@@ -171,7 +117,6 @@ public class EventLoop {
 
                 iterator.remove();
             }
-
         }
     }
 }
