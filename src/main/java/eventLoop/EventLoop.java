@@ -55,6 +55,8 @@ public class EventLoop {
 
     public void run() throws IOException {
         while (true) {
+
+            manager.executePendingCommands();
             selector.select();
 
             Set<SelectionKey> selectionKeySet = selector.selectedKeys();
@@ -114,7 +116,6 @@ public class EventLoop {
 
                 iterator.remove();
             }
-            manager.executePendingCommands();
         }
     }
 }
