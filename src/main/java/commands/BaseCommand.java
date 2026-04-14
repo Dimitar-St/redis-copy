@@ -14,6 +14,7 @@ public abstract class BaseCommand implements ICommand {
     public long timeout = 0;
     public SocketChannel connection;
     public SelectionKey selectionKey;
+    public boolean timeless;
 
     public void setArguments(String[] arguments) {
         this.arguments = arguments;
@@ -30,6 +31,12 @@ public abstract class BaseCommand implements ICommand {
 
     public void setTime() {
         double timeout = Double.parseDouble(arguments[1]);
+
+        if (timeout == 0.0) {
+            timeless = true;
+            return;
+        }
+
         this.timeout = System.currentTimeMillis() + (long) (timeout * 1000);
     }
 
