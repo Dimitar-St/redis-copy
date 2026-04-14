@@ -56,9 +56,6 @@ public class Blpop extends BaseCommand {
                 this.storage.set(key, new Value<List<String>>(list));
             }
 
-            System.out.println("here");
-            System.out.println(result);
-
             return result.toString();
         }
 

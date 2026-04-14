@@ -42,6 +42,7 @@ public class Rpush extends BaseCommand {
             blockingManager.respondValue(waiter.get(), key, ":" + values.size() + "\r\n");
         }
 
+        System.out.println(":" + values.size() + "\r\n");
         return ":" + values.size() + "\r\n";
     }
 
