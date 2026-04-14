@@ -105,9 +105,9 @@ public class EventLoop {
                     BaseCommand command = parser.parse(buffer);
 
                     command.connection = clientSocket;
+                    command.selectionKey = key;
 
                     String response = command.execute();
-
 
                     if (response.equals("not present")) {
                             continue;

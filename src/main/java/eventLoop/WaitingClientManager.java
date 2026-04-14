@@ -3,6 +3,7 @@ package eventLoop;
 import commands.BaseCommand;
 
 import java.io.IOException;
+import java.nio.channels.SelectionKey;
 import java.nio.channels.SocketChannel;
 import java.util.*;
 
@@ -71,7 +72,7 @@ public class WaitingClientManager {
         }
     }
 
-    public void addClient(BaseCommand command, String response, SocketChannel clientSocket) {
+    public void addClient(BaseCommand command, String response, SocketChannel clientSocket, SelectionKey selectionKey) {
         String dataStructure = command.getArguments()[0];
         if (command.isBlocking() && response.equals("not present")) {
             WaitingClient wClient = new WaitingClient(dataStructure, command, clientSocket);
@@ -80,6 +81,8 @@ public class WaitingClientManager {
             waitingByKey
                     .computeIfAbsent(dataStructure, k -> new ArrayDeque<>())
                     .add(wClient);
+
+            selectionKey.cancel();
         }
     }
 

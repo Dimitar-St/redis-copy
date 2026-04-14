@@ -55,12 +55,11 @@ public class Blpop extends BaseCommand {
             } else {
                 this.storage.set(key, new Value<List<String>>(list));
             }
-            System.out.println("here");
 
             return result.toString();
         }
 
-        this.blockingManager.addClient(this, "not present", this.connection);
+        this.blockingManager.addClient(this, "not present", this.connection, this.selectionKey);
 
         return "not present";
     }

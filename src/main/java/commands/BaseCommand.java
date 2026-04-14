@@ -1,6 +1,7 @@
 package commands;
 
 import java.net.Socket;
+import java.nio.channels.SelectionKey;
 import java.nio.channels.SocketChannel;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
@@ -12,6 +13,7 @@ public abstract class BaseCommand implements ICommand {
     String[] arguments;
     public long timeout = 0;
     public SocketChannel connection;
+    public SelectionKey selectionKey;
 
     public void setArguments(String[] arguments) {
         this.arguments = arguments;
