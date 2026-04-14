@@ -62,7 +62,9 @@ public class WaitingClientManager {
     private void close(WaitingClient client) {
         try {
             client.connection.close();
-        } catch (IOException ignored) {}
+        } catch (IOException ignored) {
+            ignored.printStackTrace();
+        }
     }
 
     public void addClient(BaseCommand command, String response, SocketChannel clientSocket) {
