@@ -48,7 +48,6 @@ public class Blpop extends BaseCommand {
                     .append("\r\n")
                     .append(element)
                     .append("\r\n");
-            System.out.println("here");
 
 
             if (list.isEmpty()) {
@@ -56,6 +55,7 @@ public class Blpop extends BaseCommand {
             } else {
                 this.storage.set(key, new Value<List<String>>(list));
             }
+            System.out.println("here");
 
             return result.toString();
         }

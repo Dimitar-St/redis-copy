@@ -48,6 +48,11 @@ public class WaitingClientManager {
             if (client.completed) continue;
 
             client.completed = true;
+
+            if (queue.isEmpty()) {
+                waitingByKey.remove(key);
+            }
+
             return Optional.of(client);
         }
 
