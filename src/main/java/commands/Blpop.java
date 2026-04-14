@@ -57,6 +57,7 @@ public class Blpop extends BaseCommand {
             }
 
             System.out.println("here");
+            System.out.println(result);
 
             return result.toString();
         }
