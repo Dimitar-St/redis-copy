@@ -60,7 +60,9 @@ public class EventLoop {
             long now = System.currentTimeMillis();
             long timeout = manager.nextDeadline(now);
 
-            if (timeout <= 0) {
+            if (timeout == 0) {
+                selector.select();
+            } else if (timeout < 0) {
                 // timeout already expired → DO NOT BLOCK
                 selector.selectNow();
             } else {
