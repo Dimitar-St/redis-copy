@@ -16,6 +16,7 @@ public class WaitingClientManager {
 
     public WaitingClientManager() {}
 
+
     public void executePendingCommands() {
         waitingClients.forEach((dataStructure, currentWaitingClients) -> {
             currentWaitingClients.forEach((command, stack) -> {
