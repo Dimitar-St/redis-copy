@@ -19,62 +19,12 @@ public class WaitingClientManager {
 
     public WaitingClientManager() {}
 
-//    class BlockingManager {
-//        PriorityQueue<WaitingClient> heap;
-//
-//        void register(WaitingClient client) {
-//            heap.add(client);
-//        }
-//
-//        void handleTimeouts(long now) {
-//            while (!heap.isEmpty() && heap.peek().deadline <= now) {
-//                WaitingClient client = heap.poll();
-//
-//                if (client.completed) continue;
-//
-//                respondNull(client);
-//            }
-//        }
-//
-//        long nextDeadline(long now) {
-//            if (heap.isEmpty()) return 0;
-//            return Math.max(0, heap.peek().deadline - now);
-//        }
-//    }
-
     long nextDeadline(long now) {
         if (clients.isEmpty())
             return 0;
 
         return Math.max(0, clients.peek().command.elapsedTime.getLong(ChronoField.MICRO_OF_SECOND) - now);
     }
-
-//    public void executePendingCommands() {
-//        waitingClients.forEach((dataStructure, currentWaitingClients) -> {
-//            currentWaitingClients.forEach((command, stack) -> {
-//
-//                while (!stack.empty()) {
-//                    String response = command.execute();
-//
-//                    if (command.isBlocking()) {
-//                        if (response.equals("not present")) {
-//                            continue;
-//                        }
-//                    }
-//                    ByteBuffer responseMessage = ByteBuffer.wrap(response.getBytes());
-//                    SocketChannel currSocket = stack.pop();
-//
-//                    while (responseMessage.hasRemaining()) {
-//                        try {
-//                            currSocket.write(responseMessage);
-//                        } catch (IOException e) {
-//                            throw new RuntimeException(e);
-//                        }
-//                    }
-//                }
-//            });
-//        });
-//    }
 
     public void handleTimeouts(long now) {
         if (clients.isEmpty())

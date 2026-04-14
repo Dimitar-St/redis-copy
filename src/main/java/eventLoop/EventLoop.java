@@ -62,7 +62,7 @@ public class EventLoop {
 
             selector.select(timeout);
 
-            manager.handleTimeouts(System.currentTimeMillis());
+            manager.handleTimeouts(now);
 
             Set<SelectionKey> selectionKeySet = selector.selectedKeys();
             Iterator<SelectionKey> iterator = selectionKeySet.iterator();
