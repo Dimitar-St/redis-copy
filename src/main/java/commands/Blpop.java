@@ -32,7 +32,6 @@ public class Blpop extends BaseCommand {
             }
 
             String element = list.removeFirst();
-            System.out.println("here");
 
             result.append("*")
                     .append(2)
@@ -49,6 +48,7 @@ public class Blpop extends BaseCommand {
                     .append("\r\n")
                     .append(element)
                     .append("\r\n");
+            System.out.println("here");
 
 
             if (list.isEmpty()) {
