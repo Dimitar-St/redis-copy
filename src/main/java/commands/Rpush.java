@@ -35,6 +35,7 @@ public class Rpush extends BaseCommand {
             }
             this.storage.set(key, new Value<>(values));
         }
+        int currentSize = values.size();
 
         Optional<WaitingClient> waiter = blockingManager.tryResolve(key);
 
@@ -42,8 +43,8 @@ public class Rpush extends BaseCommand {
             blockingManager.respondValue(waiter.get(), key, ":" + values.size() + "\r\n");
         }
 
-        System.out.println(":" + values.size() + "\r\n");
-        return ":" + values.size() + "\r\n";
+        System.out.println(":" + currentSize + "\r\n");
+        return ":" + currentSize + "\r\n";
     }
 
     @Override
