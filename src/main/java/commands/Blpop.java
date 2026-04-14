@@ -28,6 +28,7 @@ public class Blpop extends BaseCommand {
             List<String> list = (List<String>) value.getValue();
 
             if (list.isEmpty()) {
+                System.out.println("here");
                 return "not present";
             }
 
@@ -49,7 +50,6 @@ public class Blpop extends BaseCommand {
                     .append(element)
                     .append("\r\n");
 
-            System.out.println("here");
 
             if (list.isEmpty()) {
                 this.storage.remove(key);
