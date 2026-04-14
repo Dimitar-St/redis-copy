@@ -48,8 +48,12 @@ public class Blpop extends BaseCommand {
                     .append("\r\n")
                     .append(element)
                     .append("\r\n");
+            if (list.isEmpty()) {
+                this.storage.remove(key);
+            } else {
+                this.storage.set(key, new Value<List<String>>(list));
+            }
 
-            this.storage.set(key, new Value<List<String>>(list));
             return result.toString();
         }
 

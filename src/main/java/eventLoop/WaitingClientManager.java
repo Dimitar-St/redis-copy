@@ -23,14 +23,14 @@ public class WaitingClientManager {
         if (clients.isEmpty())
             return 0;
 
-        return Math.max(0, clients.peek().command.elapsedTime.getLong(ChronoField.MILLI_OF_SECOND) - now);
+        return Math.max(0, clients.peek().command.timeout - now);
     }
 
     public void handleTimeouts(long now) {
         if (clients.isEmpty())
             return;
 
-        while (!clients.isEmpty() && clients.peek().command.elapsedTime.getLong(ChronoField.MILLI_OF_SECOND) <= now) {
+        while (!clients.isEmpty() && clients.peek().command.timeout <= now) {
             WaitingClient client = clients.poll();
 
             assert client != null;

@@ -15,6 +15,10 @@ public class Storage {
         cache.put(key, value);
     }
 
+    public void remove(String key) {
+        cache.remove(key);
+    }
+
     public void set(String key, Value content) {
         cache.put(key, content);
     }
