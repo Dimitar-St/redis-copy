@@ -1,6 +1,7 @@
 package eventLoop;
 
 import commands.BaseCommand;
+import commands.CommandFactory;
 import parsers.IParser;
 import parsers.ParserFactory;
 
@@ -37,7 +38,7 @@ public class EventLoop {
         eventLoop.selector = selector;
         eventLoop.parserFactory = new ParserFactory();
 
-        eventLoop.manager = new WaitingClientManager();
+        eventLoop.manager = CommandFactory.initialize().blockingManager;
 
         System.out.println("Socket server is listening on : " + port + " " + sv.toString());
 
@@ -56,8 +57,12 @@ public class EventLoop {
     public void run() throws IOException {
         while (true) {
 
-            manager.executePendingCommands();
-            selector.select();
+            long now = System.currentTimeMillis();
+            long timeout = manager.nextDeadline(now);
+
+            selector.select(timeout);
+
+            manager.handleTimeouts(System.currentTimeMillis());
 
             Set<SelectionKey> selectionKeySet = selector.selectedKeys();
             Iterator<SelectionKey> iterator = selectionKeySet.iterator();
@@ -93,18 +98,16 @@ public class EventLoop {
                     IParser parser = parserFactory.newParser(buffer);
                     BaseCommand command = parser.parse(buffer);
 
+                    command.connection = clientSocket;
+
                     String response = command.execute();
 
 
-                    if (command.getArguments().length > 0) {
-                        if (manager.addClient(command, response, clientSocket, key)) {
+                    if (response.equals("not present")) {
                             continue;
-                        }
                     }
 
 
-                    System.out.println("Response");
-                    System.out.println(response);
                     ByteBuffer responseMessage = ByteBuffer.wrap(response.getBytes());
 
                     while (responseMessage.hasRemaining()) {

@@ -1,16 +1,21 @@
 package commands;
 
+import eventLoop.WaitingClient;
+import eventLoop.WaitingClientManager;
 import storage.Storage;
 import storage.Value;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class Rpush extends BaseCommand {
     private final Storage storage;
+    private final WaitingClientManager blockingManager;
 
-    public Rpush(Storage storage) {
+    public Rpush(Storage storage, WaitingClientManager blockingManager) {
        this.storage = storage;
+       this.blockingManager = blockingManager;
     }
 
     @Override
@@ -29,6 +34,13 @@ public class Rpush extends BaseCommand {
                 values.add(arguments[i]);
             }
             this.storage.set(key, new Value<>(values));
+        }
+
+        Optional<WaitingClient> waiter = blockingManager.tryResolve(key);
+
+        if (waiter.isPresent()) {
+            blockingManager.respondValue(waiter.get(), key, ":" + values.size() + "\r\n");
+            return null; // already handled
         }
 
         return ":" + values.size() + "\r\n";

@@ -1,5 +1,7 @@
 package commands;
 
+import java.net.Socket;
+import java.nio.channels.SocketChannel;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.Arrays;
@@ -10,6 +12,8 @@ public abstract class BaseCommand implements ICommand {
     String[] arguments;
     public Instant elapsedTime = null;
     public Instant execTime = null;
+    public long timeout = 0;
+    public SocketChannel connection;
 
     public void setArguments(String[] arguments) {
         this.arguments = arguments;
@@ -37,7 +41,8 @@ public abstract class BaseCommand implements ICommand {
             return;
         }
         double timeout = Double.parseDouble(arguments[1]);
-        elapsedTime = Instant.now().plus((long) (timeout * 1000), ChronoUnit.MILLIS);
+        this.timeout = (long) (timeout * 1000);
+        elapsedTime = Instant.now().plus((long) timeout, ChronoUnit.MILLIS);
         execTime = Instant.now();
     }
 
