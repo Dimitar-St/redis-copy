@@ -34,7 +34,6 @@ public class WaitingClientManager {
             if (client.completed) continue;
 
             client.completed = true;
-            System.out.println("it expired");
             client.responseWithNull();
         }
     }
