@@ -3,18 +3,21 @@ package eventLoop;
 import commands.BaseCommand;
 
 import java.io.IOException;
+import java.nio.Buffer;
+import java.nio.ByteBuffer;
 import java.nio.channels.SelectionKey;
 import java.nio.channels.SocketChannel;
 import java.util.*;
 
 public class WaitingClientManager {
-//    private Map<String, Map<BaseCommand, Stack<SocketChannel>>> waitingClients = new HashMap<>();
+    //    private Map<String, Map<BaseCommand, Stack<SocketChannel>>> waitingClients = new HashMap<>();
     private final PriorityQueue<WaitingClient> clients = new PriorityQueue<>((f, s) ->
-       Math.toIntExact(f.command.timeout - s.command.timeout));
+            Math.toIntExact(f.command.timeout - s.command.timeout));
 
     private final Map<String, Deque<WaitingClient>> waitingByKey = new HashMap<>();
 
-    public WaitingClientManager() {}
+    public WaitingClientManager() {
+    }
 
     long nextDeadline(long now) {
         if (clients.isEmpty())
@@ -38,7 +41,7 @@ public class WaitingClientManager {
         }
     }
 
-     public Optional<WaitingClient> tryResolve(String key) {
+    public Optional<WaitingClient> tryResolve(String key) {
         Deque<WaitingClient> queue = waitingByKey.get(key);
 
         if (queue == null) return Optional.empty();
@@ -59,9 +62,21 @@ public class WaitingClientManager {
 
         return Optional.empty();
     }
-    public void respondValue(WaitingClient client, String key, String value) {
-            client.command.execute();
-            this.close(client);
+
+    public void respondValue(WaitingClient client, String key, String value)  {
+        String response = client.command.execute();
+
+        ByteBuffer buff = ByteBuffer.wrap(response.getBytes());
+
+        while (buff.hasRemaining()) {
+            try {
+                client.connection.write(buff);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        this.close(client);
     }
 
     private void close(WaitingClient client) {
