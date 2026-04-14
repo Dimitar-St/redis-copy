@@ -23,7 +23,7 @@ public class WaitingClientManager {
         if (clients.isEmpty())
             return 0;
 
-        return Math.max(0, clients.peek().command.elapsedTime.getLong(ChronoField.MICRO_OF_SECOND) - now);
+        return Math.max(0, clients.peek().command.elapsedTime.getLong(ChronoField.MILLI_OF_SECOND) - now);
     }
 
     public void handleTimeouts(long now) {
@@ -58,20 +58,8 @@ public class WaitingClientManager {
         return Optional.empty();
     }
     public void respondValue(WaitingClient client, String key, String value) {
-        try {
-            String response =
-                    "*2\r\n" +
-                            "$" + key.length() + "\r\n" + key + "\r\n" +
-                            "$" + value.length() + "\r\n" + value + "\r\n";
-
-            ByteBuffer buffer = ByteBuffer.wrap(response.getBytes());
-
-            while (buffer.hasRemaining()) {
-                client.connection.write(buffer);
-            }
-        } catch (IOException e) {
-            close(client);
-        }
+            client.command.execute();
+            this.close(client);
     }
 
     private void close(WaitingClient client) {
