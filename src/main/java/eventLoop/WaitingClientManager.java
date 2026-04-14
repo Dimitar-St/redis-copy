@@ -54,7 +54,6 @@ public class WaitingClientManager {
         return Optional.empty();
     }
     public void respondValue(WaitingClient client, String key, String value) {
-            System.out.println("here");
             client.command.execute();
             this.close(client);
     }
