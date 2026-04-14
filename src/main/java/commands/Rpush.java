@@ -40,7 +40,6 @@ public class Rpush extends BaseCommand {
 
         if (waiter.isPresent()) {
             blockingManager.respondValue(waiter.get(), key, ":" + values.size() + "\r\n");
-            return null; // already handled
         }
 
         return ":" + values.size() + "\r\n";
