@@ -28,11 +28,11 @@ public class Blpop extends BaseCommand {
             List<String> list = (List<String>) value.getValue();
 
             if (list.isEmpty()) {
-                System.out.println("here");
                 return "not present";
             }
 
             String element = list.removeFirst();
+            System.out.println("here");
 
             result.append("*")
                     .append(2)
