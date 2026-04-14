@@ -3,16 +3,12 @@ package eventLoop;
 import commands.BaseCommand;
 
 import java.io.IOException;
-import java.nio.ByteBuffer;
-import java.nio.channels.SelectionKey;
 import java.nio.channels.SocketChannel;
-import java.time.Instant;
-import java.time.temporal.ChronoField;
 import java.util.*;
 
 public class WaitingClientManager {
 //    private Map<String, Map<BaseCommand, Stack<SocketChannel>>> waitingClients = new HashMap<>();
-    private PriorityQueue<WaitingClient> clients = new PriorityQueue<>((f, s) ->
+    private final PriorityQueue<WaitingClient> clients = new PriorityQueue<>((f, s) ->
        Math.toIntExact(f.command.timeout - s.command.timeout));
 
     private final Map<String, Deque<WaitingClient>> waitingByKey = new HashMap<>();
@@ -23,7 +19,7 @@ public class WaitingClientManager {
         if (clients.isEmpty())
             return 0;
 
-        return Math.max(0, clients.peek().command.timeout - now);
+        return clients.peek().command.timeout - now;
     }
 
     public void handleTimeouts(long now) {
@@ -68,7 +64,7 @@ public class WaitingClientManager {
         } catch (IOException ignored) {}
     }
 
-    public boolean addClient(BaseCommand command, String response, SocketChannel clientSocket) {
+    public void addClient(BaseCommand command, String response, SocketChannel clientSocket) {
         String dataStructure = command.getArguments()[0];
         if (command.isBlocking() && response.equals("not present")) {
             WaitingClient wClient = new WaitingClient(dataStructure, command, clientSocket);
@@ -77,11 +73,7 @@ public class WaitingClientManager {
             waitingByKey
                     .computeIfAbsent(dataStructure, k -> new ArrayDeque<>())
                     .add(wClient);
-
-
-            return true;
         }
-        return false;
     }
 
 }

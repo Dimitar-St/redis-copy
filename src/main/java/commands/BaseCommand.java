@@ -10,8 +10,6 @@ import java.util.Objects;
 public abstract class BaseCommand implements ICommand {
     String name;
     String[] arguments;
-    public Instant elapsedTime = null;
-    public Instant execTime = null;
     public long timeout = 0;
     public SocketChannel connection;
 
@@ -27,23 +25,10 @@ public abstract class BaseCommand implements ICommand {
         return arguments;
     }
 
-    public boolean isExpired() {
-        Instant now = Instant.now();
-
-        if (now.isAfter(elapsedTime)) {
-            return true;
-        }
-        return false;
-    }
 
     public void setTime() {
-        if (elapsedTime != null) {
-            return;
-        }
         double timeout = Double.parseDouble(arguments[1]);
         this.timeout = System.currentTimeMillis() + (long) (timeout * 1000);
-        elapsedTime = Instant.now().plus((long) timeout, ChronoUnit.MILLIS);
-        execTime = Instant.now();
     }
 
     @Override
