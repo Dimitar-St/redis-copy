@@ -37,7 +37,7 @@ public class Type extends BaseCommand {
 
             System.out.println(type);
 
-            return "+"+ type + "\r\n";
+            return "+"+ type.reverse().toString().toLowerCase() + "\r\n";
         }
 
         return "+none\r\n";
