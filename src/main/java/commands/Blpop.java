@@ -1,7 +1,6 @@
 package commands;
 
-import eventLoop.WaitingClient;
-import eventLoop.WaitingClientManager;
+import eventLoop.BlockingClientManager;
 import storage.Storage;
 import storage.Value;
 
@@ -9,9 +8,9 @@ import java.util.List;
 
 public class Blpop extends BaseCommand {
     private final Storage storage;
-    private final WaitingClientManager blockingManager;
+    private final BlockingClientManager blockingManager;
 
-    public Blpop(Storage storage, WaitingClientManager blockingManager) {
+    public Blpop(Storage storage, BlockingClientManager blockingManager) {
         this.storage = storage;
         this.blockingManager = blockingManager;
     }

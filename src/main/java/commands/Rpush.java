@@ -1,7 +1,7 @@
 package commands;
 
 import eventLoop.WaitingClient;
-import eventLoop.WaitingClientManager;
+import eventLoop.BlockingClientManager;
 import storage.Storage;
 import storage.Value;
 
@@ -11,9 +11,9 @@ import java.util.Optional;
 
 public class Rpush extends BaseCommand {
     private final Storage storage;
-    private final WaitingClientManager blockingManager;
+    private final BlockingClientManager blockingManager;
 
-    public Rpush(Storage storage, WaitingClientManager blockingManager) {
+    public Rpush(Storage storage, BlockingClientManager blockingManager) {
        this.storage = storage;
        this.blockingManager = blockingManager;
     }

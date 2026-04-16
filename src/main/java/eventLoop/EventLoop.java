@@ -16,7 +16,7 @@ public class EventLoop {
     private ServerSocketChannel serverSocketChannel;
     private Selector selector;
     private ParserFactory parserFactory;
-    private WaitingClientManager manager;
+    private BlockingClientManager manager;
 
     private EventLoop() {
     }
@@ -63,12 +63,10 @@ public class EventLoop {
             if (timeout == 0) {
                 selector.select();
             } else if (timeout < 0) {
-                // timeout already expired → DO NOT BLOCK
                 selector.selectNow();
             } else {
                 selector.select(timeout);
             }
-
 
             manager.handleTimeouts(now);
 

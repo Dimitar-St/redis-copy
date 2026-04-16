@@ -1,6 +1,6 @@
 package commands;
 
-import eventLoop.WaitingClientManager;
+import eventLoop.BlockingClientManager;
 import storage.Storage;
 
 import java.util.HashMap;
@@ -9,7 +9,7 @@ import java.util.function.Supplier;
 
 public class CommandFactory {
     private final Map<String, Supplier<BaseCommand>> commands = new HashMap<>();
-    public  final WaitingClientManager blockingManager = new WaitingClientManager();
+    public  final BlockingClientManager blockingManager = new BlockingClientManager();
     private final Storage storage = new Storage();
 
     private CommandFactory() {
@@ -24,6 +24,7 @@ public class CommandFactory {
         commands.put("LPOP", () -> new Lpop(this.storage));
         commands.put("BLPOP", () -> new Blpop(this.storage, blockingManager));
         commands.put("simpleString", () -> new SimpleSringCommand());
+        commands.put("TYPE", () -> new Type());
     }
 
     public BaseCommand newCommand(String command) {

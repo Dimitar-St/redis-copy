@@ -3,38 +3,39 @@ package eventLoop;
 import commands.BaseCommand;
 
 import java.io.IOException;
-import java.nio.Buffer;
 import java.nio.ByteBuffer;
 import java.nio.channels.SelectionKey;
 import java.nio.channels.SocketChannel;
 import java.util.*;
 
-public class WaitingClientManager {
-    //    private Map<String, Map<BaseCommand, Stack<SocketChannel>>> waitingClients = new HashMap<>();
+public class BlockingClientManager {
     private final PriorityQueue<WaitingClient> clients = new PriorityQueue<>((f, s) ->
             Math.toIntExact(f.command.timeout - s.command.timeout));
 
     private final Map<String, Deque<WaitingClient>> waitingByKey = new HashMap<>();
 
-    public WaitingClientManager() {
+    public BlockingClientManager() {
     }
 
     long nextDeadline(long now) {
-        if (clients.isEmpty())
+        if (clients.isEmpty()) {
             return 0;
+        }
 
         return clients.peek().command.timeout - now;
     }
 
     public void handleTimeouts(long now) {
-        if (clients.isEmpty())
+        if (clients.isEmpty()) {
             return;
+        }
 
         while (!clients.isEmpty() && clients.peek().command.timeout <= now) {
             WaitingClient client = clients.poll();
 
-            assert client != null;
-            if (client.completed) continue;
+            if (client.completed) {
+                continue;
+            }
 
             client.completed = true;
             client.responseWithNull();
@@ -44,12 +45,16 @@ public class WaitingClientManager {
     public Optional<WaitingClient> tryResolve(String key) {
         Deque<WaitingClient> queue = waitingByKey.get(key);
 
-        if (queue == null) return Optional.empty();
+        if (queue == null) {
+            return Optional.empty();
+        }
 
         while (!queue.isEmpty()) {
             WaitingClient client = queue.poll();
 
-            if (client.completed) continue;
+            if (client.completed) {
+                continue;
+            }
 
             client.completed = true;
 
