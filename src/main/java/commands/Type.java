@@ -22,15 +22,22 @@ public class Type extends BaseCommand {
 
         if (value != null) {
 
-            String[] tyepPath = value.getValue().getClass().getName().split(".");
+            String tyepPath = value.getValue().getClass().getName();
+
+            StringBuilder type = new StringBuilder();
 
 
-            System.out.println(Arrays.toString(tyepPath));
+            for (int i = tyepPath.length()-1; i >= 0; i--) {
+                if (tyepPath.charAt(i) == '.') {
+                    break;
+                }
+                type.append(tyepPath.charAt(i));
+            }
 
-            Arrays.stream(tyepPath)
-                    .forEach(System.out::println);
 
-            return "+"+ tyepPath[tyepPath.length-1] + "\r\n";
+            System.out.println(type);
+
+            return "+"+ type + "\r\n";
         }
 
         return "+none\r\n";
