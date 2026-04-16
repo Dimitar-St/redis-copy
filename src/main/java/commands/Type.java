@@ -22,7 +22,7 @@ public class Type extends BaseCommand {
 
         if (value != null) {
 
-            String[] tyepPath = value.getValue().getClass().getName().toLowerCase().split(".");
+            String[] tyepPath = ".".split(value.getValue().getClass().getName().toLowerCase());
 
 
             System.out.println(value.getValue().getClass().getName());
