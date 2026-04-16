@@ -24,6 +24,9 @@ public class Type extends BaseCommand {
 
             String[] tyepPath = value.getValue().getClass().getName().toLowerCase().split(".");
 
+
+            System.out.println(value.getValue().getClass().getName());
+
             Arrays.stream(tyepPath)
                     .forEach(System.out::println);
 
