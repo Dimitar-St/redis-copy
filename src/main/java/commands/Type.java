@@ -22,10 +22,10 @@ public class Type extends BaseCommand {
 
         if (value != null) {
 
-            String[] tyepPath = ".".split(value.getValue().getClass().getName().toLowerCase());
+            String[] tyepPath = value.getValue().getClass().getName().toLowerCase().split(".");
 
 
-            System.out.println(value.getValue().getClass().getName());
+            System.out.println(tyepPath);
 
             Arrays.stream(tyepPath)
                     .forEach(System.out::println);
