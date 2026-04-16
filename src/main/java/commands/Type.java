@@ -4,6 +4,8 @@ import eventLoop.BlockingClientManager;
 import storage.Storage;
 import storage.Value;
 
+import java.util.Arrays;
+
 public class Type extends BaseCommand {
 
     private final Storage storage;
@@ -20,9 +22,10 @@ public class Type extends BaseCommand {
 
         if (value != null) {
 
-            String type = value.getValue().getClass().getName().toLowerCase();
+            String[] tyepPath = value.getValue().getClass().getName().toLowerCase().split(".");
 
-            return "+"+ type + "\r\n";
+
+            return "+"+ tyepPath[tyepPath.length-1] + "\r\n";
         }
 
         return "+none\r\n";
