@@ -42,7 +42,7 @@ public class Xadd extends BaseCommand {
             content.put(streamID, block);
             this.storage.set(streamKey, newStream);
 
-            return "+" + this.arguments[1] + "\r\n";
+            return "$" + this.arguments[1].length() + "\r\n" + this.arguments[1] + "\r\n";
         }
 
         TreeMap<StreamID, Block> content = (TreeMap<StreamID, Block>) value.getValue();
@@ -67,7 +67,7 @@ public class Xadd extends BaseCommand {
 
         content.put(streamID, block);
 
-        return "+" + this.arguments[1] + "\r\n";
+        return "$" + this.arguments[1].length() + "\r\n" + this.arguments[1] + "\r\n";
     }
 
     @Override
