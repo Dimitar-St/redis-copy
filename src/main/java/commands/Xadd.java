@@ -3,6 +3,7 @@ package commands;
 import storage.Storage;
 import storage.Value;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.TreeMap;
@@ -27,8 +28,14 @@ public class Xadd extends BaseCommand {
             StreamID streamID = new StreamID(this.arguments[1]);
             Block block = new Block();
 
-            List<String> data = Arrays.stream(arguments, 2, arguments.length)
-                    .toList();
+            List<String> list = new ArrayList<>();
+            String[] array = arguments;
+            int bound = arguments.length;
+            for (int i = 2; i < bound; i++) {
+                String s = array[i];
+                list.add(s);
+            }
+            List<String> data = new ArrayList(list);
 
             block.setFields(data);
 
@@ -43,8 +50,18 @@ public class Xadd extends BaseCommand {
         StreamID streamID = new StreamID(this.arguments[1]);
         Block block = new Block();
 
-        List<String> data = Arrays.stream(arguments, 2, arguments.length)
-                .toList();
+        List<String> data = new ArrayList<>(Arrays.stream(arguments, 2, arguments.length)
+                .toList());
+
+        List<String> list = new ArrayList<>();
+        String[] array = arguments;
+        int bound = arguments.length;
+        for (int i = 2; i < bound; i++) {
+            String s = array[i];
+            list.add(s);
+        }
+
+        data.addAll(new ArrayList(list));
 
         block.setFields(data);
 
