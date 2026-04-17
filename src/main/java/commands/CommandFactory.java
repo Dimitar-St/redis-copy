@@ -25,6 +25,7 @@ public class CommandFactory {
         commands.put("BLPOP", () -> new Blpop(this.storage, blockingManager));
         commands.put("simpleString", () -> new SimpleSringCommand());
         commands.put("TYPE", () -> new Type(this.storage));
+        commands.put("XADD", () -> new Xadd(this.storage));
     }
 
     public BaseCommand newCommand(String command) {

@@ -22,22 +22,24 @@ public class Type extends BaseCommand {
 
         if (value != null) {
 
-            String tyepPath = value.getValue().getClass().getName();
+            String typePath = value.getValue().getClass().getName();
 
             StringBuilder type = new StringBuilder();
 
-
-            for (int i = tyepPath.length()-1; i >= 0; i--) {
-                if (tyepPath.charAt(i) == '.') {
+            for (int i = typePath.length()-1; i >= 0; i--) {
+                if (typePath.charAt(i) == '.') {
                     break;
                 }
-                type.append(tyepPath.charAt(i));
+                type.append(typePath.charAt(i));
             }
 
+            String typeLower = type.reverse().toString().toLowerCase();
 
-            System.out.println(type);
+            if (typeLower.contains("treemap")) {
+                return "+" + "stream" + "\r\n";
+            }
 
-            return "+"+ type.reverse().toString().toLowerCase() + "\r\n";
+            return "+"+ typeLower + "\r\n";
         }
 
         return "+none\r\n";

@@ -15,6 +15,9 @@ public class Value<V> {
         this.options = options;
     }
 
+    public Value() {
+    }
+
     public boolean isInvalid() {
         if (options == null)
             return false;
