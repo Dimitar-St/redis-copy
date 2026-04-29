@@ -21,11 +21,15 @@ public class Xadd extends BaseCommand {
         String streamKey = this.arguments[0];
 
         Value value = this.storage.get(streamKey);
+        StreamID streamID = new StreamID(this.arguments[1]);
+        if (streamID.equals(new StreamID("0-0"))) {
+            return "-ERR he ID specified in XADD must be greater than 0-0\r\n";
+        }
+
         if (value == null) {
             TreeMap<StreamID, Block> content = new TreeMap<>();
             Value<TreeMap<StreamID, Block>> newStream = new Value<>(content);
 
-            StreamID streamID = new StreamID(this.arguments[1]);
             Block block = new Block();
 
             List<String> list = new ArrayList<>();
@@ -47,7 +51,11 @@ public class Xadd extends BaseCommand {
 
         TreeMap<StreamID, Block> content = (TreeMap<StreamID, Block>) value.getValue();
 
-        StreamID streamID = new StreamID(this.arguments[1]);
+
+        if (content.containsKey(streamID)) {
+            return "-ERR The ID specified in XADD is equal or smaller than the target stream top item. \r\n";
+        }
+
         Block block = new Block();
 
         List<String> data = new ArrayList<>(Arrays.stream(arguments, 2, arguments.length)

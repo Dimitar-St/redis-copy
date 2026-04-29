@@ -6,7 +6,11 @@ import java.util.Objects;
 public class StreamID implements Comparable {
     private String id;
 
+    private Long timestamp;
+    private Long counter;
+
     public StreamID(String id) {
+//        this.timestamp = System.currentTimeMillis()
         this.id = id;
     }
 
