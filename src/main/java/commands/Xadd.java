@@ -52,7 +52,7 @@ public class Xadd extends BaseCommand {
         TreeMap<StreamID, Block> content = (TreeMap<StreamID, Block>) value.getValue();
 
         StreamID lastID = content.lastKey();
-        if (content.containsKey(streamID) || lastID.compareTo(streamID) < 0) {
+        if (content.containsKey(streamID) || lastID.compareTo(streamID) > 0) {
             return "-ERR The ID specified in XADD is equal or smaller than the target stream top item\r\n";
         }
 
