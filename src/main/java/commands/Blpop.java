@@ -52,7 +52,7 @@ public class Blpop extends BaseCommand {
             if (list.isEmpty()) {
                 this.storage.remove(key);
             } else {
-                this.storage.set(key, new Value<List<String>>(list));
+                this.storage.set(key, new Value<>(list));
             }
 
             return result.toString();
