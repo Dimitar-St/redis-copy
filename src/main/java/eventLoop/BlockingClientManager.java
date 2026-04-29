@@ -30,7 +30,7 @@ public class BlockingClientManager {
             return;
         }
 
-        while (!clients.isEmpty() && clients.peek().command.timeout < now) {
+        while (!clients.isEmpty() && clients.peek().command.timeout <= now) {
             WaitingClient client = clients.poll();
 
             if (client.completed) {
@@ -38,6 +38,7 @@ public class BlockingClientManager {
             }
 
             client.completed = true;
+            System.out.println("timeouted");
             client.responseWithNull();
         }
     }
