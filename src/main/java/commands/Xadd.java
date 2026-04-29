@@ -53,7 +53,7 @@ public class Xadd extends BaseCommand {
 
 
         if (content.containsKey(streamID)) {
-            return "-ERR The ID specified in XADD is equal or smaller than the target stream top item. \r\n";
+            return "-ERR The ID specified in XADD is equal or smaller than the target stream top item.\r\n";
         }
 
         Block block = new Block();
