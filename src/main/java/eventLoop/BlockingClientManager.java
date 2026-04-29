@@ -38,7 +38,6 @@ public class BlockingClientManager {
             }
 
             client.completed = true;
-            System.out.println("timeouted");
             client.responseWithNull();
         }
     }
@@ -76,6 +75,7 @@ public class BlockingClientManager {
 
         while (buff.hasRemaining()) {
             try {
+                System.out.println("tuk");
                 client.connection.write(buff);
             } catch (IOException e) {
                 e.printStackTrace();
