@@ -23,7 +23,7 @@ public class Xadd extends BaseCommand {
         Value value = this.storage.get(streamKey);
         StreamID streamID = new StreamID(this.arguments[1]);
         if (streamID.equals(new StreamID("0-0"))) {
-            return "-ERR he ID specified in XADD must be greater than 0-0\r\n";
+            return "-ERR The ID specified in XADD must be greater than 0-0\r\n";
         }
 
         if (value == null) {
