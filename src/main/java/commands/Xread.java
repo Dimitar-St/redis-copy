@@ -35,11 +35,10 @@ public class Xread extends BaseCommand {
         result.append("*2\r\n");
 
 // Stream name (NOT key!)
-        String streamName = "mystream"; // <-- FIX THIS
         result.append("$");
-        result.append(streamName.length());
+        result.append(streamKey.length());
         result.append("\r\n");
-        result.append(streamName);
+        result.append(streamKey);
         result.append("\r\n");
 
 // Entries array
