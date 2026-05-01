@@ -25,7 +25,7 @@ public class Xrange extends BaseCommand {
         StreamID startKey = StreamID.parse(this.arguments[1]);
         StreamID endKey = StreamID.parse(this.arguments[2]);
 
-        SortedMap<StreamID, Block> map = this.storage.getRange(startKey, endKey);
+        SortedMap<StreamID, Block> map = store.getRange(startKey, endKey);
 
         StringBuilder result = new StringBuilder();
 

@@ -29,10 +29,6 @@ public class Storage {
         return this.streamStoresCache.get(key);
     }
 
-    public SortedMap<StreamID, Block> getRange(StreamID startKey, StreamID endKey) {
-        return this.getRange(startKey, endKey);
-    }
-
     public void remove(String key) {
         cache.remove(key);
     }
