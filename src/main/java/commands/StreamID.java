@@ -43,7 +43,7 @@ public class StreamID implements Comparable {
     }
 
     public String toString() {
-        return this.id + "-" + this.counter;
+        return this.timestamp + "-" + this.counter;
     }
 
     public Long getTimestamp() {
@@ -64,7 +64,7 @@ public class StreamID implements Comparable {
 
         String[] timestampCounter = id.split("-");
         if (timestampCounter[1].equals("*")) {
-            var timestamp = System.currentTimeMillis();
+            var timestamp = Long.parseLong(timestampCounter[0]);
             return new StreamID(timestamp, -1L);
         }
 
