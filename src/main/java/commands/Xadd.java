@@ -29,10 +29,6 @@ public class Xadd extends BaseCommand {
         StreamStore store = this.storage.getStreamStore(streamKey);
         if (store == null) {
             store = new StreamStore();
-//            streamID = StreamID.parse(this.arguments[1]);
-//            store.put(streamID, Arrays.stream(arguments, 2, arguments.length).toArray(String[]::new));
-//
-//            return "$" + this.arguments[1].length() + "\r\n" + this.arguments[1] + "\r\n";
         }
 
 
@@ -41,7 +37,7 @@ public class Xadd extends BaseCommand {
             return response;
         }
 
-        return "$" + this.arguments[1].length() + "\r\n" + this.arguments[1] + "\r\n";
+        return "$" + this.arguments[1].length() + "\r\n" + streamID.getTimestamp() + "-" + streamID.counter() + "\r\n";
     }
 
     @Override
