@@ -18,6 +18,8 @@ public class Xread extends BaseCommand {
         String streamKey = this.arguments[0];
         StreamStore store = this.storage.getStreamStore(streamKey);
 
+        System.out.println("tuk");
+
         if (store == null) {
             return "+none\r\n";
         }
