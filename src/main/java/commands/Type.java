@@ -22,7 +22,7 @@ public class Type extends BaseCommand {
         StreamStore stream = this.storage.getStreamStore(key);
 
         if (stream != null) {
-            return "+"+ stream + "\r\n";
+            return "+stream\r\n";
         }
 
         if (value != null) {
