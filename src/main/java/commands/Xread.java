@@ -60,6 +60,7 @@ public class Xread extends BaseCommand {
             result.append(entry);
             result.append("\r\n");
         }
+        System.out.println(result);
 
         return result.toString();
     }
