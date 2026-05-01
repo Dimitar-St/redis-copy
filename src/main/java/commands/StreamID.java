@@ -59,7 +59,7 @@ public class StreamID implements Comparable {
     }
 
     public static StreamID parse(String id) {
-        if (id.equals("-")) {
+        if (id.equals("-") || id.equals("+")) {
             return new StreamID();
         }
         if (id.equals("*")) {
