@@ -28,7 +28,7 @@ public class StreamStore {
             timestampMap.put(key.getTimestamp(), counter);
 
             key = new StreamID(key.getTimestamp(), counter);
-            System.out.println("key generated");
+            System.out.println(key.toString());
         }
 
 
