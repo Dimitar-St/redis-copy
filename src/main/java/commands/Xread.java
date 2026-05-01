@@ -15,52 +15,67 @@ public class Xread extends BaseCommand {
     @Override
     public String execute() {
 
-        String streamKey = this.arguments[0];
+        String streamKey = this.arguments[1];
         StreamStore store = this.storage.getStreamStore(streamKey);
 
-        System.out.println("tuk");
+        if (store == null) {
+            return "+none\r\n";
+        }
 
-//        if (store == null) {
-//            return "+none\r\n";
-//        }
+        StreamID streamID = StreamID.parse(this.arguments[2]);
 
-        StreamID streamID = StreamID.parse(this.arguments[1]);
-
-        Block block = store.get(streamID);
+        SortedMap<StreamID, Block> map = store.getFrom(streamID);
 
         StringBuilder result = new StringBuilder();
 
-        result.append("*1\r\n");
-        result.append("*2\r\n");
-
-        result.append("$");
-        result.append(streamKey.length());
-        result.append("\r\n");
-        result.append(streamKey);
-        result.append("\r\n");
-
+// Top-level: 1 stream
         result.append("*1\r\n");
 
+// Stream wrapper
         result.append("*2\r\n");
 
-        String id = streamID.toString();
+// Stream name (NOT key!)
+        String streamName = "mystream"; // <-- FIX THIS
         result.append("$");
-        result.append(id.length());
+        result.append(streamName.length());
         result.append("\r\n");
-        result.append(id);
+        result.append(streamName);
         result.append("\r\n");
 
-        List<String> data = block.getData();
+// Entries array
         result.append("*");
-        result.append(data.size());
+        result.append(map.size());
         result.append("\r\n");
 
-        for (String entry : data) {
+// Now iterate entries
+        for (StreamID key : map.keySet()) {
+            String keyString = key.toString();
+
+            // Entry: [id, fields]
+            result.append("*2\r\n");
+
+            // ID
             result.append("$");
-            result.append(entry.length());
+            result.append(keyString.length());
             result.append("\r\n");
-            result.append(entry);
+            result.append(keyString);
             result.append("\r\n");
+
+            Block block = map.get(key);
+            List<String> data = block.getData();
+
+            // Field-value array
+            result.append("*");
+            result.append(data.size());
+            result.append("\r\n");
+
+            for (String entry : data) {
+                result.append("$");
+                result.append(entry.length());
+                result.append("\r\n");
+                result.append(entry);
+                result.append("\r\n");
+            }
         }
         System.out.println(result);
 

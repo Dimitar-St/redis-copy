@@ -68,4 +68,8 @@ public class StreamStore {
         store.put(key, block);
         return "";
     }
+
+    public SortedMap<StreamID, Block> getFrom(StreamID streamID) {
+        return this.store.tailMap(streamID);
+    }
 }
