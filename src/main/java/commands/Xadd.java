@@ -29,6 +29,7 @@ public class Xadd extends BaseCommand {
         StreamStore store = this.storage.getStreamStore(streamKey);
         if (store == null) {
             store = new StreamStore();
+            this.storage.setStreamStore(streamKey, store);
         }
 
 
