@@ -30,6 +30,10 @@ public class StreamStore {
             return this.store.headMap(endKey, true);
         }
 
+        if (endKey.isEmpty()) {
+            return this.store.tailMap(startKey, true);
+        }
+
         return this.store.subMap(startKey, true, endKey, true);
     }
 
