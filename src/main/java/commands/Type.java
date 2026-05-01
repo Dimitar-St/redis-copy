@@ -34,7 +34,6 @@ public class Type extends BaseCommand {
             }
 
             String typeLower = type.reverse().toString().toLowerCase();
-            System.out.println(typeLower);
 
             if (typeLower.contains("streamstore")) {
                 return "+" + "stream" + "\r\n";
@@ -42,6 +41,7 @@ public class Type extends BaseCommand {
 
             return "+"+ typeLower + "\r\n";
         }
+        System.out.println(typeLower);
 
         return "+none\r\n";
     }
