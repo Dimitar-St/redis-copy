@@ -10,7 +10,7 @@ public class Block {
     public Block() {}
 
     public void setFields(List<String> fields) {
-       this.fields =  fields;
+       this.fields = fields;
     }
 
     public void appendField(List<String> fields) {
