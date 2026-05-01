@@ -28,26 +28,19 @@ public class Xread extends BaseCommand {
 
         StringBuilder result = new StringBuilder();
 
-        // Top-level: number of streams (usually 1)
         result.append("*1\r\n");
-
-// Stream wrapper: [stream_name, entries]
         result.append("*2\r\n");
 
-// Stream name
         result.append("$");
         result.append(streamKey.length());
         result.append("\r\n");
         result.append(streamKey);
         result.append("\r\n");
 
-// Entries array (we return 1 entry here)
         result.append("*1\r\n");
 
-// Entry: [id, field-values]
         result.append("*2\r\n");
 
-// ID
         String id = streamID.toString();
         result.append("$");
         result.append(id.length());
@@ -55,7 +48,6 @@ public class Xread extends BaseCommand {
         result.append(id);
         result.append("\r\n");
 
-// Field-value list
         List<String> data = block.getData();
         result.append("*");
         result.append(data.size());
