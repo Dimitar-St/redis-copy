@@ -22,6 +22,8 @@ public class Xadd extends BaseCommand {
         String streamKey = this.arguments[0];
 
         StreamID streamID = StreamID.parse(this.arguments[1]);
+        System.out.println("Generating timestamp");
+        System.out.println(streamID.getTimestamp());
         if (this.arguments[1].equals("0-0")) {
             return "-ERR The ID specified in XADD must be greater than 0-0\r\n";
         }
