@@ -45,6 +45,10 @@ public class StreamStore {
 
         block.appendField(List.of(data));
 
+        if (store.containsKey(key)) {
+            key = this.generateId(key);
+        }
+
         store.put(key, block);
         return "";
     }
