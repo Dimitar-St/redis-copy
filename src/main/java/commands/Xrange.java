@@ -45,11 +45,11 @@ public class Xrange extends BaseCommand {
 //        $8\r\nhumidity\r\n
 //        $2\r\n94\r\n
 
-//        for (int i = 0; i < map.size(); i++) {
+        for (int i = 0; i < map.size(); i++) {
             result.append("*");
-            result.append(map.size());
+            result.append(2);
             result.append("\r\n");
-//        }
+        }
 
         for (StreamID key: map.keySet()) {
             String keyString = key.toString();
