@@ -20,9 +20,9 @@ public class Xread extends BaseCommand {
 
         System.out.println("tuk");
 
-        if (store == null) {
-            return "+none\r\n";
-        }
+//        if (store == null) {
+//            return "+none\r\n";
+//        }
 
         StreamID streamID = StreamID.parse(this.arguments[1]);
 
