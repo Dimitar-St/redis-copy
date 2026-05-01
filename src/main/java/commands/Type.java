@@ -35,7 +35,7 @@ public class Type extends BaseCommand {
 
             String typeLower = type.reverse().toString().toLowerCase();
 
-            if (typeLower.contains("treemap")) {
+            if (typeLower.contains("streamstore")) {
                 return "+" + "stream" + "\r\n";
             }
 
