@@ -25,6 +25,10 @@ public class StreamStore {
         return key;
     }
 
+    public  Block get(StreamID key) {
+        return this.store.get(key);
+    }
+
     public SortedMap<StreamID, Block> getRange(StreamID startKey, StreamID endKey) {
         if (startKey.isEmpty()) {
             return this.store.headMap(endKey, true);
