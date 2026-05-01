@@ -6,14 +6,9 @@ import java.util.Comparator;
 import java.util.Objects;
 
 public class StreamID implements Comparable {
-    private String id;
-
     private Long timestamp;
     private Long counter;
 
-    public StreamID(String id) {
-        this.id = id;
-    }
 
     public StreamID(Long timestamp, Long counter) {
        this.counter = counter;
@@ -23,7 +18,7 @@ public class StreamID implements Comparable {
 
     @Override
     public int hashCode() {
-       return Objects.hashCode(id);
+       return Objects.hashCode(counter) + Objects.hashCode(timestamp);
     }
 
     @Override
@@ -63,6 +58,12 @@ public class StreamID implements Comparable {
 
 
         String[] timestampCounter = id.split("-");
+
+        if (timestampCounter.length < 2) {
+            var timestamp = Long.parseLong(timestampCounter[0]);
+            return new StreamID(timestamp, 0L);
+        }
+
         if (timestampCounter[1].equals("*")) {
             var timestamp = Long.parseLong(timestampCounter[0]);
             return new StreamID(timestamp, -1L);

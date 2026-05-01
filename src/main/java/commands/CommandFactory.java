@@ -26,6 +26,7 @@ public class CommandFactory {
         commands.put("simpleString", () -> new SimpleSringCommand());
         commands.put("TYPE", () -> new Type(this.storage));
         commands.put("XADD", () -> new Xadd(this.storage));
+        commands.put("XRANGE", () -> new Xrange(this.storage));
     }
 
     public BaseCommand newCommand(String command) {

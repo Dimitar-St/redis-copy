@@ -17,4 +17,8 @@ public class Block {
         this.fields.addAll(fields);
     }
 
+    public List<String> getData() {
+        return List.copyOf(fields);
+    }
+
 }

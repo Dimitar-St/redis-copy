@@ -1,10 +1,13 @@
 package storage;
 
+import commands.Block;
 import commands.Options;
+import commands.StreamID;
 import commands.StreamStore;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.SortedMap;
 
 public class Storage {
     private final Map<String, Value> cache = new HashMap<>();
@@ -24,6 +27,10 @@ public class Storage {
 
     public StreamStore getStreamStore(String key) {
         return this.streamStoresCache.get(key);
+    }
+
+    public SortedMap<StreamID, Block> getRange(StreamID startKey, StreamID endKey) {
+        return this.getRange(startKey, endKey);
     }
 
     public void remove(String key) {
