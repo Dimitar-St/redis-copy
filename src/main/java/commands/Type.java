@@ -19,6 +19,11 @@ public class Type extends BaseCommand {
         String key = this.getArguments()[0];
 
         Value value = this.storage.get(key);
+        StreamStore stream = this.storage.getStreamStore(key);
+
+        if (stream != null) {
+            return "+"+ stream + "\r\n";
+        }
 
         if (value != null) {
 
@@ -35,13 +40,8 @@ public class Type extends BaseCommand {
 
             String typeLower = type.reverse().toString().toLowerCase();
 
-            if (typeLower.contains("streamstore")) {
-                return "+" + "stream" + "\r\n";
-            }
-
             return "+"+ typeLower + "\r\n";
         }
-        System.out.println(typeLower);
 
         return "+none\r\n";
     }
