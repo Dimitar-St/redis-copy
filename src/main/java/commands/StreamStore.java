@@ -14,9 +14,11 @@ public class StreamStore {
 
 
     public String put(StreamID key, String[] data) {
-        StreamID lastID = store.lastKey();
-        if (store.containsKey(key) || lastID.compareTo(key) > 0) {
-            return "-ERR The ID specified in XADD is equal or smaller than the target stream top item\r\n";
+        if (!store.isEmpty()) {
+            StreamID lastID = store.lastKey();
+            if (store.containsKey(key) || lastID.compareTo(key) > 0) {
+                return "-ERR The ID specified in XADD is equal or smaller than the target stream top item\r\n";
+            }
         }
 
         Block block = this.store.get(key);
