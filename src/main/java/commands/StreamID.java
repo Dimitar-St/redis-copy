@@ -57,7 +57,7 @@ public class StreamID implements Comparable {
     public static StreamID parse(String id) {
         if (id.equals("*")) {
             var timestamp = System.currentTimeMillis();
-            Long counter = 1L;
+            Long counter = 0L;
             return new StreamID(timestamp, counter);
         }
 
