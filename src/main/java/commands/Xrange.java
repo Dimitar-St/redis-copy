@@ -45,24 +45,30 @@ public class Xrange extends BaseCommand {
 //        $8\r\nhumidity\r\n
 //        $2\r\n94\r\n
 
-        for (int i = 0; i < map.size(); i++) {
+// Top-level array
+        result.append("*");
+        result.append(map.size());
+        result.append("\r\n");
+
+        for (StreamID key : map.keySet()) {
+            String keyString = key.toString();
+
+            // Each entry: array of 2 elements [id, data]
             result.append("*");
             result.append(2);
             result.append("\r\n");
-        }
 
-        for (StreamID key: map.keySet()) {
-            String keyString = key.toString();
-
+            // ID
             result.append("$");
             result.append(keyString.length());
             result.append("\r\n");
             result.append(keyString);
             result.append("\r\n");
 
-
             Block block = map.get(key);
             List<String> data = block.getData();
+
+            // Field-value array
             result.append("*");
             result.append(data.size());
             result.append("\r\n");
@@ -75,7 +81,6 @@ public class Xrange extends BaseCommand {
                 result.append("\r\n");
             }
         }
-
         System.out.println(result.toString());
 
         return result.toString();
