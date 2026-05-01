@@ -12,4 +12,9 @@ public class Block {
     public void setFields(List<String> fields) {
        this.fields = (ArrayList<String>) fields;
     }
+
+    public void appendField(List<String> fields) {
+        this.fields.addAll(fields);
+    }
+
 }

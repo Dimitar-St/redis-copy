@@ -1,18 +1,29 @@
 package storage;
 
 import commands.Options;
+import commands.StreamStore;
 
 import java.util.HashMap;
 import java.util.Map;
 
 public class Storage {
     private final Map<String, Value> cache = new HashMap<>();
+    private final Map<String, StreamStore> streamStoresCache = new HashMap<>();
 
     public Storage() {}
 
     public void set(String key, String content, Options options) {
         Value<String> value = new Value(content, options);
         cache.put(key, value);
+    }
+
+
+    public void setStreamStore(String key, StreamStore store) {
+       this.streamStoresCache.put(key, store);
+    }
+
+    public StreamStore getStreamStore(String key) {
+        return this.streamStoresCache.get(key);
     }
 
     public void remove(String key) {

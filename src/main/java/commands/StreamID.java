@@ -1,5 +1,7 @@
 package commands;
 
+import java.time.Instant;
+import java.time.temporal.ChronoField;
 import java.util.Comparator;
 import java.util.Objects;
 
@@ -10,8 +12,12 @@ public class StreamID implements Comparable {
     private Long counter;
 
     public StreamID(String id) {
-//        this.timestamp = System.currentTimeMillis()
         this.id = id;
+    }
+
+    public StreamID(Long timestamp, Long counter) {
+       this.counter = counter;
+       this.timestamp = timestamp;
     }
 
 
@@ -31,5 +37,35 @@ public class StreamID implements Comparable {
     public int compareTo(Object o) {
         StreamID c = (StreamID) o;
         return this.id.compareTo(c.id);
+    }
+
+    public Long getTimestamp() {
+        return this.timestamp;
+    }
+
+    public static StreamID parse(String id) {
+        if (id.equals("*")) {
+            var timestamp = System.currentTimeMillis();
+            Long counter = 1L;
+            return new StreamID(timestamp, counter);
+        }
+
+
+        String[] timestampCounter = id.split("-");
+        if (timestampCounter[1].equals("*")) {
+            var timestamp = System.currentTimeMillis();
+            return new StreamID(timestamp, -1L);
+        }
+
+
+        long timestamp = Instant.ofEpochMilli(Long.parseLong(timestampCounter[0])).getLong(ChronoField.MILLI_OF_SECOND);
+        long counter = Long.parseLong(timestampCounter[1]);
+
+        return new StreamID(timestamp, counter);
+
+    }
+
+    public boolean isPartialGenerated() {
+        return counter < 0;
     }
 }
