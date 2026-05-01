@@ -29,10 +29,10 @@ public class Xrange extends BaseCommand {
 
         StringBuilder result = new StringBuilder();
 
-//       *2\r\n
-//                *2\r\n
+//        *2\r\n
+//        *2\r\n
 //        $15\r\n1526985054069-0\r\n
-//                *4\r\n
+//        *4\r\n
 //        $11\r\ntemperature\r\n
 //        $2\r\n36\r\n
 //        $8\r\nhumidity\r\n
@@ -45,11 +45,11 @@ public class Xrange extends BaseCommand {
 //        $8\r\nhumidity\r\n
 //        $2\r\n94\r\n
 
-        for (int i = 0; i < map.size(); i++) {
+//        for (int i = 0; i < map.size(); i++) {
             result.append("*");
-            result.append(2);
+            result.append(map.size());
             result.append("\r\n");
-        }
+//        }
 
         for (StreamID key: map.keySet()) {
             String keyString = key.toString();
