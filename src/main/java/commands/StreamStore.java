@@ -26,7 +26,11 @@ public class StreamStore {
     }
 
     public SortedMap<StreamID, Block> getRange(StreamID startKey, StreamID endKey) {
-      return this.store.subMap(startKey, true, endKey, true);
+        if (startKey.isEmpty()) {
+            return this.store.headMap(endKey, true);
+        }
+
+        return this.store.subMap(startKey, true, endKey, true);
     }
 
     public String put(StreamID key, String[] data) {

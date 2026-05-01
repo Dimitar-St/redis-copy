@@ -15,6 +15,8 @@ public class StreamID implements Comparable {
        this.timestamp = timestamp;
     }
 
+    private StreamID() {}
+
 
     @Override
     public int hashCode() {
@@ -49,7 +51,17 @@ public class StreamID implements Comparable {
         return this.counter;
     }
 
+    public boolean isEmpty() {
+        if (counter == null && timestamp == null)
+            return true;
+
+       return false;
+    }
+
     public static StreamID parse(String id) {
+        if (id.equals("-")) {
+            return new StreamID();
+        }
         if (id.equals("*")) {
             var timestamp = System.currentTimeMillis();
             Long counter = 0L;

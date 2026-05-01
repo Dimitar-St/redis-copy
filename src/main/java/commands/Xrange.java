@@ -29,23 +29,6 @@ public class Xrange extends BaseCommand {
 
         StringBuilder result = new StringBuilder();
 
-//        *2\r\n
-//        *2\r\n
-//        $15\r\n1526985054069-0\r\n
-//        *4\r\n
-//        $11\r\ntemperature\r\n
-//        $2\r\n36\r\n
-//        $8\r\nhumidity\r\n
-//        $2\r\n95\r\n
-//                *2\r\n
-//        $15\r\n1526985054079-0\r\n
-//                *4\r\n
-//        $11\r\ntemperature\r\n
-//        $2\r\n37\r\n
-//        $8\r\nhumidity\r\n
-//        $2\r\n94\r\n
-
-// Top-level array
         result.append("*");
         result.append(map.size());
         result.append("\r\n");
@@ -53,12 +36,10 @@ public class Xrange extends BaseCommand {
         for (StreamID key : map.keySet()) {
             String keyString = key.toString();
 
-            // Each entry: array of 2 elements [id, data]
             result.append("*");
             result.append(2);
             result.append("\r\n");
 
-            // ID
             result.append("$");
             result.append(keyString.length());
             result.append("\r\n");
@@ -68,7 +49,6 @@ public class Xrange extends BaseCommand {
             Block block = map.get(key);
             List<String> data = block.getData();
 
-            // Field-value array
             result.append("*");
             result.append(data.size());
             result.append("\r\n");
@@ -81,7 +61,6 @@ public class Xrange extends BaseCommand {
                 result.append("\r\n");
             }
         }
-        System.out.println(result.toString());
 
         return result.toString();
     }
