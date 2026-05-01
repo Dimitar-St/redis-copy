@@ -37,7 +37,9 @@ public class Xadd extends BaseCommand {
             return response;
         }
 
-        return "$" + this.arguments[1].length() + "\r\n" + streamID.getTimestamp() + "-" + streamID.counter() + "\r\n";
+        String idString = streamID.toString();
+
+        return "$" + idString.length() + "\r\n" +  idString + "\r\n";
     }
 
     @Override

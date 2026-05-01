@@ -42,6 +42,10 @@ public class StreamID implements Comparable {
         return compare;
     }
 
+    public String toString() {
+        return this.id + "-" + this.counter;
+    }
+
     public Long getTimestamp() {
         return this.timestamp;
     }
