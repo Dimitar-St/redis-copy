@@ -32,6 +32,7 @@ public class Xadd extends BaseCommand {
         }
 
 
+        streamID = store.generateId(streamID);
         String response = store.put(streamID, Arrays.stream(arguments, 2, arguments.length).toArray(String[]::new));
         if (!response.isEmpty()) {
             return response;

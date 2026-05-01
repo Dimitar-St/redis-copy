@@ -13,6 +13,18 @@ public class StreamStore {
     }
 
 
+    public StreamID generateId(StreamID key) {
+        if (key.isPartialGenerated()) {
+            Long counter = timestampMap.getOrDefault(key.getTimestamp(), 0L)+1;
+
+            timestampMap.put(key.getTimestamp(), counter);
+
+            key = new StreamID(key.getTimestamp(), counter);
+        }
+
+        return key;
+    }
+
     public String put(StreamID key, String[] data) {
         if (!store.isEmpty()) {
             StreamID lastID = store.lastKey();
@@ -22,14 +34,6 @@ public class StreamStore {
         }
 
         Block block = this.store.get(key);
-        if (key.isPartialGenerated()) {
-            Long counter = timestampMap.getOrDefault(key.getTimestamp(), 0L)+1;
-
-            timestampMap.put(key.getTimestamp(), counter);
-
-            key = new StreamID(key.getTimestamp(), counter);
-        }
-
 
         if (block == null) {
             block = new Block();
