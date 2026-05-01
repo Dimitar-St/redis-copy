@@ -15,7 +15,7 @@ public class StreamStore {
 
     public StreamID generateId(StreamID key) {
         if (key.isPartialGenerated()) {
-            Long counter = timestampMap.getOrDefault(key.getTimestamp(), 0L)+1;
+            Long counter = key.getTimestamp() == 0 ? timestampMap.getOrDefault(key.getTimestamp(), 0L)+1 : timestampMap.getOrDefault(key.getTimestamp(), -1L)+1 ;
 
             timestampMap.put(key.getTimestamp(), counter);
 
