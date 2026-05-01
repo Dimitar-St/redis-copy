@@ -65,6 +65,8 @@ public class StreamID implements Comparable {
         String[] timestampCounter = id.split("-");
         if (timestampCounter[1].equals("*")) {
             var timestamp = System.currentTimeMillis();
+            System.out.println("Generating timestamp");
+            System.out.println(timestamp);
             return new StreamID(timestamp, -1L);
         }
 
