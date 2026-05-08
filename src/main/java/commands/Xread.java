@@ -50,6 +50,8 @@ public class Xread extends BaseCommand {
 
     @Override
     public String execute() {
+        System.out.print(this.arguments[0]);
+        System.out.print(this.arguments[1]);
         if (this.arguments[1].toLowerCase().equals("streams")) {
             List<Pair> pairs = this.readMultipleStreams();
             StringBuilder result = new StringBuilder();
