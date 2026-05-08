@@ -58,6 +58,7 @@ public class Xread extends BaseCommand {
         result.append("*");
         result.append(pairs.size());
         result.append("\r\n");
+        System.out.println(pairs.size());
 
         for (int i = 0; i < pairs.size(); i++) {
             Pair pair = pairs.get(i);
