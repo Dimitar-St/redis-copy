@@ -27,6 +27,7 @@ public class BlockingClientManager {
 
     public void handleTimeouts(long now) {
         if (clients.isEmpty()) {
+            System.out.println("tuka");
             return;
         }
 
