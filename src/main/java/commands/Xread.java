@@ -21,7 +21,7 @@ public class Xread extends BaseCommand {
         int argsToRemove = 1;
         if (arguments[0].equals("block")) {
             this.isBlocking = true;
-            this.setTimeFromIndex(2);
+            this.setTimeFromIndex(1);
             argsToRemove = 4;
         }
         int remaining = arguments.length - argsToRemove;
