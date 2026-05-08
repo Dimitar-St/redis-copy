@@ -74,6 +74,7 @@ public class Xread extends BaseCommand {
 
             SortedMap<StreamID, Block> map;
             if (isBlocking) {
+                System.out.println("waiting1");
                 map = store.getAfter(pair.streamID);
                 if (map.isEmpty()) {
                     this.blockingManager.addClient(this, "not present", this.connection, this.selectionKey);
