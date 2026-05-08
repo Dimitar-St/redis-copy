@@ -27,7 +27,7 @@ public class Xread extends BaseCommand {
         int remaining = arguments.length - argsToRemove;
 
         if (remaining % 2 != 0) {
-            throw new IllegalArgumentException("arguments are invalid");
+            throw new IllegalArgumentException("XREAD arguments are invalid");
         }
 
         int streamCount = remaining / 2;
@@ -69,13 +69,12 @@ public class Xread extends BaseCommand {
                     this.blockingManager.addClient(this, "not present", this.connection, this.selectionKey);
                     return "not present";
                 }
-                System.out.println("waiting2");
                 return "+none\r\n";
             }
 
             SortedMap<StreamID, Block> map;
+            System.out.println(pair.streamID);
             if (isBlocking) {
-                System.out.println("waiting1");
                 map = store.getAfter(pair.streamID);
                 if (map.isEmpty()) {
                     this.blockingManager.addClient(this, "not present", this.connection, this.selectionKey);
