@@ -118,6 +118,7 @@ public class EventLoop {
                     }
 
                     buffer.clear();
+                    clientSocket.close();
                 }
 
                 iterator.remove();
