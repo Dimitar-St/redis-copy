@@ -37,8 +37,8 @@ public class Xread extends BaseCommand {
         List<Pair> pairs = new ArrayList<>();
 
         for (int i = 0; i < streamCount; i++) {
-            String streamKey = arguments[1 + i];
-            StreamID id = StreamID.parse(arguments[1 + streamCount + i]);
+            String streamKey = arguments[2 + i];
+            StreamID id = StreamID.parse(arguments[2 + streamCount + i]);
 
             pairs.add(new Pair(streamKey, id));
         }
