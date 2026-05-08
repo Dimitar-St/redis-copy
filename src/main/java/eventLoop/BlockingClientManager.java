@@ -68,7 +68,7 @@ public class BlockingClientManager {
         return Optional.empty();
     }
 
-    public void respondValue(WaitingClient client, String key, String value)  {
+    public void respondValue(WaitingClient client)  {
         String response = client.command.execute();
 
         ByteBuffer buff = ByteBuffer.wrap(response.getBytes());
@@ -93,7 +93,7 @@ public class BlockingClientManager {
     }
 
     public void addClient(BaseCommand command, String response, SocketChannel clientSocket, SelectionKey selectionKey) {
-        String dataStructure = command.getArguments()[0];
+        String dataStructure = command.getDataStructure();
 
         if (command.timeless) {
             WaitingClient wClient = new WaitingClient(dataStructure, command, clientSocket);

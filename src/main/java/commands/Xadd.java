@@ -1,20 +1,21 @@
 package commands;
 
+import eventLoop.BlockingClientManager;
+import eventLoop.WaitingClient;
 import storage.Storage;
 import storage.Value;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.TreeMap;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class Xadd extends BaseCommand {
     private final Storage storage;
+    private final BlockingClientManager blockingManager;
 
-    public Xadd(Storage storage) {
+    public Xadd(Storage storage, BlockingClientManager blockingManager) {
         this.storage = storage;
+        this.blockingManager = blockingManager;
     }
 
     @Override
@@ -40,7 +41,12 @@ public class Xadd extends BaseCommand {
         }
 
         String idString = streamID.toString();
-        System.out.println(idString);
+
+        Optional<WaitingClient> waiter = blockingManager.tryResolve(streamKey);
+
+        if (waiter.isPresent()) {
+            blockingManager.respondValue(waiter.get());
+        }
 
         return "$" + idString.length() + "\r\n" +  idString + "\r\n";
     }

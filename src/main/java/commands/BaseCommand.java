@@ -28,9 +28,16 @@ public abstract class BaseCommand implements ICommand {
         return arguments;
     }
 
+    public String getDataStructure() {
+        return this.arguments[0];
+    }
 
     public void setTime() {
-        double timeout = Double.parseDouble(arguments[1]);
+       setTimeFromIndex(1);
+    }
+
+    protected void setTimeFromIndex(int index) {
+        double timeout = Double.parseDouble(arguments[index]);
 
         if (timeout == 0.0) {
             timeless = true;

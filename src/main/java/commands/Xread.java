@@ -1,33 +1,30 @@
 package commands;
 
+import eventLoop.BlockingClientManager;
 import storage.Storage;
 
-import java.awt.image.AreaAveragingScaleFilter;
 import java.util.*;
-import java.util.stream.Collectors;
 
 public class Xread extends BaseCommand {
     private final Storage storage;
+    private final BlockingClientManager blockingManager;
+    private boolean isBlocking;
+    private String dataStructure;
 
-    public Xread(Storage storage) {
+    public Xread(Storage storage, BlockingClientManager blockingManager) {
         this.storage = storage;
-    }
-    public class Order {
-        private String id;
-        private double price;
-
-        public Order(String id, double price) {
-            this.id = id;
-            this.price = price;
-        }
-
-        public double getPrice() {
-            return price;
-        }
+        this.blockingManager = blockingManager;
+        this.isBlocking = false;
     }
 
     private List<Pair> readMultipleStreams() {
-        int remaining = arguments.length - 1;
+        int argsToRemove = 1;
+        if (arguments[1].equals("BLOCK")) {
+            this.isBlocking = true;
+            this.setTimeFromIndex(2);
+            argsToRemove = 3;
+        }
+        int remaining = arguments.length - argsToRemove;
 
         if (remaining % 2 != 0) {
             throw new IllegalArgumentException("arguments are invalid");
@@ -37,67 +34,58 @@ public class Xread extends BaseCommand {
         List<Pair> pairs = new ArrayList<>();
 
         for (int i = 0; i < streamCount; i++) {
-            String streamKey = arguments[1 + i];
-            StreamID id = StreamID.parse(arguments[1 + streamCount + i]);
+            String streamKey = arguments[argsToRemove + i];
+            StreamID id = StreamID.parse(arguments[argsToRemove + streamCount + i]);
 
             pairs.add(new Pair(streamKey, id));
         }
 
-        return  pairs;
+        if (pairs.size() == 1) {
+            this.dataStructure = pairs.get(0).streamKey;
+        }
+
+        return pairs;
     }
 
-    record Pair (String streamKey, StreamID streamID) {}
+    record Pair(String streamKey, StreamID streamID) {
+    }
 
     @Override
     public String execute() {
-        System.out.print(this.arguments[0]);
-        System.out.print(this.arguments[1]);
-//        if (this.arguments[1].toLowerCase().equals("streams")) {
-            List<Pair> pairs = this.readMultipleStreams();
-            StringBuilder result = new StringBuilder();
+        List<Pair> pairs = this.readMultipleStreams();
+        StringBuilder result = new StringBuilder();
 
-            result.append("*");
-            result.append(pairs.size());
-            result.append("\r\n");
+        result.append("*");
+        result.append(pairs.size());
+        result.append("\r\n");
 
-            for (int i = 0; i < pairs.size(); i++) {
-                Pair pair = pairs.get(i);
-                StreamStore store = this.storage.getStreamStore(pair.streamKey);
+        for (int i = 0; i < pairs.size(); i++) {
+            Pair pair = pairs.get(i);
+            StreamStore store = this.storage.getStreamStore(pair.streamKey);
 
-                if (store == null) {
-                    return "+none\r\n";
+            if (store == null) {
+                if (isBlocking) {
+                    this.blockingManager.addClient(this, "not present", this.connection, this.selectionKey);
+                    return "not present";
                 }
-
-
-                SortedMap<StreamID, Block> map = store.getFrom(pair.streamID);
-
-                result.append(this.parseResultString(pair.streamKey, map));
+                return "+none\r\n";
             }
 
-            return result.toString();
-//        }
-//
-//        String streamKey = this.arguments[1];
-//        StreamStore store = this.storage.getStreamStore(streamKey);
-//
-//        if (store == null) {
-//            return "+none\r\n";
-//        }
-//
-//        StreamID streamID = StreamID.parse(this.arguments[2]);
-//
-//        SortedMap<StreamID, Block> map = store.getFrom(streamID);
-//
-//        StringBuilder result = new StringBuilder();
-//
-//        result.append("*1\r\n");
-//
-//        result.append(this.parseResultString(streamKey, map));
-//        return result.toString();
+            SortedMap<StreamID, Block> map = store.getFrom(pair.streamID);
+
+            result.append(this.parseResultString(pair.streamKey, map));
+        }
+
+        return result.toString();
+    }
+
+    @Override
+    public String getDataStructure() {
+        return this.dataStructure;
     }
 
 
-    private String parseResultString (String streamKey,  SortedMap<StreamID, Block> map) {
+    private String parseResultString(String streamKey, SortedMap<StreamID, Block> map) {
         StringBuilder result = new StringBuilder();
 
         result.append("*2\r\n");
@@ -144,6 +132,6 @@ public class Xread extends BaseCommand {
 
     @Override
     public boolean isBlocking() {
-        return false;
+        return isBlocking;
     }
 }
