@@ -82,6 +82,7 @@ public class Xread extends BaseCommand {
                     return "not present";
                 }
             } else {
+                System.out.println("tukkaa");
                 map = store.getFrom(pair.streamID);
             }
 
