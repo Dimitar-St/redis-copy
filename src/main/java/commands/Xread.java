@@ -27,7 +27,7 @@ public class Xread extends BaseCommand {
     }
 
     private List<Pair> readMultipleStreams() {
-        int remaining = arguments.length - 2;
+        int remaining = arguments.length - 1;
 
         if (remaining % 2 != 0) {
             throw new IllegalArgumentException("arguments are invalid");
@@ -37,8 +37,8 @@ public class Xread extends BaseCommand {
         List<Pair> pairs = new ArrayList<>();
 
         for (int i = 0; i < streamCount; i++) {
-            String streamKey = arguments[2 + i];
-            StreamID id = StreamID.parse(arguments[2 + streamCount + i]);
+            String streamKey = arguments[1 + i];
+            StreamID id = StreamID.parse(arguments[1 + streamCount + i]);
 
             pairs.add(new Pair(streamKey, id));
         }
@@ -52,7 +52,7 @@ public class Xread extends BaseCommand {
     public String execute() {
         System.out.print(this.arguments[0]);
         System.out.print(this.arguments[1]);
-        if (this.arguments[1].toLowerCase().equals("streams")) {
+//        if (this.arguments[1].toLowerCase().equals("streams")) {
             List<Pair> pairs = this.readMultipleStreams();
             StringBuilder result = new StringBuilder();
 
@@ -75,25 +75,25 @@ public class Xread extends BaseCommand {
             }
 
             return result.toString();
-        }
-
-        String streamKey = this.arguments[1];
-        StreamStore store = this.storage.getStreamStore(streamKey);
-
-        if (store == null) {
-            return "+none\r\n";
-        }
-
-        StreamID streamID = StreamID.parse(this.arguments[2]);
-
-        SortedMap<StreamID, Block> map = store.getFrom(streamID);
-
-        StringBuilder result = new StringBuilder();
-
-        result.append("*1\r\n");
-
-        result.append(this.parseResultString(streamKey, map));
-        return result.toString();
+//        }
+//
+//        String streamKey = this.arguments[1];
+//        StreamStore store = this.storage.getStreamStore(streamKey);
+//
+//        if (store == null) {
+//            return "+none\r\n";
+//        }
+//
+//        StreamID streamID = StreamID.parse(this.arguments[2]);
+//
+//        SortedMap<StreamID, Block> map = store.getFrom(streamID);
+//
+//        StringBuilder result = new StringBuilder();
+//
+//        result.append("*1\r\n");
+//
+//        result.append(this.parseResultString(streamKey, map));
+//        return result.toString();
     }
 
 
