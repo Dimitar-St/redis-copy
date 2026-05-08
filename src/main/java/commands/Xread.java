@@ -71,7 +71,7 @@ public class Xread extends BaseCommand {
                 return "+none\r\n";
             }
 
-            SortedMap<StreamID, Block> map = new TreeMap<>();
+            SortedMap<StreamID, Block> map;
             if (isBlocking) {
                 map = store.getAfter(pair.streamID);
                 if (map.isEmpty()) {
