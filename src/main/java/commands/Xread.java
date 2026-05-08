@@ -22,7 +22,7 @@ public class Xread extends BaseCommand {
         if (arguments[1].equals("BLOCK")) {
             this.isBlocking = true;
             this.setTimeFromIndex(2);
-            argsToRemove = 3;
+            argsToRemove = 4;
         }
         int remaining = arguments.length - argsToRemove;
 
