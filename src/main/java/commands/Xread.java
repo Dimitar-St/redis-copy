@@ -70,7 +70,7 @@ public class Xread extends BaseCommand {
                 }
                 return "+none\r\n";
             }
-
+            System.out.println(pair.streamID);
             SortedMap<StreamID, Block> map = store.getFrom(pair.streamID);
 
             result.append(this.parseResultString(pair.streamKey, map));
