@@ -86,6 +86,7 @@ public class BlockingClientManager {
 
     private void close(WaitingClient client) {
         try {
+            System.out.println("closing client");
             client.connection.close();
         } catch (IOException ignored) {
             ignored.printStackTrace();
