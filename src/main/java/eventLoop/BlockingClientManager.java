@@ -39,6 +39,7 @@ public class BlockingClientManager {
 
             client.completed = true;
             client.responseWithNull();
+            this.close(client);
         }
     }
 
@@ -86,7 +87,7 @@ public class BlockingClientManager {
 
     private void close(WaitingClient client) {
         try {
-            System.out.println("closing client");
+            System.out.println("closing client...");
             client.connection.close();
         } catch (IOException ignored) {
             ignored.printStackTrace();
