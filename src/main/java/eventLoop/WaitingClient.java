@@ -21,7 +21,6 @@ public class WaitingClient {
     }
 
     public void responseWithNull() {
-        System.out.println("tuka");
         ByteBuffer nullResponse = ByteBuffer.wrap("*-1\r\n".getBytes());
         while (nullResponse.hasRemaining()) {
             try {
