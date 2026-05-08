@@ -75,14 +75,13 @@ public class Xread extends BaseCommand {
 
             SortedMap<StreamID, Block> map;
             if (isBlocking) {
-                System.out.println(pair.streamID);
+                System.out.println("tukaa");
                 map = store.getAfter(pair.streamID);
                 if (map.isEmpty()) {
                     this.blockingManager.addClient(this, "not present", this.connection, this.selectionKey);
                     return "not present";
                 }
             } else {
-                System.out.println("tukkaa");
                 map = store.getFrom(pair.streamID);
             }
 
