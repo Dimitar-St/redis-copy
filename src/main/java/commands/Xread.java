@@ -19,7 +19,7 @@ public class Xread extends BaseCommand {
 
     private List<Pair> readMultipleStreams() {
         int argsToRemove = 1;
-        if (arguments[1].equals("block")) {
+        if (arguments[0].equals("block")) {
             this.isBlocking = true;
             this.setTimeFromIndex(2);
             argsToRemove = 4;
