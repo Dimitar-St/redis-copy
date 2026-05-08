@@ -29,6 +29,10 @@ public class Storage {
         return this.streamStoresCache.get(key);
     }
 
+    public boolean containsStreamStore(String key) {
+        return this.streamStoresCache.containsKey(key);
+    }
+
     public void remove(String key) {
         cache.remove(key);
     }

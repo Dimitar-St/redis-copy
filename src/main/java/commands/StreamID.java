@@ -68,6 +68,9 @@ public class StreamID implements Comparable {
             return new StreamID(timestamp, counter);
         }
 
+//        if (!id.contains("-")) {
+//            throw new IllegalArgumentException("Stream id could not be parsed");
+//        }
 
         String[] timestampCounter = id.split("-");
 
