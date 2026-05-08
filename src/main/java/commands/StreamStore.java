@@ -72,4 +72,8 @@ public class StreamStore {
     public SortedMap<StreamID, Block> getFrom(StreamID streamID) {
         return this.store.tailMap(streamID);
     }
+
+    public SortedMap<StreamID, Block> getAfter(StreamID streamID) {
+        return this.store.tailMap(streamID, false);
+    }
 }

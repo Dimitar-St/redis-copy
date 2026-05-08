@@ -70,8 +70,18 @@ public class Xread extends BaseCommand {
                 }
                 return "+none\r\n";
             }
-            System.out.println(pair.streamID);
-            SortedMap<StreamID, Block> map = store.getFrom(pair.streamID);
+
+            SortedMap<StreamID, Block> map = new TreeMap<>();
+            if (isBlocking) {
+                map = store.getAfter(pair.streamID);
+                if (map.isEmpty()) {
+                    this.blockingManager.addClient(this, "not present", this.connection, this.selectionKey);
+                    return "not present";
+                }
+            } else {
+                map = store.getFrom(pair.streamID);
+            }
+
 
             result.append(this.parseResultString(pair.streamKey, map));
         }
