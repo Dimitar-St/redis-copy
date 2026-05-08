@@ -69,7 +69,7 @@ public class Xread extends BaseCommand {
                     this.blockingManager.addClient(this, "not present", this.connection, this.selectionKey);
                     return "not present";
                 }
-                System.out.println("waiting1");
+                System.out.println("waiting2");
                 return "+none\r\n";
             }
 
