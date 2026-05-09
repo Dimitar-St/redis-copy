@@ -31,6 +31,8 @@ public class BlockingClientManager {
         }
 
         System.out.println("Handle timeout connections...");
+        System.out.println("Clients waiting: " + clients.size());
+        System.out.println("timeout: " + (clients.peek().command.timeout <= now));
         while (!clients.isEmpty() && clients.peek().command.timeout <= now) {
             WaitingClient client = clients.poll();
 
@@ -113,8 +115,6 @@ public class BlockingClientManager {
         if (command.isBlocking() && response.equals("not present")) {
             WaitingClient wClient = new WaitingClient(command, clientSocket);
             clients.add(wClient);
-
-            System.out.println("registrira li se");
 
             waitingByKey
                     .computeIfAbsent(dataStructure, k -> new ArrayDeque<>())
