@@ -58,6 +58,7 @@ public class EventLoop {
         while (true) {
             long now = System.currentTimeMillis();
             long timeout = manager.nextDeadline(now);
+            System.out.println(timeout);
             if (timeout <= 0) {
                 selector.selectNow();
             } else {
@@ -102,8 +103,6 @@ public class EventLoop {
 
                     command.connection = clientSocket;
                     command.selectionKey = key;
-
-                    System.out.println("tuka sum");
 
                     String response = command.execute();
 
