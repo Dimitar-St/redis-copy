@@ -38,6 +38,7 @@ public class EventLoop {
         eventLoop.selector = selector;
         eventLoop.parserFactory = new ParserFactory();
 
+        // NOTE: Does not look good
         eventLoop.manager = CommandFactory.initialize().blockingManager;
 
         System.out.println("Socket server is listening on : " + port + " " + sv.toString());
@@ -83,13 +84,12 @@ public class EventLoop {
 
                     ByteBuffer buffer = (ByteBuffer) key.attachment();
 
-                    while (buffer.hasRemaining()) {
-                        int bytesRead = clientSocket.read(buffer);
+                    int bytesRead = clientSocket.read(buffer);
 
-                        if (bytesRead == -1) {
-                            System.out.println("closing client connection");
-                            clientSocket.close();
-                        }
+                    if (bytesRead == -1) {
+                        System.out.println("closing client connection");
+                        clientSocket.close();
+                        continue;
                     }
 
                     buffer.flip();
@@ -103,7 +103,7 @@ public class EventLoop {
                     String response = command.execute();
 
                     if (response.equals("not present")) {
-                            continue;
+                        continue;
                     }
 
 
