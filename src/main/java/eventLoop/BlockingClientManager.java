@@ -33,6 +33,7 @@ public class BlockingClientManager {
         System.out.println("Handle timeout connections...");
         System.out.println("Clients waiting: " + clients.size());
         System.out.println("timeout: " + clients.peek().command.timeout);
+        now =  System.currentTimeMillis();
         System.out.println("now: " + now);
         while (!clients.isEmpty() && clients.peek().command.timeout <= System.currentTimeMillis()) {
             WaitingClient client = clients.poll();
