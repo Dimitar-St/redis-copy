@@ -122,6 +122,7 @@ public class BlockingClientManager {
 
 //            selectionKey.cancel();
         }
+         System.out.println(clients.size());
     }
 
 }
