@@ -37,11 +37,11 @@ public class BlockingClientManager {
         while (!clients.isEmpty() && clients.peek().command.timeout <= now) {
             WaitingClient client = clients.poll();
 
-            if (client.completed) {
-                continue;
-            }
-
-            client.completed = true;
+//            if (client.completed) {
+//                continue;
+//            }
+//
+//            client.completed = true;
             client.responseWithNull();
         }
     }
@@ -56,11 +56,11 @@ public class BlockingClientManager {
         while (!queue.isEmpty()) {
             WaitingClient client = queue.poll();
 
-            if (client.completed) {
-                continue;
-            }
-
-            client.completed = true;
+//            if (client.completed) {
+//                continue;
+//            }
+//
+//            client.completed = true;
 
             if (queue.isEmpty()) {
                 waitingByKey.remove(key);
