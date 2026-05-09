@@ -82,7 +82,7 @@ public class BlockingClientManager {
             }
         }
 
-        this.close(client);
+      //  this.close(client);
     }
 
     private void close(WaitingClient client) {
