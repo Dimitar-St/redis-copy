@@ -112,6 +112,8 @@ public class BlockingClientManager {
             WaitingClient wClient = new WaitingClient(command, clientSocket);
             clients.add(wClient);
 
+            System.out.println("registrira li se");
+
             waitingByKey
                     .computeIfAbsent(dataStructure, k -> new ArrayDeque<>())
                     .add(wClient);
