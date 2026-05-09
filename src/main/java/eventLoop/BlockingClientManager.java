@@ -33,7 +33,7 @@ public class BlockingClientManager {
         System.out.println("Handle timeout connections...");
         System.out.println("Clients waiting: " + clients.size());
         System.out.println("timeout: " + (clients.peek().command.timeout <= now));
-        while (!clients.isEmpty() && clients.peek().command.timeout < now) {
+        while (!clients.isEmpty() && clients.peek().command.timeout <= now) {
             WaitingClient client = clients.poll();
 
             if (client.completed) {
@@ -76,9 +76,10 @@ public class BlockingClientManager {
     public void respondValue(WaitingClient client)  {
         String response = client.command.execute();
 
+        clients.remove(client);
+
         ByteBuffer buff = ByteBuffer.wrap(response.getBytes());
 
-        System.out.println("tuk");
         while (buff.hasRemaining()) {
             try {
                 client.connection.write(buff);
