@@ -83,6 +83,8 @@ public class BlockingClientManager {
             }
         }
 
+        buff.clear();
+
       //  this.close(client);
     }
 
