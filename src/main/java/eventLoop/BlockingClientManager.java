@@ -39,7 +39,8 @@ public class BlockingClientManager {
 
             client.completed = true;
             client.responseWithNull();
-            this.close(client);
+            System.out.println("tuka");
+           // this.close(client);
         }
     }
 
