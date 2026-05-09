@@ -39,7 +39,7 @@ public class BlockingClientManager {
 
             client.completed = true;
             client.responseWithNull();
-            //this.close(client);
+            this.close(client);
         }
     }
 
@@ -82,7 +82,7 @@ public class BlockingClientManager {
             }
         }
 
-        //this.close(client);
+        this.close(client);
     }
 
     private void close(WaitingClient client) {

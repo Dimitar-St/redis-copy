@@ -87,6 +87,7 @@ public class EventLoop {
 
                     if (bytesRead == -1) {
                         System.out.println("closing client connection");
+                        key.cancel();
                         clientSocket.close();
                         continue;
                     }
