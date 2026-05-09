@@ -75,6 +75,7 @@ public class BlockingClientManager {
 
         ByteBuffer buff = ByteBuffer.wrap(response.getBytes());
 
+        System.out.println("tuk");
         while (buff.hasRemaining()) {
             try {
                 client.connection.write(buff);
@@ -82,8 +83,6 @@ public class BlockingClientManager {
                 e.printStackTrace();
             }
         }
-
-        buff.clear();
 
       //  this.close(client);
     }
