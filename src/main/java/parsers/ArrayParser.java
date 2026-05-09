@@ -22,6 +22,8 @@ public class ArrayParser implements IParser {
         CommandFactory commandFactory = CommandFactory.initialize();
         BaseCommand command = commandFactory.newCommand(recievedCommand);
 
+        Arrays.stream(arguments).forEach(System.out::println);
+
         command.setName(arguments[0]);
         command.setArguments(Arrays.stream(arguments, 1, arguments.length).toArray(String[]::new));
 
