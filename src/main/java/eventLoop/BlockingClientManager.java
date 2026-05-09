@@ -87,16 +87,6 @@ public class BlockingClientManager {
             }
         }
 
-      //  this.close(client);
-    }
-
-    private void close(WaitingClient client) {
-        try {
-            System.out.println("closing client...");
-            client.connection.close();
-        } catch (IOException ignored) {
-            ignored.printStackTrace();
-        }
     }
 
     public void addClient(BaseCommand command, String response, SocketChannel clientSocket, SelectionKey selectionKey) {
@@ -108,7 +98,6 @@ public class BlockingClientManager {
                     .computeIfAbsent(dataStructure, k -> new ArrayDeque<>())
                     .add(wClient);
 
-//            selectionKey.cancel();
             return;
         }
 
@@ -120,9 +109,7 @@ public class BlockingClientManager {
                     .computeIfAbsent(dataStructure, k -> new ArrayDeque<>())
                     .add(wClient);
 
-//            selectionKey.cancel();
         }
-         System.out.println(clients.size());
     }
 
 }
