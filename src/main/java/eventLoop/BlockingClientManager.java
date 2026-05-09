@@ -82,7 +82,7 @@ public class BlockingClientManager {
             }
         }
 
-        //this.close(client);
+        this.close(client);
     }
 
     private void close(WaitingClient client) {
@@ -98,7 +98,7 @@ public class BlockingClientManager {
         String dataStructure = command.getDataStructure();
 
         if (command.timeless) {
-            WaitingClient wClient = new WaitingClient(dataStructure, command, clientSocket);
+            WaitingClient wClient = new WaitingClient(command, clientSocket);
             waitingByKey
                     .computeIfAbsent(dataStructure, k -> new ArrayDeque<>())
                     .add(wClient);
@@ -108,7 +108,7 @@ public class BlockingClientManager {
         }
 
         if (command.isBlocking() && response.equals("not present")) {
-            WaitingClient wClient = new WaitingClient(dataStructure, command, clientSocket);
+            WaitingClient wClient = new WaitingClient(command, clientSocket);
             clients.add(wClient);
 
             waitingByKey

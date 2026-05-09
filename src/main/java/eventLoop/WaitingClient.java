@@ -10,12 +10,8 @@ public class WaitingClient {
     public boolean completed;
     BaseCommand command;
     SocketChannel connection;
-    String datastructure;
 
-    public WaitingClient() {}
-
-    public WaitingClient(String datastructure, BaseCommand command, SocketChannel connection) {
-        this.datastructure = datastructure;
+    public WaitingClient(BaseCommand command, SocketChannel connection) {
         this.command = command;
         this.connection = connection;
     }
