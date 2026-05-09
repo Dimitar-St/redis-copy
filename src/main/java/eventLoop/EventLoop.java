@@ -83,17 +83,14 @@ public class EventLoop {
 
                     ByteBuffer buffer = (ByteBuffer) key.attachment();
 
-                    int bytesRead = clientSocket.read(buffer);
+                    while (buffer.hasRemaining()) {
+                        int bytesRead = clientSocket.read(buffer);
 
-                    if (bytesRead == -1) {
-                        System.out.println("closing client connection");
-                        key.cancel();
-                        clientSocket.close();
-                        continue;
-                    }
-
-                    if (bytesRead == 0) {
-                        continue;
+                        if (bytesRead == -1) {
+                            System.out.println("closing client connection");
+                            key.cancel();
+                            clientSocket.close();
+                        }
                     }
 
                     buffer.flip();
