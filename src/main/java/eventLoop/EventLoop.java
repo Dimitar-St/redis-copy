@@ -59,7 +59,7 @@ public class EventLoop {
             long now = System.currentTimeMillis();
             long timeout = manager.nextDeadline(now);
             System.out.println(timeout);
-            if (timeout <= 0) {
+            if (timeout < 0) {
                 selector.selectNow();
             } else {
                 selector.select(timeout);
