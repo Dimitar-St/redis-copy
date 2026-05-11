@@ -79,6 +79,7 @@ public class Xread extends BaseCommand {
             if (isBlocking) {
                 map = store.getAfter(pair.streamID);
                 if (map.isEmpty()) {
+                    System.out.println("registering command: " + id.toString());
                     this.blockingManager.addClient(this, "not present", this.connection, this.selectionKey);
                     return "not present";
                 }
