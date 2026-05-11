@@ -56,16 +56,6 @@ public class BlockingClientManager {
         while (!queue.isEmpty()) {
             WaitingClient client = queue.poll();
 
-//            if (client.completed) {
-//                continue;
-//            }
-//
-//            client.completed = true;
-
-            if (queue.isEmpty()) {
-                waitingByKey.remove(key);
-            }
-
             return Optional.of(client);
         }
 
@@ -78,6 +68,8 @@ public class BlockingClientManager {
         clients.remove(client);
 
         ByteBuffer buff = ByteBuffer.wrap(response.getBytes());
+
+        System.out.println("writing to response: " + response);
 
         while (buff.hasRemaining()) {
             try {

@@ -44,9 +44,7 @@ public class Xadd extends BaseCommand {
 
         Optional<WaitingClient> waiter = blockingManager.tryResolve(streamKey);
 
-        if (waiter.isPresent()) {
-            blockingManager.respondValue(waiter.get());
-        }
+        waiter.ifPresent(blockingManager::respondValue);
 
         return "$" + idString.length() + "\r\n" +  idString + "\r\n";
     }
