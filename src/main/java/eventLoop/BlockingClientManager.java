@@ -49,7 +49,7 @@ public class BlockingClientManager {
                     waitingByKey.remove(key);
                 }
             }
-
+            System.out.println("tuk");
             client.responseWithNull();
         }
     }
