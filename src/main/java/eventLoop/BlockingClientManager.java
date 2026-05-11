@@ -17,7 +17,7 @@ public class BlockingClientManager {
     public BlockingClientManager() {
     }
 
-    long nextDeadline(long now) {
+    long nextDeadline() {
         if (clients.isEmpty()) {
                return -1;   // no deadlines
         }

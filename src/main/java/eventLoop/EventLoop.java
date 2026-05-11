@@ -60,7 +60,7 @@ public class EventLoop {
             long now = System.currentTimeMillis();
             manager.handleTimeouts(now);
 
-            long timeout = manager.nextDeadline(now);
+            long timeout = manager.nextDeadline();
 
             if (timeout == -1) {
                 // no blocked clients: wait indefinitely for network activity
@@ -70,7 +70,6 @@ public class EventLoop {
                 selector.selectNow();
             } else {
                 // wait until the next deadline
-                System.out.println(timeout);
                 selector.select(timeout);
             }
 
