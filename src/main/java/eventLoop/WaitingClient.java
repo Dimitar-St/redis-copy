@@ -5,13 +5,16 @@ import commands.BaseCommand;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.channels.SocketChannel;
+import java.util.UUID;
 
 public class WaitingClient {
     public boolean completed;
     BaseCommand command;
     SocketChannel connection;
+    public UUID id;
 
     public WaitingClient(BaseCommand command, SocketChannel connection) {
+        id = UUID.randomUUID();
         this.command = command;
         this.connection = connection;
     }
