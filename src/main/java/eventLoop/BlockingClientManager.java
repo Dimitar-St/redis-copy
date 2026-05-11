@@ -37,7 +37,7 @@ public class BlockingClientManager {
 //        });
         System.out.println("timeout: " + clients.peek().command.timeout);
         System.out.println("now:     " + now);
-        while (!clients.isEmpty() && clients.peek().command.timeout <= now) {
+        while (clients.peek().command.timeout <= now) {
             WaitingClient client = clients.poll();
             waitingByKey.remove(client.command.getDataStructure());
 
