@@ -46,7 +46,15 @@ public abstract class BaseCommand implements ICommand {
             return;
         }
 
-        this.timeout = System.currentTimeMillis() + (long) (timeout);
+        // Redis BLOCK timeout is always expressed in milliseconds.
+        // It may be:
+        //   "1000" -> 1000 ms
+        //   "0.4"  -> 0.4 ms (fractional milliseconds)
+        //
+        // Use ceil so any positive fractional timeout becomes at least 1 ms.
+        long timeoutMs = (long) Math.ceil(timeout);
+
+        this.timeout = System.currentTimeMillis() + timeoutMs;
     }
 
     @Override
