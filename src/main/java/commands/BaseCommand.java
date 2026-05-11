@@ -46,7 +46,7 @@ public abstract class BaseCommand implements ICommand {
             return;
         }
 
-        this.timeout = System.currentTimeMillis() + (long) (timeout * 1000);
+        this.timeout = System.currentTimeMillis() + (long) (timeout);
     }
 
     @Override
