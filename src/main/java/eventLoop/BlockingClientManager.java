@@ -32,13 +32,13 @@ public class BlockingClientManager {
 
         while (!clients.isEmpty() && clients.peek().command.timeout <= now) {
             WaitingClient client = clients.poll();
-            waitingByKey.remove(client.command.getDataStructure());
 
             if (client.completed) {
                 continue;
             }
 
             client.completed = true;
+            waitingByKey.remove(client.command.getDataStructure());
             client.responseWithNull();
         }
     }
@@ -55,7 +55,7 @@ public class BlockingClientManager {
         return Optional.of(client);
     }
 
-    public void respondValue(WaitingClient client)  {
+    public void respondValue(WaitingClient client) {
         String response = client.command.execute();
 
         ByteBuffer buff = ByteBuffer.wrap(response.getBytes());
