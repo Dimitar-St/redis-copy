@@ -113,6 +113,8 @@ public class BlockingClientManager {
                     .add(wClient);
         }
         Arrays.stream(command.getArguments()).sequential().forEach(System.out::println);
+        System.out.println("Waiting clinets by key: " + waitingByKey.size());
+        System.out.println("Waiting clients by tiemout: " + clients.size());
     }
 
 }
