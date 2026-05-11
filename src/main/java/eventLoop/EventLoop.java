@@ -67,10 +67,10 @@ public class EventLoop {
                 selector.select();
             } else if (timeout == 0) {
                 // timeout already due: don't block
-                System.out.println("timeed");
                 selector.selectNow();
             } else {
                 // wait until the next deadline
+                System.out.println(timeout);
                 selector.select(timeout);
             }
 
