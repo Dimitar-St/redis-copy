@@ -7,9 +7,11 @@ import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.Arrays;
 import java.util.Objects;
+import java.util.UUID;
 
 public abstract class BaseCommand implements ICommand {
     String name;
+    public UUID id;
     String[] arguments;
     public long timeout = 0;
     public SocketChannel connection;

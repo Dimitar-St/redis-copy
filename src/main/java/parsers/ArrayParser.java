@@ -7,6 +7,7 @@ import utils.ArgumentParser;
 
 import java.nio.ByteBuffer;
 import java.util.Arrays;
+import java.util.UUID;
 
 public class ArrayParser implements IParser {
     public ArrayParser() {}
@@ -23,6 +24,7 @@ public class ArrayParser implements IParser {
         BaseCommand command = commandFactory.newCommand(recievedCommand);
 
         command.setName(arguments[0]);
+        command.id = UUID.randomUUID();
         command.setArguments(Arrays.stream(arguments, 1, arguments.length).toArray(String[]::new));
 
         return command;
