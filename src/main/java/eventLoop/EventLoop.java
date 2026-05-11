@@ -71,6 +71,7 @@ public class EventLoop {
                 selector.selectNow();
             } else {
                 // wait until the next deadline
+                System.out.println(timeout);
                 selector.select(timeout);
             }
 
