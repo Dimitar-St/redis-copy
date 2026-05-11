@@ -87,16 +87,6 @@ public class BlockingClientManager {
     public void addClient(BaseCommand command, String response, SocketChannel clientSocket, SelectionKey selectionKey) {
         String dataStructure = command.getDataStructure();
         WaitingClient wClient = new WaitingClient(command, clientSocket);
-        if (clients.contains(wClient)) {
-            return;
-        }
-
-        Deque<WaitingClient> q = waitingByKey.get(dataStructure);
-        if (q != null) {
-            if (q.contains(wClient)) {
-                return;
-            }
-        }
 
 
         if (command.timeless) {
@@ -114,13 +104,6 @@ public class BlockingClientManager {
                     .computeIfAbsent(dataStructure, k -> new ArrayDeque<>())
                     .add(wClient);
         }
-//        Arrays.stream(command.getArguments()).sequential().forEach(System.out::println);
-//        Optional.ofNullable(q).ifPresentOrElse(qi -> {
-//            System.out.println(qi.size());
-//        }, () -> {
-//            System.out.println("empty queue");
-//        });
-//        System.out.println("Waiting clients by tiemout: " + clients.size());
     }
 
 }
