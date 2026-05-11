@@ -79,11 +79,6 @@ public class BlockingClientManager {
             }
         }
 
-        // Re-enable reading
-        if (client.command.selectionKey.isValid()) {
-            client.command.selectionKey.interestOps(client.command.selectionKey.interestOps() | SelectionKey.OP_READ);
-            client.command.selectionKey.selector().wakeup();
-        }
 
     }
 
@@ -113,7 +108,6 @@ public class BlockingClientManager {
         if (command.isBlocking() && response.equals("not present")) {
             clients.add(wClient);
 
-            selectionKey.interestOps(selectionKey.interestOps() & ~SelectionKey.OP_READ);
             waitingByKey
                     .computeIfAbsent(dataStructure, k -> new ArrayDeque<>())
                     .add(wClient);
