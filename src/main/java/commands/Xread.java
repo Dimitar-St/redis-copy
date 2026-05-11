@@ -52,7 +52,7 @@ public class Xread extends BaseCommand {
 
     @Override
     public String execute() {
-        System.out.println("Start executing XREAD Command: ");
+        System.out.println("Start executing XREAD Command: " + id.toString());
         List<Pair> pairs = this.readMultipleStreams();
         StringBuilder result = new StringBuilder();
 
