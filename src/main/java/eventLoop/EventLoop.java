@@ -101,7 +101,6 @@ public class EventLoop {
                     command.connection = clientSocket;
                     command.selectionKey = key;
 
-                    System.out.println("here");
                     String response = command.execute();
 
                     if (response.equals("not present")) {
