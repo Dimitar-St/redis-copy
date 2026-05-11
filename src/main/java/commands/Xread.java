@@ -77,7 +77,6 @@ public class Xread extends BaseCommand {
                 map = store.getAfter(pair.streamID);
                 if (map.isEmpty()) {
                     this.blockingManager.addClient(this, "not present", this.connection, this.selectionKey);
-                    System.out.println("StreamID: " + pair.streamID);
                     return "not present";
                 }
             } else {
