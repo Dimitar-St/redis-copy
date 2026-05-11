@@ -51,11 +51,11 @@ public abstract class BaseCommand implements ICommand {
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
         BaseCommand that = (BaseCommand) o;
-        return Objects.equals(name, that.name) && Objects.deepEquals(arguments, that.arguments);
+        return timeout == that.timeout && timeless == that.timeless && Objects.equals(name, that.name) && Objects.deepEquals(arguments, that.arguments) && Objects.equals(connection, that.connection) && Objects.equals(selectionKey, that.selectionKey);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(name, Arrays.hashCode(arguments));
+        return Objects.hash(name, Arrays.hashCode(arguments), timeout, connection, selectionKey, timeless);
     }
 }
