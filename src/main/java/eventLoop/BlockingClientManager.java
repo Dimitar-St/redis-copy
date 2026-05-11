@@ -113,8 +113,10 @@ public class BlockingClientManager {
                     .add(wClient);
         }
         Arrays.stream(command.getArguments()).sequential().forEach(System.out::println);
-        Optional.of(q).ifPresent(qi -> {
+        Optional.of(q).ifPresentOrElse(qi -> {
             System.out.println(qi.size());
+        }, () -> {
+            System.out.println("empty queue");
         });
         System.out.println("Waiting clients by tiemout: " + clients.size());
     }
