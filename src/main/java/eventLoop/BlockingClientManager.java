@@ -93,6 +93,7 @@ public class BlockingClientManager {
         }
 
         if (command.isBlocking() && response.equals("not present")) {
+            System.out.println("Registering command: " + command.id);
             clients.add(wClient);
 
             waitingByKey
