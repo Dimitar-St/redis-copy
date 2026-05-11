@@ -84,7 +84,7 @@ public class Xread extends BaseCommand {
                 map = store.getFrom(pair.streamID);
             }
 
-
+            System.out.println(pair.streamID);
             result.append(this.parseResultString(pair.streamKey, map));
         }
 

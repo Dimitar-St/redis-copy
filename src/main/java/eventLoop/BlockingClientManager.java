@@ -71,8 +71,6 @@ public class BlockingClientManager {
 
         ByteBuffer buff = ByteBuffer.wrap(response.getBytes());
 
-//        System.out.println("writing to response: " + response);
-
         while (buff.hasRemaining()) {
             try {
                 client.connection.write(buff);
@@ -102,7 +100,6 @@ public class BlockingClientManager {
             waitingByKey
                     .computeIfAbsent(dataStructure, k -> new ArrayDeque<>())
                     .add(wClient);
-
         }
     }
 
