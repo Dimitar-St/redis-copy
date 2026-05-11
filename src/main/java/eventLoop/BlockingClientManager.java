@@ -27,17 +27,9 @@ public class BlockingClientManager {
 
     public void handleTimeouts(long now) {
         if (clients.isEmpty()) {
-            System.out.println("no waiting clients");
             return;
         }
 
-//        System.out.println("Handle timeout connections...");
-//        System.out.println("Clients waiting: " + clients.size());
-//        clients.stream().sequential().forEach(c -> {
-//            System.out.println(c.id);
-//        });
-        System.out.println("timeout: " + clients.peek().command.timeout);
-        System.out.println("now:     " + now);
         while (clients.peek().command.timeout <= now) {
             WaitingClient client = clients.poll();
             waitingByKey.remove(client.command.getDataStructure());
