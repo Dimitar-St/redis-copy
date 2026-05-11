@@ -105,9 +105,9 @@ public class BlockingClientManager {
             WaitingClient wClient = new WaitingClient(command, clientSocket);
             clients.add(wClient);
 
-            waitingByKey
-                    .computeIfAbsent(dataStructure, k -> new ArrayDeque<>())
-                    .add(wClient);
+//            waitingByKey
+//                    .computeIfAbsent(dataStructure, k -> new ArrayDeque<>())
+//                    .add(wClient);
 
         }
     }
