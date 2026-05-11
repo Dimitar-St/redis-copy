@@ -78,10 +78,10 @@ public class EventLoop {
                 }
 
                 if (key.isReadable()) {
-                    System.out.println("here");
                     SocketChannel clientSocket = (SocketChannel) key.channel();
-                    if (clientSocket == null)
+                    if (clientSocket == null) {
                         continue;
+                    }
 
                     ByteBuffer buffer = (ByteBuffer) key.attachment();
 
@@ -101,6 +101,7 @@ public class EventLoop {
                     command.connection = clientSocket;
                     command.selectionKey = key;
 
+                    System.out.println("here");
                     String response = command.execute();
 
                     if (response.equals("not present")) {
