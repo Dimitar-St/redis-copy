@@ -58,14 +58,19 @@ public class EventLoop {
     public void run() throws IOException {
         while (true) {
             long now = System.currentTimeMillis();
+            manager.handleTimeouts(now);
 
             long timeout = manager.nextDeadline(now);
 
-            manager.handleTimeouts(now);
-            if (timeout <= 0) {
+            if (timeout == -1) {
+                // no blocked clients: wait indefinitely for network activity
+                selector.select();
+            } else if (timeout == 0) {
+                // timeout already due: don't block
                 selector.selectNow();
             } else {
-                selector.selectNow();
+                // wait until the next deadline
+                selector.select(timeout);
             }
 
             now = System.currentTimeMillis();   // recompute
