@@ -65,8 +65,9 @@ public class EventLoop {
             if (timeout <= 0) {
                 selector.selectNow();
             } else {
-                selector.select(timeout);
                 System.out.println("here");
+                selector.select(timeout);
+                System.out.println("here2");
             }
 
             now = System.currentTimeMillis();   // recompute
