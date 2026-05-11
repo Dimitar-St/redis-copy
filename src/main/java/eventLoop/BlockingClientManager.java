@@ -101,6 +101,7 @@ public class BlockingClientManager {
             waitingByKey
                     .computeIfAbsent(dataStructure, k -> new ArrayDeque<>())
                     .add(wClient);
+            selectionKey.selector().wakeup();
         }
     }
 
