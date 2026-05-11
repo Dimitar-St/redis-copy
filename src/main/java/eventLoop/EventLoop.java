@@ -106,6 +106,8 @@ public class EventLoop {
                     String response = command.execute();
 
                     if (response.equals("not present")) {
+                        buffer.clear();          // VERY IMPORTANT
+                        iterator.remove();       // remove processed selection key
                         continue;
                     }
 
@@ -117,9 +119,9 @@ public class EventLoop {
                     }
 
                     buffer.clear();
+                    iterator.remove();
                 }
 
-                iterator.remove();
             }
         }
     }
