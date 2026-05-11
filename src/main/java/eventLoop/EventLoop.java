@@ -58,8 +58,10 @@ public class EventLoop {
     public void run() throws IOException {
         while (true) {
             long now = System.currentTimeMillis();
+
             long timeout = manager.nextDeadline(now);
 
+            manager.handleTimeouts(now);
             if (timeout <= 0) {
                 selector.selectNow();
             } else {
