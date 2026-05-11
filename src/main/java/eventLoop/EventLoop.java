@@ -62,7 +62,7 @@ public class EventLoop {
             if (timeout <= 0) {
                 selector.selectNow();
             } else {
-                selector.select(0);
+                selector.select();
             }
 
             manager.handleTimeouts(now);
