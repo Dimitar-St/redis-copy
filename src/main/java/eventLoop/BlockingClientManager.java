@@ -22,7 +22,7 @@ public class BlockingClientManager {
                return -1;   // no deadlines
            }
 
-        return Math.max(0, clients.peek().command.timeout - now);
+        return Math.max(0, clients.peek().command.timeout - System.currentTimeMillis());
     }
 
     public void handleTimeouts(long now) {
@@ -49,7 +49,6 @@ public class BlockingClientManager {
                     waitingByKey.remove(key);
                 }
             }
-            System.out.println("tuk");
             client.responseWithNull();
         }
     }
