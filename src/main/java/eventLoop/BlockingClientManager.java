@@ -92,6 +92,7 @@ public class BlockingClientManager {
 
         Deque<WaitingClient> q = waitingByKey.get(dataStructure);
         if (q != null) {
+            System.out.println("Skipping adding client 2");
             if (waitingByKey.get(dataStructure).contains(wClient)) {
                 System.out.println("Skipping adding client 2");
                 return;
@@ -114,13 +115,13 @@ public class BlockingClientManager {
                     .computeIfAbsent(dataStructure, k -> new ArrayDeque<>())
                     .add(wClient);
         }
-        Arrays.stream(command.getArguments()).sequential().forEach(System.out::println);
-        Optional.ofNullable(q).ifPresentOrElse(qi -> {
-            System.out.println(qi.size());
-        }, () -> {
-            System.out.println("empty queue");
-        });
-        System.out.println("Waiting clients by tiemout: " + clients.size());
+//        Arrays.stream(command.getArguments()).sequential().forEach(System.out::println);
+//        Optional.ofNullable(q).ifPresentOrElse(qi -> {
+//            System.out.println(qi.size());
+//        }, () -> {
+//            System.out.println("empty queue");
+//        });
+//        System.out.println("Waiting clients by tiemout: " + clients.size());
     }
 
 }
