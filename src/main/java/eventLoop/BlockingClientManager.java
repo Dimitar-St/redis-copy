@@ -18,9 +18,9 @@ public class BlockingClientManager {
     }
 
     long nextDeadline(long now) {
-           if (clients.isEmpty()) {
+        if (clients.isEmpty()) {
                return -1;   // no deadlines
-           }
+        }
 
         return Math.max(0, clients.peek().command.timeout - System.currentTimeMillis());
     }

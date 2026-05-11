@@ -82,7 +82,6 @@ public class EventLoop {
 
             while (iterator.hasNext()) {
                 SelectionKey key = iterator.next();
-                iterator.remove();
 
                 if (key.isAcceptable()) {
                     register(this.selector, this.serverSocketChannel);
@@ -118,6 +117,7 @@ public class EventLoop {
 
                     if (response.equals("not present")) {
                         buffer.clear();          // VERY IMPORTANT
+                        iterator.remove();
                         continue;
                     }
 
@@ -129,6 +129,7 @@ public class EventLoop {
                     }
 
                     buffer.clear();
+                    iterator.remove();
                 }
 
             }
