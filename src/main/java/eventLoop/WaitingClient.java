@@ -5,6 +5,7 @@ import commands.BaseCommand;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.channels.SocketChannel;
+import java.util.Objects;
 import java.util.UUID;
 
 public class WaitingClient {
@@ -28,5 +29,17 @@ public class WaitingClient {
                 throw new RuntimeException(e);
             }
         }
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        WaitingClient that = (WaitingClient) o;
+        return completed == that.completed && Objects.equals(command, that.command) && Objects.equals(connection, that.connection) && Objects.equals(id, that.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(completed, command, connection, id);
     }
 }

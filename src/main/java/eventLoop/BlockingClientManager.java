@@ -95,6 +95,9 @@ public class BlockingClientManager {
 
         if (command.isBlocking() && response.equals("not present")) {
             WaitingClient wClient = new WaitingClient(command, clientSocket);
+            if (clients.contains(wClient)) {
+                return;
+            }
             clients.add(wClient);
 
             System.out.print(command);
