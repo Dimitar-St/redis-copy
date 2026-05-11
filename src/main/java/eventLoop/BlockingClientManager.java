@@ -92,8 +92,10 @@ public class BlockingClientManager {
 
         Deque<WaitingClient> q = waitingByKey.get(dataStructure);
         if (q != null) {
-            System.out.println("Skipping adding client 2");
-            if (waitingByKey.get(dataStructure).contains(wClient)) {
+            q.stream().forEach(c -> {
+                System.out.println(c.equals(wClient));
+            });
+            if (q.contains(wClient)) {
                 System.out.println("Skipping adding client 2");
                 return;
             }
