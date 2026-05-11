@@ -59,7 +59,6 @@ public class BlockingClientManager {
         }
 
         WaitingClient client = queue.poll();
-        clients.remove(client);
 
         return Optional.of(client);
     }
