@@ -58,6 +58,7 @@ public class EventLoop {
     public void run() throws IOException {
         while (true) {
             long now = System.currentTimeMillis();
+            manager.handleTimeouts(now);
             long timeout = manager.nextDeadline(now);
             if (timeout <= 0) {
                 selector.selectNow();
@@ -65,7 +66,6 @@ public class EventLoop {
                 selector.select();
             }
 
-            manager.handleTimeouts(now);
 
             Set<SelectionKey> selectionKeySet = selector.selectedKeys();
             Iterator<SelectionKey> iterator = selectionKeySet.iterator();
