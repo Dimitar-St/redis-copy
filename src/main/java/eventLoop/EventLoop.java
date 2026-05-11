@@ -71,8 +71,7 @@ public class EventLoop {
                 selector.selectNow();
             } else {
                 // wait until the next deadline
-                manager.handleTimeouts(now);
-                selector.select(timeout);
+                selector.selectNow();
             }
 
             now = System.currentTimeMillis();   // recompute
