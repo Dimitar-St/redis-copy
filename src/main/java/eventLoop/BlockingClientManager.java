@@ -112,7 +112,7 @@ public class BlockingClientManager {
                     .computeIfAbsent(dataStructure, k -> new ArrayDeque<>())
                     .add(wClient);
         }
-        System.out.println(command);
+        Arrays.stream(command.getArguments()).sequential().forEach(System.out::println);
     }
 
 }
