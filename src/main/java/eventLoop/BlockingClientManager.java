@@ -113,7 +113,7 @@ public class BlockingClientManager {
                     .add(wClient);
         }
         Arrays.stream(command.getArguments()).sequential().forEach(System.out::println);
-        Optional.of(q).ifPresentOrElse(qi -> {
+        Optional.ofNullable(q).ifPresentOrElse(qi -> {
             System.out.println(qi.size());
         }, () -> {
             System.out.println("empty queue");
