@@ -39,6 +39,7 @@ public class BlockingClientManager {
 //        System.out.println("now: " + now);
         while (!clients.isEmpty() && clients.peek().command.timeout <= now) {
             WaitingClient client = clients.poll();
+            waitingByKey.remove(client.command.getDataStructure());
 
 //            if (client.completed) {
 //                continue;
@@ -57,6 +58,7 @@ public class BlockingClientManager {
         }
 
         while (!queue.isEmpty()) {
+            System.out.println("Polling from waitingClientBYKey");
             WaitingClient client = queue.poll();
             clients.remove(client);
 
