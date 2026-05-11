@@ -38,6 +38,18 @@ public class BlockingClientManager {
             }
 
             client.completed = true;
+
+            String key = client.command.getDataStructure();
+            Deque<WaitingClient> queue = waitingByKey.get(key);
+
+            if (queue != null) {
+                queue.remove(client);
+
+                if (queue.isEmpty()) {
+                    waitingByKey.remove(key);
+                }
+            }
+
             client.responseWithNull();
         }
     }
