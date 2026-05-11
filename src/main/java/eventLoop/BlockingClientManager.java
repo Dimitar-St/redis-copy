@@ -86,12 +86,14 @@ public class BlockingClientManager {
         String dataStructure = command.getDataStructure();
         WaitingClient wClient = new WaitingClient(command, clientSocket);
         if (clients.contains(wClient)) {
+            System.out.println("Skipping adding client 1");
             return;
         }
 
         Deque<WaitingClient> q = waitingByKey.get(dataStructure);
         if (q != null) {
             if (waitingByKey.get(dataStructure).contains(wClient)) {
+                System.out.println("Skipping adding client 2");
                 return;
             }
         }
