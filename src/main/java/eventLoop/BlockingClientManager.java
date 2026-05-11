@@ -89,9 +89,13 @@ public class BlockingClientManager {
 
     public void addClient(BaseCommand command, String response, SocketChannel clientSocket, SelectionKey selectionKey) {
         String dataStructure = command.getDataStructure();
+        WaitingClient wClient = new WaitingClient(command, clientSocket);
+        if (clients.contains(wClient) || waitingByKey.get(dataStructure).contains(wClient)) {
+            return;
+        }
+
 
         if (command.timeless) {
-            WaitingClient wClient = new WaitingClient(command, clientSocket);
             waitingByKey
                     .computeIfAbsent(dataStructure, k -> new ArrayDeque<>())
                     .add(wClient);
@@ -100,10 +104,6 @@ public class BlockingClientManager {
         }
 
         if (command.isBlocking() && response.equals("not present")) {
-            WaitingClient wClient = new WaitingClient(command, clientSocket);
-            if (clients.contains(wClient)) {
-                return;
-            }
             clients.add(wClient);
 
             selectionKey.interestOps(selectionKey.interestOps() & ~SelectionKey.OP_READ);
