@@ -52,8 +52,8 @@ public class Xread extends BaseCommand {
 
     @Override
     public String execute() {
-        System.out.print(timeout);
         if (timeout <= System.currentTimeMillis() && timeout != 0) {
+            System.out.println("command timed out");
            return "*-1\r\n";
         }
         List<Pair> pairs = this.readMultipleStreams();
