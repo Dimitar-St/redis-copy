@@ -66,7 +66,7 @@ public class EventLoop {
                 selector.selectNow();
             } else {
                 System.out.println("here");
-                selector.select(timeout);
+                selector.selectNow();
                 System.out.println("here2");
             }
 
