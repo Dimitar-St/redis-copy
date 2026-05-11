@@ -103,8 +103,6 @@ public class BlockingClientManager {
                     .computeIfAbsent(dataStructure, k -> new ArrayDeque<>())
                     .add(wClient);
 
-            selectionKey.cancel();
-
         }
     }
 
