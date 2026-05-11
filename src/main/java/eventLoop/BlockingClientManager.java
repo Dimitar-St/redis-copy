@@ -9,8 +9,8 @@ import java.nio.channels.SocketChannel;
 import java.util.*;
 
 public class BlockingClientManager {
-    private final PriorityQueue<WaitingClient> clients = new PriorityQueue<>((f, s) ->
-            Math.toIntExact(f.command.timeout - s.command.timeout));
+    private final PriorityQueue<WaitingClient> clients =
+            new PriorityQueue<>(Comparator.comparingLong(c -> c.command.timeout));
 
     private final Map<String, Deque<WaitingClient>> waitingByKey = new HashMap<>();
 
@@ -30,7 +30,7 @@ public class BlockingClientManager {
             return;
         }
 
-        while (clients.peek().command.timeout <= now) {
+        while (!clients.isEmpty() && clients.peek().command.timeout <= now) {
             WaitingClient client = clients.poll();
             waitingByKey.remove(client.command.getDataStructure());
 
