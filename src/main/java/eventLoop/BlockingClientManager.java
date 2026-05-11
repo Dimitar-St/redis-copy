@@ -38,7 +38,6 @@ public class BlockingClientManager {
             }
 
             client.completed = true;
-            waitingByKey.remove(client.command.getDataStructure());
             client.responseWithNull();
         }
     }
