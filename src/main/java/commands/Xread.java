@@ -52,6 +52,9 @@ public class Xread extends BaseCommand {
 
     @Override
     public String execute() {
+        if (timeout <= System.currentTimeMillis()) {
+           return "*-1\r\n";
+        }
         List<Pair> pairs = this.readMultipleStreams();
         StringBuilder result = new StringBuilder();
 
