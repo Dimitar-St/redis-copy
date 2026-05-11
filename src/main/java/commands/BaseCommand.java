@@ -35,24 +35,31 @@ public abstract class BaseCommand implements ICommand {
     }
 
     public void setTime() {
-       setTimeFromIndex(1);
+        setTimeFromIndex(1);
     }
 
     protected void setTimeFromIndex(int index) {
-        double timeout = Double.parseDouble(arguments[index]);
+        String arg = arguments[index];
 
-        if (timeout == 0.0) {
+        // BLOCK 0 means wait forever
+        if ("0".equals(arg) || "0.0".equals(arg)) {
             timeless = true;
             return;
         }
 
-        if (!arguments[index].contains(".")) {
-            this.timeout = System.currentTimeMillis() + (long) (timeout);
-            return;
+        long timeoutMs;
+
+        // Some tests pass values like:
+        // "1000" -> already milliseconds
+        // "0.4"  -> interpreted as seconds, so 0.4 * 1000 = 400 ms
+        if (arg.contains(".")) {
+            double seconds = Double.parseDouble(arg);
+            timeoutMs = (long) Math.ceil(seconds * 1000.0);
+        } else {
+            timeoutMs = Long.parseLong(arg);
         }
 
-
-        this.timeout = System.currentTimeMillis() + (long) (timeout * 1000);
+        this.timeout = System.currentTimeMillis() + timeoutMs;
     }
 
     @Override
