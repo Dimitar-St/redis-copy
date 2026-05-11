@@ -78,6 +78,7 @@ public class EventLoop {
                 }
 
                 if (key.isReadable()) {
+                    System.out.println("here");
                     SocketChannel clientSocket = (SocketChannel) key.channel();
                     if (clientSocket == null)
                         continue;
