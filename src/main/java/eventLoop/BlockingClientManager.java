@@ -57,14 +57,10 @@ public class BlockingClientManager {
             return Optional.empty();
         }
 
-        while (!queue.isEmpty()) {
-            WaitingClient client = queue.poll();
-            clients.remove(client);
+        WaitingClient client = queue.poll();
+        clients.remove(client);
 
-            return Optional.of(client);
-        }
-
-        return Optional.empty();
+        return Optional.of(client);
     }
 
     public void respondValue(WaitingClient client)  {
