@@ -30,10 +30,10 @@ public class BlockingClientManager {
             return;
         }
 
-        System.out.println("Handle timeout connections...");
-        System.out.println("Clients waiting: " + clients.size());
-        System.out.println("timeout: " + clients.peek().command.timeout);
-        System.out.println("now: " + now);
+//        System.out.println("Handle timeout connections...");
+//        System.out.println("Clients waiting: " + clients.size());
+//        System.out.println("timeout: " + clients.peek().command.timeout);
+//        System.out.println("now: " + now);
         while (!clients.isEmpty() && clients.peek().command.timeout <= now) {
             WaitingClient client = clients.poll();
 
@@ -55,6 +55,7 @@ public class BlockingClientManager {
 
         while (!queue.isEmpty()) {
             WaitingClient client = queue.poll();
+            clients.remove(client);
 
             return Optional.of(client);
         }
@@ -64,8 +65,6 @@ public class BlockingClientManager {
 
     public void respondValue(WaitingClient client)  {
         String response = client.command.execute();
-
-        clients.remove(client);
 
         ByteBuffer buff = ByteBuffer.wrap(response.getBytes());
 
