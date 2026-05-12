@@ -9,7 +9,9 @@ public class Xread extends BaseCommand {
     private final Storage storage;
     private final BlockingClientManager blockingManager;
     private boolean isBlocking;
+    private boolean readOnlyFromNewStream;
     private String dataStructure;
+    private int counter;
 
     public Xread(Storage storage, BlockingClientManager blockingManager) {
         this.storage = storage;
@@ -32,6 +34,10 @@ public class Xread extends BaseCommand {
 
         int streamCount = remaining / 2;
         List<Pair> pairs = new ArrayList<>();
+
+        if (streamCount == 2 && arguments[arguments.length-1].equals("&")) {
+            this.readOnlyFromNewStream = true;
+        }
 
         for (int i = 0; i < streamCount; i++) {
             String streamKey = arguments[argsToRemove + i];
@@ -72,9 +78,20 @@ public class Xread extends BaseCommand {
                 return "+none\r\n";
             }
 
+            // Terrible code. It should change based on the Xread command arguments, every Xread behaves differently based on the arguments.
+            // Consider implementing SubCommands based on a set of arguments and removing the if else;
             SortedMap<StreamID, Block> map;
             if (isBlocking) {
-                map = store.getAfter(pair.streamID);
+                if (readOnlyFromNewStream) {
+                    map = new TreeMap<>();
+                    if (counter > 0) {
+                        var latest = store.getLatest();
+                        map.put(latest.getKey(), latest.getValue());
+                    }
+                    counter++;
+                } else {
+                    map = store.getAfter(pair.streamID);
+                }
                 if (map.isEmpty()) {
                     this.blockingManager.addClient(this, "not present", this.connection, this.selectionKey);
                     return "not present";

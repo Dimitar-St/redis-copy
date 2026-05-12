@@ -73,6 +73,10 @@ public class StreamStore {
         return this.store.tailMap(streamID);
     }
 
+    public Map.Entry<StreamID, Block> getLatest() {
+        return this.store.lastEntry();
+    }
+
     public SortedMap<StreamID, Block> getAfter(StreamID streamID) {
         return this.store.tailMap(streamID, false);
     }
