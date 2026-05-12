@@ -46,6 +46,7 @@ public class BlockingClientManager {
                 queue.remove(client);
 
                 if (queue.isEmpty()) {
+                    System.out.println("Removing queue: " + key);
                     waitingByKey.remove(key);
                 }
             }
@@ -92,8 +93,6 @@ public class BlockingClientManager {
             waitingByKey
                     .computeIfAbsent(dataStructure, k -> new ArrayDeque<>())
                     .add(wClient);
-
-            System.out.println(waitingByKey.get(dataStructure).size());
 
             return;
         }
