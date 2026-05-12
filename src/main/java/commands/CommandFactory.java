@@ -16,6 +16,7 @@ public class CommandFactory {
         commands.put("ECHO", () -> new Echo());
         commands.put("PING", () -> new Ping());
         commands.put("SET", () -> new Set(this.storage));
+        commands.put("INCR", () -> new Incr(this.storage));
         commands.put("GET", () -> new Get(this.storage));
         commands.put("RPUSH", () -> new Rpush(this.storage, blockingManager));
         commands.put("LRANGE", () -> new Lrange(this.storage));

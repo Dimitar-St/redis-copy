@@ -1,13 +1,9 @@
 package storage;
 
-import commands.Block;
-import commands.Options;
-import commands.StreamID;
 import commands.StreamStore;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.SortedMap;
 
 public class Storage {
     private final Map<String, Value> cache = new HashMap<>();
@@ -15,7 +11,7 @@ public class Storage {
 
     public Storage() {}
 
-    public void set(String key, String content, Options options) {
+    public void set(String key, String content) {
         Value<String> value = new Value(content, options);
         cache.put(key, value);
     }

@@ -27,6 +27,7 @@ public class Xread extends BaseCommand {
     // Commands example:
     //              XREAD STREAMS <key1> <key2> ... <id1> <id2> ...
     //              XREAD streams stream_key other_stream_key 0-0 0-1
+    // NOTE: a lot of hidden stuff is happening here, should segregate it
     private List<Pair> readMultipleStreams() {
         if (!parsed) {
             parsed = true;
@@ -82,6 +83,8 @@ public class Xread extends BaseCommand {
         result.append(pairs.size());
         result.append("\r\n");
 
+        // NOTE: this loop has a bug where if more then one stream is passed as a blocking command then
+        // the command is only listening for only one due to returning it prematurely
         for (int i = 0; i < pairs.size(); i++) {
             Pair pair = pairs.get(i);
             StreamStore store = this.storage.getStreamStore(pair.streamKey);
