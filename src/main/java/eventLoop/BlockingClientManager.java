@@ -85,7 +85,7 @@ public class BlockingClientManager {
         String dataStructure = command.getDataStructure();
         WaitingClient wClient = new WaitingClient(command, clientSocket);
 
-
+        System.out.println(command.timeless);
         if (command.timeless) {
             waitingByKey
                     .computeIfAbsent(dataStructure, k -> new ArrayDeque<>())
