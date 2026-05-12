@@ -20,9 +20,9 @@ public class Incr extends BaseCommand {
         Integer content = Integer.valueOf((String) value.getValue());
         content++;
 
-        this.storage.set(key, new Value<>(content.toString()));
+        this.storage.set(key, new Value(content.toString()));
 
-        return ":" + content + "\r\n";
+        return "";
     }
 
     @Override

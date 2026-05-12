@@ -15,7 +15,7 @@ public class Set extends BaseCommand  {
         if (this.arguments.length > 2) {
             Options options = Options.initialize(this.arguments[2], this.arguments[3]);
 
-            this.storage.set(this.arguments[0], this.arguments[1]);
+            this.storage.set(this.arguments[0], this.arguments[1], options);
 
             return "+OK\r\n";
         }
