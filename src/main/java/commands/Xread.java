@@ -99,12 +99,12 @@ public class Xread extends BaseCommand {
             if (isBlocking) {
                 if (readOnlyFromNewStream) {
                     map = new TreeMap<>();
-                    System.out.println(counter);
                     if (counter > 0) {
                         var latest = store.getLatest();
                         map.put(latest.getKey(), latest.getValue());
                     }
                     counter++;
+                    System.out.println(counter);
                 } else {
                     map = store.getAfter(pair.streamID);
                 }
