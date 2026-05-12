@@ -50,6 +50,7 @@ public class Xread extends BaseCommand {
         if (streamCount == 1 && arguments[arguments.length-1].equals("$")) {
             this.readOnlyFromNewStream = true;
             pairs.add(new Pair(arguments[arguments.length-2], new StreamID()));
+            this.dataStructure = pairs.get(0).streamKey;
             return pairs;
         }
 
