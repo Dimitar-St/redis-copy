@@ -54,6 +54,7 @@ public class BlockingClientManager {
     }
 
     public Optional<WaitingClient> tryResolve(String key) {
+        System.out.println("try resolve");
         Deque<WaitingClient> queue = waitingByKey.get(key);
 
         if (queue == null) {
@@ -85,7 +86,6 @@ public class BlockingClientManager {
         String dataStructure = command.getDataStructure();
         WaitingClient wClient = new WaitingClient(command, clientSocket);
 
-        System.out.println(command.timeless);
         if (command.timeless) {
             waitingByKey
                     .computeIfAbsent(dataStructure, k -> new ArrayDeque<>())
