@@ -10,8 +10,10 @@ public class Xread extends BaseCommand {
     private final BlockingClientManager blockingManager;
     private boolean isBlocking;
     private boolean readOnlyFromNewStream;
+    private boolean parsed;
     private String dataStructure;
     private int counter;
+    private List<Pair> pairs;
 
     public Xread(Storage storage, BlockingClientManager blockingManager) {
         this.storage = storage;
@@ -19,7 +21,18 @@ public class Xread extends BaseCommand {
         this.isBlocking = false;
     }
 
+    // This methods parses command arguments into pairs so that it could read from multiple streams
+    // Divides the aruments by 2 and walks the array with two indexes at mind the stream key and the stream id.
+    // The stream key starts from argsToRemove+i and the paired stream id starts from argsToRemove+streamCount+i;
+    // Commands example:
+    //              XREAD STREAMS <key1> <key2> ... <id1> <id2> ...
+    //              XREAD streams stream_key other_stream_key 0-0 0-1
     private List<Pair> readMultipleStreams() {
+        if (!parsed) {
+            parsed = true;
+        } else {
+           return this.pairs;
+        }
         int argsToRemove = 1;
         if (arguments[0].equals("block")) {
             this.isBlocking = true;
@@ -62,6 +75,7 @@ public class Xread extends BaseCommand {
     public String execute() {
         System.out.println("Start executing XREAD Command: " + id.toString());
         List<Pair> pairs = this.readMultipleStreams();
+        this.pairs = pairs;
         StringBuilder result = new StringBuilder();
 
         result.append("*");
