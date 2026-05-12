@@ -61,6 +61,7 @@ public class BlockingClientManager {
         if (queue == null) {
             return Optional.empty();
         }
+        System.out.println("returning");
 
         WaitingClient client = queue.poll();
 
