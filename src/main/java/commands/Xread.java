@@ -47,7 +47,7 @@ public class Xread extends BaseCommand {
 
         int streamCount = remaining / 2;
         List<Pair> pairs = new ArrayList<>();
-        if (streamCount == 1 && arguments[arguments.length-1].equals("&")) {
+        if (streamCount == 1 && arguments[arguments.length-1].equals("$")) {
             System.out.println(streamCount);
             System.out.println(arguments[arguments.length-1]);
 
