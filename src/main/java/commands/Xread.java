@@ -47,7 +47,7 @@ public class Xread extends BaseCommand {
 
         int streamCount = remaining / 2;
         List<Pair> pairs = new ArrayList<>();
-
+        System.out.println(streamCount);
         if (streamCount == 2 && arguments[arguments.length-1].equals("&")) {
             this.readOnlyFromNewStream = true;
             pairs.add(new Pair(arguments[arguments.length-2], new StreamID()));
