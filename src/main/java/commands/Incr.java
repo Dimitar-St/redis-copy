@@ -22,7 +22,7 @@ public class Incr extends BaseCommand {
 
         this.storage.set(key, new Value(content.toString()));
 
-        return "";
+        return ":" + content + "\r\n";
     }
 
     @Override
