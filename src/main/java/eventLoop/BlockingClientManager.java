@@ -56,10 +56,11 @@ public class BlockingClientManager {
     public Optional<WaitingClient> tryResolve(String key) {
         Deque<WaitingClient> queue = waitingByKey.get(key);
 
+        System.out.println("try resolve");
+        System.out.println(queue.size());
         if (queue == null) {
             return Optional.empty();
         }
-        System.out.println("try resolve");
 
         WaitingClient client = queue.poll();
 
@@ -100,7 +101,6 @@ public class BlockingClientManager {
             waitingByKey
                     .computeIfAbsent(dataStructure, k -> new ArrayDeque<>())
                     .add(wClient);
-            selectionKey.selector().wakeup();
         }
     }
 
