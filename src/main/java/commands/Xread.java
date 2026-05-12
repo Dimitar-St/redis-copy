@@ -48,9 +48,6 @@ public class Xread extends BaseCommand {
         int streamCount = remaining / 2;
         List<Pair> pairs = new ArrayList<>();
         if (streamCount == 1 && arguments[arguments.length-1].equals("$")) {
-            System.out.println(streamCount);
-            System.out.println(arguments[arguments.length-1]);
-
             this.readOnlyFromNewStream = true;
             pairs.add(new Pair(arguments[arguments.length-2], new StreamID()));
             return pairs;
@@ -102,6 +99,7 @@ public class Xread extends BaseCommand {
             if (isBlocking) {
                 if (readOnlyFromNewStream) {
                     map = new TreeMap<>();
+                    System.out.println(counter);
                     if (counter > 0) {
                         var latest = store.getLatest();
                         map.put(latest.getKey(), latest.getValue());
