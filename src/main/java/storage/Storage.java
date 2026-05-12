@@ -12,7 +12,7 @@ public class Storage {
     public Storage() {}
 
     public void set(String key, String content) {
-        Value<String> value = new Value(content, options);
+        Value<String> value = new Value(content);
         cache.put(key, value);
     }
 
