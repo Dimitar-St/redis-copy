@@ -15,7 +15,7 @@ public class StreamID implements Comparable {
        this.timestamp = timestamp;
     }
 
-    private StreamID() {}
+    public StreamID() {}
 
 
     @Override
