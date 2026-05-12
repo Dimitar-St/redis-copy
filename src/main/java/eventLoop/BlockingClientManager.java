@@ -54,12 +54,12 @@ public class BlockingClientManager {
     }
 
     public Optional<WaitingClient> tryResolve(String key) {
-        System.out.println("try resolve");
         Deque<WaitingClient> queue = waitingByKey.get(key);
 
         if (queue == null) {
             return Optional.empty();
         }
+        System.out.println("try resolve");
 
         WaitingClient client = queue.poll();
 
