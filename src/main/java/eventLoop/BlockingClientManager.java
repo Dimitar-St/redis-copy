@@ -92,7 +92,7 @@ public class BlockingClientManager {
                     .computeIfAbsent(dataStructure, k -> new ArrayDeque<>())
                     .add(wClient);
 
-            System.out.println(waitingByKey.get(dataStructure));
+            System.out.println(waitingByKey.get(dataStructure).size());
 
             return;
         }
